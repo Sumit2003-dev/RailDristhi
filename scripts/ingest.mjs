@@ -86,7 +86,7 @@ function num(v, dflt = 0) {
 function clockToMin(clock) {
   const m = String(clock ?? "").match(/(\d{1,2}):(\d{2})(?::(\d{2}))?/);
   if (!m) return null;
-  return (+m[1] * 60 + +m[2] + +(m[3] ?? 0)) % MONTH;
+  return (+m[1] * 60 + +m[2] + Math.round(+(m[3] ?? 0) / 60)) % MONTH;
 }
 
 /** Classify a train number into a display class. */
@@ -94,7 +94,7 @@ function classifyType(trainNo) {
   const n = String(trainNo);
   if (/^(22|226)\d{3}$/.test(n) || /^22\d{4}$/.test(n)) return "Superfast";
   if (/^12\d{4}$/.test(n)) return "Superfast";
-  if (/^{24\d{4}$/.test(n)) return "Superfast";
+  if (/^24\d{3,4}$/.test(n)) return "Superfast";
   if (/^1\d{4}$/.test(n)) return "Express";
   if (/^2\d{4}$/.test(n)) return "Express";
   if (/^3\d{4}$/.test(n)) return "Mail/Express";

@@ -1,4 +1,5 @@
 import { ArrowUpRight, Sparkles } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import {
   Accordion,
   AccordionContent,
@@ -47,15 +48,20 @@ export function ApiBanner() {
           requests a month.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Button variant="secondary" className="rounded-full px-6">
-            API documentation
-          </Button>
-          <Button
-            variant="outline"
-            className="rounded-full border-primary-foreground/40 bg-transparent px-6 text-primary-foreground hover:bg-primary-foreground/15 hover:text-primary-foreground"
+          <Link
+            to="/developer"
+            className="inline-flex items-center justify-center rounded-full bg-secondary px-6 py-2.5 text-sm font-semibold text-secondary-foreground shadow-xs hover:bg-secondary/90 transition-colors"
           >
-            Developer portal <ArrowUpRight className="size-4" />
-          </Button>
+            Developer Sandbox
+          </Link>
+          <a
+            href="/api/v1/docs"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 rounded-full border border-primary-foreground/40 bg-transparent px-6 py-2.5 text-sm font-semibold text-primary-foreground hover:bg-primary-foreground/15 hover:text-primary-foreground transition-colors"
+          >
+            OpenAPI Schema <ArrowUpRight className="size-4" />
+          </a>
         </div>
       </div>
     </section>
@@ -106,17 +112,25 @@ export function Networks() {
 
 export function Stations() {
   return (
-    <section className="mx-auto max-w-6xl px-4 pb-16">
+    <section id="stations" className="mx-auto max-w-6xl px-4 pb-16">
       <h2 className="text-xl font-bold">Major stations</h2>
+      <p className="mt-1 text-sm text-muted-foreground">
+        Select a station to view live arrivals, departures, and platform assignments.
+      </p>
       <div className="mt-4 flex flex-wrap gap-2">
-        {stations.map(([name, code]) => (
-          <button
-            key={code}
-            className="rounded-full border border-border bg-card px-4 py-2 text-sm shadow-card transition-colors hover:border-primary/40 hover:text-primary"
-          >
-            {name} <span className="text-muted-foreground">({code})</span>
-          </button>
-        ))}
+        {stations.map(([name, code]) => {
+          if (!code) return null;
+          return (
+            <Link
+              key={code}
+              to="/station/$code"
+              params={{ code }}
+              className="rounded-full border border-border bg-card px-4 py-2 text-sm shadow-card transition-colors hover:border-primary/40 hover:text-primary"
+            >
+              {name} <span className="text-muted-foreground">({code})</span>
+            </Link>
+          );
+        })}
       </div>
     </section>
   );

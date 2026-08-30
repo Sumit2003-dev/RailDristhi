@@ -9,17 +9,29 @@ import { useLiveClock } from "@/components/rail/useLiveClock";
 import { trainRoutes } from "@/data/trains";
 import { computeLiveStatus, fmtMinutes } from "@/lib/liveStatus";
 import { stations } from "@/data/rail";
+import { stationFor } from "@/data/generated/stations";
 
 export const Route = createFileRoute("/station/$code")({
   loader: ({ params }) => {
     const code = params.code.toUpperCase();
-    const station = stations.find(([, c]) => c === code);
-    if (!station) throw notFound();
-    return { code, station };
+    const stationInfo = stationFor(code);
+    const hardcodedStation = stations.find(([, c]) => c === code);
+    let name = stationInfo?.name || hardcodedStation?.[0];
+    if (!name) {
+      for (const t of trainRoutes) {
+        const foundHalt = t.halts.find((h) => h.code.toUpperCase() === code);
+        if (foundHalt) {
+          name = foundHalt.name;
+          break;
+        }
+      }
+    }
+    if (!name && !stationInfo) throw notFound();
+    return { code, name: name ?? code };
   },
   head: ({ loaderData }) => {
     const code = loaderData?.code;
-    const name = loaderData?.station?.[0];
+    const name = loaderData?.name;
     return {
       meta: [
         { title: `${name ? `${name} (${code})` : "Station"} — Station Board | RailDristhi` },
@@ -63,7 +75,7 @@ type BoardRow = {
 };
 
 function StationBoard() {
-  const { code } = Route.useLoaderData();
+  const { code, name } = Route.useLoaderData();
   const now = useLiveClock(4000);
 
   const rows: BoardRow[] = trainRoutes
@@ -100,9 +112,14 @@ function StationBoard() {
         </Link>
 
         <div className="mt-4">
-          <h1 className="text-3xl font-bold">{code}</h1>
+          <div className="flex flex-wrap items-baseline gap-3">
+            <h1 className="text-3xl font-bold">{name}</h1>
+            <span className="rounded-md border border-border bg-secondary/60 px-2.5 py-0.5 text-sm font-semibold text-muted-foreground">
+              {code}
+            </span>
+          </div>
           <p className="mt-1 text-sm text-muted-foreground">
-            Live station board with model-predicted times.
+            Live station board with model-predicted times and platform assignments.
           </p>
         </div>
 

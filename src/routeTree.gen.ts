@@ -10,8 +10,11 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ConnectingImpactRouteImport } from './routes/connecting-impact'
 import { Route as ControlRoomRouteImport } from './routes/control-room'
+import { Route as DeveloperRouteImport } from './routes/developer'
 import { Route as NetworkRouteImport } from './routes/network'
+import { Route as PnrRouteImport } from './routes/pnr'
 import { Route as StationCodeRouteImport } from './routes/station.$code'
 import { Route as TrainNumberRouteImport } from './routes/train.$number'
 
@@ -20,14 +23,29 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ConnectingImpactRoute = ConnectingImpactRouteImport.update({
+  id: '/connecting-impact',
+  path: '/connecting-impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ControlRoomRoute = ControlRoomRouteImport.update({
   id: '/control-room',
   path: '/control-room',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DeveloperRoute = DeveloperRouteImport.update({
+  id: '/developer',
+  path: '/developer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const NetworkRoute = NetworkRouteImport.update({
   id: '/network',
   path: '/network',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PnrRoute = PnrRouteImport.update({
+  id: '/pnr',
+  path: '/pnr',
   getParentRoute: () => rootRouteImport,
 } as any)
 const StationCodeRoute = StationCodeRouteImport.update({
@@ -43,45 +61,75 @@ const TrainNumberRoute = TrainNumberRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/connecting-impact': typeof ConnectingImpactRoute
   '/control-room': typeof ControlRoomRoute
+  '/developer': typeof DeveloperRoute
   '/network': typeof NetworkRoute
+  '/pnr': typeof PnrRoute
   '/station/$code': typeof StationCodeRoute
   '/train/$number': typeof TrainNumberRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/connecting-impact': typeof ConnectingImpactRoute
   '/control-room': typeof ControlRoomRoute
+  '/developer': typeof DeveloperRoute
   '/network': typeof NetworkRoute
+  '/pnr': typeof PnrRoute
   '/station/$code': typeof StationCodeRoute
   '/train/$number': typeof TrainNumberRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/connecting-impact': typeof ConnectingImpactRoute
   '/control-room': typeof ControlRoomRoute
+  '/developer': typeof DeveloperRoute
   '/network': typeof NetworkRoute
+  '/pnr': typeof PnrRoute
   '/station/$code': typeof StationCodeRoute
   '/train/$number': typeof TrainNumberRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/control-room' | '/network' | '/station/$code' | '/train/$number'
+    | '/'
+    | '/connecting-impact'
+    | '/control-room'
+    | '/developer'
+    | '/network'
+    | '/pnr'
+    | '/station/$code'
+    | '/train/$number'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/control-room' | '/network' | '/station/$code' | '/train/$number'
+  to:
+    | '/'
+    | '/connecting-impact'
+    | '/control-room'
+    | '/developer'
+    | '/network'
+    | '/pnr'
+    | '/station/$code'
+    | '/train/$number'
   id:
     | '__root__'
     | '/'
+    | '/connecting-impact'
     | '/control-room'
+    | '/developer'
     | '/network'
+    | '/pnr'
     | '/station/$code'
     | '/train/$number'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ConnectingImpactRoute: typeof ConnectingImpactRoute
   ControlRoomRoute: typeof ControlRoomRoute
+  DeveloperRoute: typeof DeveloperRoute
   NetworkRoute: typeof NetworkRoute
+  PnrRoute: typeof PnrRoute
   StationCodeRoute: typeof StationCodeRoute
   TrainNumberRoute: typeof TrainNumberRoute
 }
@@ -95,6 +143,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/connecting-impact': {
+      id: '/connecting-impact'
+      path: '/connecting-impact'
+      fullPath: '/connecting-impact'
+      preLoaderRoute: typeof ConnectingImpactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/control-room': {
       id: '/control-room'
       path: '/control-room'
@@ -102,11 +157,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ControlRoomRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/developer': {
+      id: '/developer'
+      path: '/developer'
+      fullPath: '/developer'
+      preLoaderRoute: typeof DeveloperRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/network': {
       id: '/network'
       path: '/network'
       fullPath: '/network'
       preLoaderRoute: typeof NetworkRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pnr': {
+      id: '/pnr'
+      path: '/pnr'
+      fullPath: '/pnr'
+      preLoaderRoute: typeof PnrRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/station/$code': {
@@ -128,8 +197,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ConnectingImpactRoute: ConnectingImpactRoute,
   ControlRoomRoute: ControlRoomRoute,
+  DeveloperRoute: DeveloperRoute,
   NetworkRoute: NetworkRoute,
+  PnrRoute: PnrRoute,
   StationCodeRoute: StationCodeRoute,
   TrainNumberRoute: TrainNumberRoute,
 }

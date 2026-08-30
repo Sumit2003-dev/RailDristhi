@@ -1,12 +1,22 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Gauge, MapPin, Clock, Route as RouteIcon, ArrowLeft, ShieldAlert } from "lucide-react";
+import {
+  Gauge,
+  MapPin,
+  Clock,
+  Route as RouteIcon,
+  ArrowLeft,
+  ShieldAlert,
+  Satellite,
+} from "lucide-react";
 import { Toaster } from "@/components/ui/sonner";
 import { SiteHeader } from "@/components/rail/SiteHeader";
 import { SiteFooter } from "@/components/rail/Sections";
 import { RouteMap } from "@/components/rail/RouteMap";
 import { EtaConfidenceBadge } from "@/components/rail/EtaConfidenceBadge";
 import { DelayReasonTag } from "@/components/rail/DelayReasonTag";
+import { TrainTrackTimeline } from "@/components/rail/TrainTrackTimeline";
 import { useLiveClock } from "@/components/rail/useLiveClock";
+import { useOnBoardGps } from "@/hooks/useOnBoardGps";
 import { getTrain } from "@/data/trains";
 import { computeLiveStatus, delayLabel, delayTone, fmtMinutes } from "@/lib/liveStatus";
 
@@ -23,8 +33,8 @@ export const Route = createFileRoute("/train/$number")({
       };
     }
     const { train } = loaderData;
-    const title = `${train.number} ${train.name} — Live Running Status | RailDristhi`;
-    const description = `Live position, delay, next halt and full timetable for ${train.number} ${train.name} between ${train.halts[0]!.name} and ${train.halts[train.halts.length - 1]!.name}.`;
+    const title = `${train.number} ${train.name} — Live Running Status & Route Track | RailDristhi`;
+    const description = `Live track timeline, GPS location, delay prediction, next halt, and full timetable for ${train.number} ${train.name} between ${train.halts[0]!.name} and ${train.halts[train.halts.length - 1]!.name}.`;
     return {
       meta: [
         { title },
@@ -61,11 +71,14 @@ function TrainNotFound() {
 function TrainStatus() {
   const { train } = Route.useLoaderData();
   const now = useLiveClock(4000);
-  const status = now ? computeLiveStatus(train, now) : null;
+  const gps = useOnBoardGps(train);
+
+  // If on-board GPS is active, prioritize real satellite device GPS position!
+  const status = gps.isActive && gps.gpsStatus ? gps.gpsStatus : now ? computeLiveStatus(train, now) : null;
   const dest = train.halts[train.halts.length - 1]!;
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background text-foreground">
       <SiteHeader />
 
       <main className="mx-auto max-w-6xl px-4 py-8">
@@ -76,6 +89,7 @@ function TrainStatus() {
           <ArrowLeft className="size-4" /> Live board
         </Link>
 
+        {/* Train Overview Banner */}
         <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
@@ -85,15 +99,44 @@ function TrainStatus() {
               <span className="text-muted-foreground">{train.number}</span> {train.name}
             </h1>
             <p className="mt-1 text-sm text-muted-foreground">
-              {train.halts[0]!.name} ({train.halts[0]!.code}) → {dest.name} ({dest.code}) ·{" "}
+              <Link
+                to="/station/$code"
+                params={{ code: train.halts[0]!.code }}
+                className="hover:text-foreground hover:underline"
+              >
+                {train.halts[0]!.name} ({train.halts[0]!.code})
+              </Link>
+              {" → "}
+              <Link
+                to="/station/$code"
+                params={{ code: dest.code }}
+                className="hover:text-foreground hover:underline"
+              >
+                {dest.name} ({dest.code})
+              </Link>
+              {" · "}
               {dest.km} km · departs {fmtMinutes(train.startsAt)}
             </p>
           </div>
           <div className="flex flex-col items-end gap-1.5">
             <p
-              className={`text-lg font-semibold ${status ? delayTone(status) : "text-muted-foreground"}`}
+              className={`text-lg font-semibold ${
+                gps.isActive
+                  ? "text-primary flex items-center gap-1.5 font-bold"
+                  : status
+                    ? delayTone(status)
+                    : "text-muted-foreground"
+              }`}
             >
-              {status ? delayLabel(status) : "Fetching live feed…"}
+              {gps.isActive ? (
+                <>
+                  <Satellite className="size-4 animate-pulse text-primary" /> Live On-Board GPS
+                </>
+              ) : status ? (
+                delayLabel(status)
+              ) : (
+                "Fetching live feed…"
+              )}
             </p>
             {status?.forecast && status.forecast.delayMin > 2 && (
               <span className="inline-flex items-center gap-1.5 text-sm">
@@ -104,27 +147,30 @@ function TrainStatus() {
           </div>
         </div>
 
-        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_400px]">
+        {/* Grid: Left Track-Ladder Schedule + Right Real-Geography GPS Route Map */}
+        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_420px]">
+          {/* Left Column: Telemetry & The Single Source of Truth Track-Ladder Timeline */}
           <div className="space-y-6">
+            {/* Live Stats Card */}
             <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 <Stat
-                  icon={<Gauge className="size-4" />}
+                  icon={<Gauge className="size-4 text-primary" />}
                   label="Speed"
                   value={status ? (status.speed === 0 ? "Halted" : `${status.speed} km/h`) : "—"}
                 />
                 <Stat
-                  icon={<MapPin className="size-4" />}
+                  icon={<MapPin className="size-4 text-accent" />}
                   label="Next halt"
                   value={status?.nextHalt ? status.nextHalt.code : "—"}
                 />
                 <Stat
-                  icon={<Clock className="size-4" />}
+                  icon={<Clock className="size-4 text-primary" />}
                   label="Predicted ETA"
                   value={status ? status.etaNext : "—"}
                 />
                 <Stat
-                  icon={<RouteIcon className="size-4" />}
+                  icon={<RouteIcon className="size-4 text-accent" />}
                   label="Covered"
                   value={status ? `${status.km} km` : "—"}
                 />
@@ -134,11 +180,11 @@ function TrainStatus() {
                 <div className="mt-4 flex flex-wrap items-center gap-3 rounded-xl border border-border bg-secondary/40 px-4 py-3">
                   <EtaConfidenceBadge confidence={status.forecast.confidence} />
                   <span className="text-xs text-muted-foreground">
-                    Forecast window {status.forecast.lowerEta} – {status.forecast.upperEta} for{" "}
-                    {status.nextHalt?.name ?? "destination"}
-                    {status.forecast.delayMin > 0
-                      ? ` (+${status.forecast.delayMin} min)`
-                      : " (on time)"}
+                    {gps.isActive
+                      ? "Real-time location synced directly with device GPS sensors."
+                      : `Forecast window ${status.forecast.lowerEta} – ${status.forecast.upperEta} for ${
+                          status.nextHalt?.name ?? "destination"
+                        } ${status.forecast.delayMin > 0 ? `(+${status.forecast.delayMin} min)` : "(on time)"}`}
                   </span>
                 </div>
               )}
@@ -154,83 +200,45 @@ function TrainStatus() {
                 />
               </div>
               <p className="mt-2 text-xs text-muted-foreground">
-                {status
-                  ? `Last reported at ${status.lastHalt.name} · updated ${new Date(status.updatedAt).toLocaleTimeString()}`
-                  : "Waiting for the first position report…"}
+                {gps.isActive
+                  ? `On-board GPS active · synced via passenger device`
+                  : status
+                    ? `Last reported at ${status.lastHalt.name} · updated ${new Date(status.updatedAt).toLocaleTimeString()}`
+                    : "Waiting for the first position report…"}
               </p>
             </div>
 
-            <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
-              <div className="border-b border-border bg-subtle-gradient px-5 py-3">
-                <p className="text-sm font-semibold">Schedule and predicted times</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">
-                  Model forecast for every remaining halt.
-                </p>
-              </div>
-              <ol className="divide-y divide-border">
-                {(
-                  status?.haltStatus ??
-                  train.halts.map((halt) => ({
-                    halt,
-                    scheduled: fmtMinutes(train.startsAt + halt.arr),
-                    expected: "—",
-                    forecast: null,
-                    done: false,
-                    isNext: false,
-                  }))
-                ).map((row) => (
-                  <li
-                    key={row.halt.code}
-                    className={`flex items-center gap-4 px-5 py-3 ${row.isNext ? "bg-secondary/50" : ""}`}
-                  >
-                    <span
-                      className={`size-2.5 shrink-0 rounded-full ${
-                        row.done
-                          ? "bg-rail-live"
-                          : row.isNext
-                            ? "bg-primary animate-rail-pulse"
-                            : "bg-border"
-                      }`}
-                    />
-                    <span className="flex-1">
-                      <span className="block text-sm font-semibold">
-                        {row.halt.name}{" "}
-                        <span className="text-muted-foreground">({row.halt.code})</span>
-                      </span>
-                      <span className="mt-0.5 flex flex-wrap items-center gap-1.5">
-                        <span className="text-xs text-muted-foreground">
-                          {row.halt.km} km · Platform {row.halt.platform}
-                        </span>
-                        {!row.done && row.forecast && row.forecast.delayMin > 2 && (
-                          <DelayReasonTag reason={row.forecast.reason} />
-                        )}
-                      </span>
-                    </span>
-                    <span className="text-right text-xs">
-                      <span className="block text-muted-foreground line-through">
-                        {row.scheduled}
-                      </span>
-                      <span className="block font-semibold">
-                        {!row.done && row.forecast ? row.forecast.eta : row.expected}
-                      </span>
-                      {!row.done && row.forecast && (
-                        <span className="block text-[10px] text-muted-foreground">
-                          ±{row.forecast.intervalMin} min
-                        </span>
-                      )}
-                    </span>
-                  </li>
-                ))}
-              </ol>
-            </div>
+            {/* Single Source of Truth Station Schedule: Realistic Track-Ladder Panel */}
+            <TrainTrackTimeline
+              train={train}
+              status={status}
+              isGpsActive={gps.isActive}
+              isOnBoard={gps.isOnBoard}
+              onToggleGps={gps.toggleGps}
+            />
           </div>
 
-          <div className="rounded-2xl border border-border bg-card p-3 shadow-card">
-            <RouteMap
-              halts={train.halts}
-              position={status ? { lat: status.lat, lng: status.lng } : null}
-              className="h-[420px] w-full lg:h-[560px]"
-            />
+          {/* Right Column: Real-Geography GPS Route Map */}
+          <div className="space-y-4">
+            <div className="sticky top-20 rounded-2xl border border-border bg-card p-4 shadow-card">
+              <div className="mb-3 flex items-center justify-between border-b border-border pb-2">
+                <div>
+                  <h2 className="text-sm font-bold text-foreground">GPS Route Path</h2>
+                  <p className="text-xs text-muted-foreground">
+                    {gps.isActive ? "Live passenger GPS tracking" : "Real-geography alignment & live position"}
+                  </p>
+                </div>
+                <span className="rounded-md bg-secondary px-2 py-0.5 font-mono text-[11px] font-semibold text-primary">
+                  {train.halts.length} stations
+                </span>
+              </div>
+              <RouteMap
+                halts={train.halts}
+                position={status ? { lat: status.lat, lng: status.lng } : null}
+                isMoving={status ? status.speed > 0 && status.state === "running" : false}
+                className="h-[520px] w-full rounded-xl"
+              />
+            </div>
           </div>
         </div>
       </main>
