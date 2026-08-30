@@ -1,5 +1,7 @@
 import { type DelayReason, classifyDelay, DELAY_REASONS } from "./delayReasons";
 import type { TrainRoute, Halt } from "@/data/trains";
+import { trainDelayStats } from "@/data/generated/delayStats";
+import { trainRunHistory } from "@/data/generated/runHistory";
 
 /** Format minutes-after-midnight as HH:MM. */
 function fmtClock(minutesAfterMidnight: number) {
@@ -7,6 +9,23 @@ function fmtClock(minutesAfterMidnight: number) {
   const hh = String(Math.floor(m / 60)).padStart(2, "0");
   const mm = String(m % 60).padStart(2, "0");
   return `${hh}:${mm}`;
+}
+
+/**
+ * Real historical baseline delay (minutes) recorded at a given halt for a
+ * train, sourced from the per-station delay dataset. Falls back to a small
+ * deterministic estimate when the station is missing from the scrape.
+ */
+export function historicalDelayAt(train: TrainRoute, haltIndex: number): number {
+  const halt = train.halts[haltIndex];
+  if (!halt) return 0;
+  const table = trainDelayStats[train.number];
+  const stat = table?.[halt.code];
+  if (stat && Number.isFinite(stat.avgDelayMin) && stat.avgDelayMin > 0) {
+    return Math.max(0, Math.round(stat.avgDelayMin));
+  }
+  // Stations without a scrape (e.g. the origin) default to a modest baseline.
+  return 0;
 }
 
 /**
@@ -35,6 +54,8 @@ export type FeatureVector = {
   lastHaltIndex: number;
   /** historical delay in minutes recorded at each prior halt (seconds allowed) */
   priorHaltDelays: number[];
+  /** real per-run delays (minutes) observed on this train's recent past runs */
+  runHistoryDelays: number[];
   /** minutes this train has been sitting at a halt (0 while running) */
   haltedDurationMin: number;
   isHalted: boolean;
@@ -104,6 +125,16 @@ export function predictDelay(features: FeatureVector, targetHaltIndex?: number):
   const histAvg = features.priorHaltDelays.length ? histSum / features.priorHaltDelays.length : 0;
   const histComponent = histAvg * 0.4 * Math.max(0, targetIdx - lastIdx);
 
+  // 2b) Recent-run tendency. Real per-run delays (dataset 2) act as a prior
+  // expectation of lateness that the current run gradually converges toward.
+  // Trains without run history contribute nothing.
+  let runComponent = 0;
+  if (features.runHistoryDelays.length) {
+    const runMed = median(features.runHistoryDelays);
+    const convergence = 1 - delayDecay * Math.max(0, targetIdx - lastIdx);
+    runComponent = Math.max(0, runMed * 0.35 * convergence);
+  }
+
   // 3) Environmental & contextual modifiers.
   const weatherComponent = weatherPenalty[features.weather];
   const congestionComponent = features.corridorCongestion * 18;
@@ -118,6 +149,7 @@ export function predictDelay(features: FeatureVector, targetHaltIndex?: number):
     0,
     recovered +
       histComponent +
+      runComponent +
       weatherComponent +
       congestionComponent +
       timeComponent +
@@ -175,8 +207,9 @@ export function buildFeatures(
   const totalKm = train.halts[train.halts.length - 1]!.km;
   const priorHaltDelays: number[] = [];
   for (let i = 0; i <= state.lastHaltIndex && i < train.halts.length; i++) {
-    priorHaltDelays.push(state.currentDelayMin * 0.6);
+    priorHaltDelays.push(historicalDelayAt(train, i));
   }
+  const runHistoryDelays = trainRunHistory[train.number] ?? [];
 
   const date = state.date;
   const dayOfWeek = date.getDay();
@@ -199,6 +232,7 @@ export function buildFeatures(
     totalKm,
     lastHaltIndex: state.lastHaltIndex,
     priorHaltDelays,
+    runHistoryDelays,
     haltedDurationMin: state.haltedDurationMin,
     isHalted: state.isHalted,
     timeOfDayHours,
@@ -237,6 +271,14 @@ function hash(s: string) {
   let x = 0;
   for (let i = 0; i < s.length; i++) x = (x * 31 + s.charCodeAt(i)) % 100000;
   return (x % 1000) / 1000;
+}
+
+/** Median of a numeric array (robust central tendency for run delays). */
+function median(values: number[]): number {
+  if (!values.length) return 0;
+  const sorted = [...values].sort((a, b) => a - b);
+  const mid = Math.floor(sorted.length / 2);
+  return sorted.length % 2 ? sorted[mid]! : (sorted[mid - 1]! + sorted[mid]!) / 2;
 }
 
 export function reasonLabel(reason: DelayReason) {

@@ -1,6 +1,11 @@
 import type { Halt, TrainRoute } from "@/data/trains";
 import type { DelayReason } from "./delayReasons";
-import { type DelayForecast, buildFeatures, forecastEtaAtHalt } from "./etaModel";
+import {
+  type DelayForecast,
+  buildFeatures,
+  forecastEtaAtHalt,
+  historicalDelayAt,
+} from "./etaModel";
 
 export type LiveStatus = {
   /** minutes late */
@@ -40,18 +45,13 @@ export function fmtMinutes(minutesAfterMidnight: number) {
   return `${hh}:${mm}`;
 }
 
-/** Stable pseudo-random in [0,1) from a string seed. */
-function seeded(seed: string) {
-  let x = 0;
-  for (let i = 0; i < seed.length; i++) x = (x * 31 + seed.charCodeAt(i)) % 100000;
-  return (x % 1000) / 1000;
-}
-
-/** Deterministic delay for a train on a given day, drifting along the route. */
-function delayAt(train: TrainRoute, elapsed: number) {
-  const base = Math.round(seeded(train.number) * 40) - 5; // -5..35
-  const drift = Math.round(Math.sin(elapsed / 90 + seeded(train.name) * 6) * 8);
-  return Math.max(0, base + drift);
+/** Halt index currently reached on the raw schedule (before delay offset). */
+function haltIndexAtElapsed(train: TrainRoute, elapsed: number): number {
+  let idx = 0;
+  for (let i = 0; i < train.halts.length; i++) {
+    if (train.halts[i]!.arr <= elapsed) idx = i;
+  }
+  return idx;
 }
 
 export function computeLiveStatus(train: TrainRoute, now: Date): LiveStatus {
@@ -61,7 +61,10 @@ export function computeLiveStatus(train: TrainRoute, now: Date): LiveStatus {
   let elapsed = minutesNow - train.startsAt;
   if (elapsed < 0) elapsed += 1440;
 
-  const delay = delayAt(train, elapsed);
+  // The baseline current delay is the real historical average recorded at the
+  // station the train has just reached on schedule (the origin reports 0,
+  // which keeps not-yet-departed trains on time).
+  const delay = historicalDelayAt(train, haltIndexAtElapsed(train, elapsed));
   const effective = elapsed - delay; // schedule minutes actually covered
 
   let state: LiveStatus["state"] = "running";
