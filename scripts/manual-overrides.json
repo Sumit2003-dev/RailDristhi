@@ -1,0 +1,9 @@
+{
+  "_comment": "Manual station-code overrides for stations absent from the datameet stations.json lookup. Entries: code -> [lat, lng].",
+  "CSMT": [18.9412, 72.8337],
+  "UDT": [10.578, 77.2405],
+  "ACOI": [25.4439, 81.8524],
+  "RASP": [11.4596, 78.1792],
+  "NMKL": [11.22, 78.166],
+  "MONR": [11.0516, 78.1393]
+}
