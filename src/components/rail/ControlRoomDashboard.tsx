@@ -241,17 +241,17 @@ function computeModelEvaluation(trains: TrainRoute[], now: Date) {
     });
   });
 
-  const maeModel = totalHaltObs ? (sumModelAbsError / totalHaltObs).toFixed(1) : "3.8";
-  const maeBaseline = totalHaltObs ? (sumBaselineAbsError / totalHaltObs).toFixed(1) : "21.6";
+  const maeModel = totalHaltObs ? (sumModelAbsError / totalHaltObs).toFixed(1) : "0.0";
+  const maeBaseline = totalHaltObs ? (sumBaselineAbsError / totalHaltObs).toFixed(1) : "0.0";
   const errorReductionPct =
     totalHaltObs && sumBaselineAbsError
       ? Math.round(((sumBaselineAbsError - sumModelAbsError) / sumBaselineAbsError) * 100)
-      : 82;
+      : 0;
 
   return {
     maeMinutes: Number(maeModel),
     baselineMaeMinutes: Number(maeBaseline),
-    errorReductionPercent: Math.max(10, errorReductionPct),
+    errorReductionPercent: errorReductionPct,
     sampleSize: totalHaltObs,
     evaluationWindow: "90-day rolling window",
   };
@@ -563,15 +563,45 @@ export function ControlRoomDashboard() {
             </p>
           </div>
 
-          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/5 p-3">
-            <p className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400">
-              Accuracy Improvement
+          <div
+            className={`rounded-xl border p-3 ${
+              modelPerf.errorReductionPercent >= 0
+                ? "border-emerald-500/20 bg-emerald-500/5"
+                : "border-amber-500/20 bg-amber-500/5"
+            }`}
+          >
+            <p
+              className={`text-[11px] font-medium ${
+                modelPerf.errorReductionPercent >= 0
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-amber-600 dark:text-amber-400"
+              }`}
+            >
+              {modelPerf.errorReductionPercent >= 0
+                ? "Accuracy Improvement"
+                : "Error vs Static Baseline"}
             </p>
-            <p className="mt-1 font-mono text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">
-              +{modelPerf.errorReductionPercent}%
+            <p
+              className={`mt-1 font-mono text-2xl font-extrabold ${
+                modelPerf.errorReductionPercent >= 0
+                  ? "text-emerald-600 dark:text-emerald-400"
+                  : "text-amber-600 dark:text-amber-400"
+              }`}
+            >
+              {modelPerf.errorReductionPercent >= 0
+                ? `+${modelPerf.errorReductionPercent}%`
+                : `${modelPerf.errorReductionPercent}%`}
             </p>
-            <p className="mt-0.5 text-[10px] text-emerald-600/80 dark:text-emerald-400/80">
-              Error reduction vs static schedule
+            <p
+              className={`mt-0.5 text-[10px] ${
+                modelPerf.errorReductionPercent >= 0
+                  ? "text-emerald-600/80 dark:text-emerald-400/80"
+                  : "text-amber-600/80 dark:text-amber-400/80"
+              }`}
+            >
+              {modelPerf.errorReductionPercent >= 0
+                ? "Error reduction vs static schedule"
+                : "Variance vs static schedule (0-delay assumption)"}
             </p>
           </div>
 
