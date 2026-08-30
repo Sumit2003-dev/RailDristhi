@@ -24,7 +24,10 @@ export function SearchPanel() {
   const [train, setTrain] = useState("");
   const [focusedInput, setFocusedInput] = useState<"from" | "to" | null>(null);
 
-  const trainSuggestions = useMemo(() => (train.trim() ? findTrains(train).slice(0, 5) : []), [train]);
+  const trainSuggestions = useMemo(
+    () => (train.trim() ? findTrains(train).slice(0, 5) : []),
+    [train],
+  );
 
   const fromSuggestions = useMemo(() => {
     const q = from.trim().toUpperCase();
@@ -86,7 +89,9 @@ export function SearchPanel() {
           </span>
           <div>
             <p className="text-sm font-semibold">Live network map</p>
-            <p className="text-xs text-muted-foreground">Real-time GPS positions across Indian Railways</p>
+            <p className="text-xs text-muted-foreground">
+              Real-time GPS positions across Indian Railways
+            </p>
           </div>
         </div>
         <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
@@ -105,7 +110,7 @@ export function SearchPanel() {
         </div>
         <div className="relative space-y-2 p-4">
           <div className="absolute left-8 top-11 h-8 w-px bg-border" />
-          
+
           {/* FROM input */}
           <div className="relative">
             <div className="flex items-center gap-3">
@@ -296,7 +301,9 @@ export function SearchPanel() {
               </span>
               <span className="flex-1">
                 <span className="block text-sm font-semibold">PNR Status Check</span>
-                <span className="block text-xs text-muted-foreground">Verify coach, berth, and charting status</span>
+                <span className="block text-xs text-muted-foreground">
+                  Verify coach, berth, and charting status
+                </span>
               </span>
               <ChevronRight className="size-4 text-muted-foreground" />
             </Link>
@@ -311,7 +318,9 @@ export function SearchPanel() {
               </span>
               <span className="flex-1">
                 <span className="block text-sm font-semibold">Connecting Impact</span>
-                <span className="block text-xs text-muted-foreground">Calculate transfer risk at junction stations</span>
+                <span className="block text-xs text-muted-foreground">
+                  Calculate transfer risk at junction stations
+                </span>
               </span>
               <ChevronRight className="size-4 text-muted-foreground" />
             </Link>
@@ -327,7 +336,9 @@ export function SearchPanel() {
               </span>
               <span className="flex-1">
                 <span className="block text-sm font-semibold">Live Station Board</span>
-                <span className="block text-xs text-muted-foreground">Arrivals, departures, and platform assignments</span>
+                <span className="block text-xs text-muted-foreground">
+                  Arrivals, departures, and platform assignments
+                </span>
               </span>
               <ChevronRight className="size-4 text-muted-foreground" />
             </Link>
@@ -342,7 +353,9 @@ export function SearchPanel() {
               </span>
               <span className="flex-1">
                 <span className="block text-sm font-semibold">Developer REST API</span>
-                <span className="block text-xs text-muted-foreground">Live API sandbox, OpenAPI docs, and SDK snippets</span>
+                <span className="block text-xs text-muted-foreground">
+                  Live API sandbox, OpenAPI docs, and SDK snippets
+                </span>
               </span>
               <ChevronRight className="size-4 text-muted-foreground" />
             </Link>

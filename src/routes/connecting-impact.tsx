@@ -81,7 +81,8 @@ function ConnectingImpactPage() {
             Connecting Train Impact & Transfer Margin
           </h1>
           <p className="mt-2 text-sm text-muted-foreground max-w-xl mx-auto">
-            Evaluate whether an incoming service delay puts your onward connecting train at risk using model-predicted ETA confidence windows.
+            Evaluate whether an incoming service delay puts your onward connecting train at risk
+            using model-predicted ETA confidence windows.
           </p>
         </div>
 
@@ -125,8 +126,13 @@ function ConnectingImpactPage() {
               />
             </div>
           </div>
-          <Button type="submit" disabled={loading} className="mt-5 w-full h-11 rounded-xl font-semibold gap-2">
-            <Clock className="size-4" /> {loading ? "Analyzing transfer..." : "Calculate Transfer Margin"}
+          <Button
+            type="submit"
+            disabled={loading}
+            className="mt-5 w-full h-11 rounded-xl font-semibold gap-2"
+          >
+            <Clock className="size-4" />{" "}
+            {loading ? "Analyzing transfer..." : "Calculate Transfer Margin"}
           </Button>
         </form>
 
@@ -176,7 +182,9 @@ function ConnectingImpactPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <span className="text-xs font-semibold text-muted-foreground">Effective Buffer</span>
+                  <span className="text-xs font-semibold text-muted-foreground">
+                    Effective Buffer
+                  </span>
                   <p className="text-2xl font-mono font-bold">
                     {result.effectiveBufferMinutes} min
                   </p>
@@ -211,7 +219,8 @@ function ConnectingImpactPage() {
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Confidence Window</span>
                     <span className="font-mono text-xs">
-                      {result.incomingTrain.forecastWindow.lower} – {result.incomingTrain.forecastWindow.upper}
+                      {result.incomingTrain.forecastWindow.lower} –{" "}
+                      {result.incomingTrain.forecastWindow.upper}
                     </span>
                   </div>
                 </div>
@@ -234,7 +243,9 @@ function ConnectingImpactPage() {
                   </div>
                   <div className="flex justify-between border-b border-border pb-2">
                     <span className="text-muted-foreground">Departing Platform</span>
-                    <span className="font-semibold">Platform {result.connectingTrain.platform}</span>
+                    <span className="font-semibold">
+                      Platform {result.connectingTrain.platform}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Scheduled Buffer</span>
@@ -247,7 +258,9 @@ function ConnectingImpactPage() {
             {/* Alternative connecting services */}
             {result.alternativeTrains.length > 0 && (
               <div className="rounded-2xl border border-border bg-card p-5 shadow-card">
-                <h3 className="text-sm font-bold">Alternative Departures from {result.transferStation.name}</h3>
+                <h3 className="text-sm font-bold">
+                  Alternative Departures from {result.transferStation.name}
+                </h3>
                 <p className="text-xs text-muted-foreground mt-0.5">
                   Subsequent services available in case of transfer delay.
                 </p>

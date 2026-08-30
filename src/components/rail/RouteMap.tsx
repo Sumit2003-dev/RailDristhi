@@ -280,7 +280,9 @@ export function RouteMap({ halts, position, className = "", isMoving = false }: 
   const marker = position ? snapToPath(pts, project(position.lat, position.lng)) : null;
 
   return (
-    <div className={`relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card ${className}`}>
+    <div
+      className={`relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card ${className}`}
+    >
       {/* Top Map Control Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-secondary/40 px-3 py-2 text-xs">
         <div className="flex items-center gap-2">
@@ -302,7 +304,9 @@ export function RouteMap({ halts, position, className = "", isMoving = false }: 
               <button
                 onClick={() => setMapType("roadmap")}
                 className={`rounded px-2 py-0.5 text-[11px] font-medium transition-colors cursor-pointer ${
-                  mapType === "roadmap" ? "bg-primary text-primary-foreground font-bold" : "text-muted-foreground hover:text-foreground"
+                  mapType === "roadmap"
+                    ? "bg-primary text-primary-foreground font-bold"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Roadmap
@@ -310,7 +314,9 @@ export function RouteMap({ halts, position, className = "", isMoving = false }: 
               <button
                 onClick={() => setMapType("satellite")}
                 className={`rounded px-2 py-0.5 text-[11px] font-medium transition-colors cursor-pointer ${
-                  mapType === "satellite" ? "bg-primary text-primary-foreground font-bold" : "text-muted-foreground hover:text-foreground"
+                  mapType === "satellite"
+                    ? "bg-primary text-primary-foreground font-bold"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Satellite
@@ -318,7 +324,9 @@ export function RouteMap({ halts, position, className = "", isMoving = false }: 
               <button
                 onClick={() => setMapType("terrain")}
                 className={`rounded px-2 py-0.5 text-[11px] font-medium transition-colors cursor-pointer ${
-                  mapType === "terrain" ? "bg-primary text-primary-foreground font-bold" : "text-muted-foreground hover:text-foreground"
+                  mapType === "terrain"
+                    ? "bg-primary text-primary-foreground font-bold"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 Terrain
@@ -583,7 +591,12 @@ export function RouteMap({ halts, position, className = "", isMoving = false }: 
                   className="fill-card stroke-primary"
                   strokeWidth="1.5"
                 />
-                <text x={p.x + 8} y={p.y + 4} className="fill-muted-foreground font-mono" fontSize="9">
+                <text
+                  x={p.x + 8}
+                  y={p.y + 4}
+                  className="fill-muted-foreground font-mono"
+                  fontSize="9"
+                >
                   {halts[i]!.code}
                 </text>
               </g>
@@ -592,7 +605,11 @@ export function RouteMap({ halts, position, className = "", isMoving = false }: 
             {marker && (
               <g transform={`translate(${marker.x.toFixed(1)}, ${marker.y.toFixed(1)})`}>
                 {isMoving && (
-                  <circle r={18} className="fill-none stroke-primary/50 animate-ping" strokeWidth={1} />
+                  <circle
+                    r={18}
+                    className="fill-none stroke-primary/50 animate-ping"
+                    strokeWidth={1}
+                  />
                 )}
                 <circle r={8} className="fill-primary text-primary-foreground" />
               </g>

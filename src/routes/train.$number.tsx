@@ -74,7 +74,8 @@ function TrainStatus() {
   const gps = useOnBoardGps(train);
 
   // If on-board GPS is active, prioritize real satellite device GPS position!
-  const status = gps.isActive && gps.gpsStatus ? gps.gpsStatus : now ? computeLiveStatus(train, now) : null;
+  const status =
+    gps.isActive && gps.gpsStatus ? gps.gpsStatus : now ? computeLiveStatus(train, now) : null;
   const dest = train.halts[train.halts.length - 1]!;
 
   return (
@@ -225,7 +226,9 @@ function TrainStatus() {
                 <div>
                   <h2 className="text-sm font-bold text-foreground">GPS Route Path</h2>
                   <p className="text-xs text-muted-foreground">
-                    {gps.isActive ? "Live passenger GPS tracking" : "Real-geography alignment & live position"}
+                    {gps.isActive
+                      ? "Live passenger GPS tracking"
+                      : "Real-geography alignment & live position"}
                   </p>
                 </div>
                 <span className="rounded-md bg-secondary px-2 py-0.5 font-mono text-[11px] font-semibold text-primary">

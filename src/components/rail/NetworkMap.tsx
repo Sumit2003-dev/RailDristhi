@@ -53,7 +53,7 @@ function NetworkRoutesLayer({ routes }: { routes: TrainRoute[] }) {
   useEffect(() => {
     if (!map || !mapsLib || routes.length === 0) return;
 
-    const polylines: any[] = [];
+    const polylines: { setMap: (map: null) => void }[] = [];
 
     routes.forEach((train, idx) => {
       const path = train.halts.map((h) => ({ lat: h.lat, lng: h.lng }));
@@ -185,7 +185,9 @@ export function NetworkMap({ className = "" }: Props) {
   const maxY = Math.max(...ys) + pad;
 
   return (
-    <div className={`relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card ${className}`}>
+    <div
+      className={`relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-card ${className}`}
+    >
       {/* Top Map Control Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-secondary/40 px-3 py-2 text-xs">
         <div className="flex flex-wrap items-center gap-2">
@@ -428,11 +430,14 @@ export function NetworkMap({ className = "" }: Props) {
                     <div className="mt-1 flex items-center gap-1 text-[10px] text-slate-600">
                       <span>{selectedTrain.train.halts[0]!.code}</span>
                       <ArrowRight className="size-2.5" />
-                      <span>{selectedTrain.train.halts[selectedTrain.train.halts.length - 1]!.code}</span>
+                      <span>
+                        {selectedTrain.train.halts[selectedTrain.train.halts.length - 1]!.code}
+                      </span>
                     </div>
 
                     <p className="mt-1 text-[10px] text-slate-600">
-                      Near: <strong>{selectedTrain.status.lastHalt.name}</strong> ({selectedTrain.status.speed} km/h)
+                      Near: <strong>{selectedTrain.status.lastHalt.name}</strong> (
+                      {selectedTrain.status.speed} km/h)
                     </p>
 
                     <div className="mt-2 pt-1 border-t border-slate-200">
@@ -470,7 +475,13 @@ export function NetworkMap({ className = "" }: Props) {
               </pattern>
             </defs>
 
-            <rect x={minX} y={minY} width={maxX - minX} height={maxY - minY} fill="url(#net-rail-grid)" />
+            <rect
+              x={minX}
+              y={minY}
+              width={maxX - minX}
+              height={maxY - minY}
+              fill="url(#net-rail-grid)"
+            />
 
             {trainRoutes.map((t) => {
               const pts = t.halts.map((h) => project(h.lat, h.lng));

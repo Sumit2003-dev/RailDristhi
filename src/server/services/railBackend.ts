@@ -324,9 +324,13 @@ export class RailBackendService {
 
     let filtered = services;
     if (mode === "arrivals") {
-      filtered = filtered.filter((s) => s.serviceType === "Arrival" || s.serviceType === "Terminal");
+      filtered = filtered.filter(
+        (s) => s.serviceType === "Arrival" || s.serviceType === "Terminal",
+      );
     } else if (mode === "departures") {
-      filtered = filtered.filter((s) => s.serviceType === "Departure" || s.serviceType === "Arrival");
+      filtered = filtered.filter(
+        (s) => s.serviceType === "Departure" || s.serviceType === "Arrival",
+      );
     }
 
     filtered.sort((a, b) => a.predictedTime.localeCompare(b.predictedTime));
@@ -468,7 +472,9 @@ export class RailBackendService {
 
     const now = new Date();
     const inStatus = computeLiveStatus(inTrain, now);
-    const haltForecast = inStatus.haltStatus.find((h) => h.halt.code.toUpperCase() === upperStation)?.forecast;
+    const haltForecast = inStatus.haltStatus.find(
+      (h) => h.halt.code.toUpperCase() === upperStation,
+    )?.forecast;
 
     const scheduledArrivalMin = inTrain.startsAt + inHalt.arr;
     const scheduledDepMin = connTrain.startsAt + connHalt.dep;
@@ -485,7 +491,8 @@ export class RailBackendService {
     if (effectiveBuffer < 10) {
       feasibility = "MISSED";
       riskScore = 95;
-      recommendation = "High risk of missing transfer. Consider rebooking on a subsequent departure.";
+      recommendation =
+        "High risk of missing transfer. Consider rebooking on a subsequent departure.";
     } else if (effectiveBuffer < 25) {
       feasibility = "RISKY";
       riskScore = 65;
@@ -498,7 +505,11 @@ export class RailBackendService {
 
     // Alternative departures from transfer junction
     const alternatives = trainRoutes
-      .filter((t) => t.number !== connectingTrainNo && t.halts.some((h) => h.code.toUpperCase() === upperStation))
+      .filter(
+        (t) =>
+          t.number !== connectingTrainNo &&
+          t.halts.some((h) => h.code.toUpperCase() === upperStation),
+      )
       .slice(0, 3)
       .map((t) => {
         const h = t.halts.find((x) => x.code.toUpperCase() === upperStation)!;
@@ -574,7 +585,8 @@ export class RailBackendService {
       "Side Upper",
     ];
 
-    const coachPrefix = bookingClass === "SL" ? "S" : bookingClass === "3A" ? "B" : bookingClass === "2A" ? "A" : "H";
+    const coachPrefix =
+      bookingClass === "SL" ? "S" : bookingClass === "3A" ? "B" : bookingClass === "2A" ? "A" : "H";
     const coachNum = (seed % 6) + 1;
     const coach = `${coachPrefix}${coachNum}`;
 
@@ -599,12 +611,16 @@ export class RailBackendService {
       fromStation: { code: origin.code, name: origin.name },
       toStation: { code: dest.code, name: dest.name },
       boardingStation: { code: origin.code, name: origin.name },
-      journeyDate: now.toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }),
+      journeyDate: now.toLocaleDateString("en-IN", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }),
       bookingClass,
       quota: "GN (General Quota)",
       chartStatus: "CHART PREPARED",
       passengers,
-      fare: 450 + (passengerCount * 380 * (classes.indexOf(bookingClass) + 1)),
+      fare: 450 + passengerCount * 380 * (classes.indexOf(bookingClass) + 1),
       liveStatus: {
         speed: live.speed,
         delay: live.forecast?.delayMin ?? live.delay,

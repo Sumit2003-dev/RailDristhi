@@ -7,7 +7,11 @@ const CORS_HEADERS = {
   "Content-Type": "application/json; charset=utf-8",
 };
 
-function jsonResponse(data: unknown, status = 200, extraHeaders: Record<string, string> = {}): Response {
+function jsonResponse(
+  data: unknown,
+  status = 200,
+  extraHeaders: Record<string, string> = {},
+): Response {
   return new Response(JSON.stringify(data, null, 2), {
     status,
     headers: {
@@ -59,15 +63,51 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
         },
         servers: [{ url: "/api/v1", description: "Default v1 Gateway" }],
         endpoints: [
-          { path: "/api/v1/trains", method: "GET", description: "Search trains with pagination and status filters" },
-          { path: "/api/v1/train/:number/live", method: "GET", description: "Real-time GPS coordinates, speed, ETA predictions, delay reason" },
-          { path: "/api/v1/train/:number/timetable", method: "GET", description: "Full halt sequence, arrival/departure schedules, coordinates" },
-          { path: "/api/v1/station/:code/board", method: "GET", description: "Live station board for arrivals/departures/platforms" },
-          { path: "/api/v1/stations", method: "GET", description: "Search railway stations dictionary across India" },
-          { path: "/api/v1/between", method: "GET", description: "Find direct trains connecting two station codes" },
-          { path: "/api/v1/control-room", method: "GET", description: "Network-wide fleet health metrics, delay cause breakdown, and alerts" },
-          { path: "/api/v1/connecting-impact", method: "GET", description: "Transfer feasibility analyzer for connecting services" },
-          { path: "/api/v1/pnr/:pnr", method: "GET", description: "10-digit Indian Railways PNR validation and booking status" },
+          {
+            path: "/api/v1/trains",
+            method: "GET",
+            description: "Search trains with pagination and status filters",
+          },
+          {
+            path: "/api/v1/train/:number/live",
+            method: "GET",
+            description: "Real-time GPS coordinates, speed, ETA predictions, delay reason",
+          },
+          {
+            path: "/api/v1/train/:number/timetable",
+            method: "GET",
+            description: "Full halt sequence, arrival/departure schedules, coordinates",
+          },
+          {
+            path: "/api/v1/station/:code/board",
+            method: "GET",
+            description: "Live station board for arrivals/departures/platforms",
+          },
+          {
+            path: "/api/v1/stations",
+            method: "GET",
+            description: "Search railway stations dictionary across India",
+          },
+          {
+            path: "/api/v1/between",
+            method: "GET",
+            description: "Find direct trains connecting two station codes",
+          },
+          {
+            path: "/api/v1/control-room",
+            method: "GET",
+            description: "Network-wide fleet health metrics, delay cause breakdown, and alerts",
+          },
+          {
+            path: "/api/v1/connecting-impact",
+            method: "GET",
+            description: "Transfer feasibility analyzer for connecting services",
+          },
+          {
+            path: "/api/v1/pnr/:pnr",
+            method: "GET",
+            description: "10-digit Indian Railways PNR validation and booking status",
+          },
         ],
       });
     }
@@ -76,7 +116,8 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     if (pathname === "/api/v1/trains" || pathname === "/api/trains") {
       const query = searchParams.get("q") ?? searchParams.get("query") ?? "";
       const type = searchParams.get("type") ?? undefined;
-      const state = (searchParams.get("state") as "running" | "halted" | "on-time" | "delayed") ?? undefined;
+      const state =
+        (searchParams.get("state") as "running" | "halted" | "on-time" | "delayed") ?? undefined;
       const from = searchParams.get("from") ?? undefined;
       const to = searchParams.get("to") ?? undefined;
       const limit = searchParams.get("limit") ? parseInt(searchParams.get("limit")!, 10) : 20;
@@ -104,7 +145,10 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
       const trainNumber = decodeURIComponent(liveMatch[1]!);
       const status = RailBackendService.getTrainLiveStatus(trainNumber);
       if (!status) {
-        return errorResponse(`Train with number '${trainNumber}' not found in active network.`, 404);
+        return errorResponse(
+          `Train with number '${trainNumber}' not found in active network.`,
+          404,
+        );
       }
       return jsonResponse({
         success: true,
@@ -175,7 +219,10 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
       const from = searchParams.get("from");
       const to = searchParams.get("to");
       if (!from || !to) {
-        return errorResponse("Missing required query parameters 'from' and 'to' station codes.", 400);
+        return errorResponse(
+          "Missing required query parameters 'from' and 'to' station codes.",
+          400,
+        );
       }
       const result = RailBackendService.findTrainsBetween(from, to);
       return jsonResponse({
@@ -235,7 +282,10 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
     }
 
     // Unrecognized API route
-    return errorResponse(`API endpoint '${pathname}' not found. Visit /api/v1/docs for available routes.`, 404);
+    return errorResponse(
+      `API endpoint '${pathname}' not found. Visit /api/v1/docs for available routes.`,
+      404,
+    );
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Internal API error";
     return errorResponse(message, 500);

@@ -84,7 +84,8 @@ function PnrStatusPage() {
             Live PNR Status Check
           </h1>
           <p className="mt-2 text-sm text-muted-foreground">
-            Get instant verification for Indian Railways ticket status, confirmed coach and berth assignments, and real-time train running updates.
+            Get instant verification for Indian Railways ticket status, confirmed coach and berth
+            assignments, and real-time train running updates.
           </p>
         </div>
 
@@ -98,7 +99,11 @@ function PnrStatusPage() {
               placeholder="Enter 10-digit PNR Number (e.g. 8421950247)"
               className="h-12 border-0 bg-transparent px-4 font-mono text-base tracking-wider shadow-none focus-visible:ring-0"
             />
-            <Button type="submit" disabled={loading} className="h-12 rounded-xl px-6 font-semibold gap-2">
+            <Button
+              type="submit"
+              disabled={loading}
+              className="h-12 rounded-xl px-6 font-semibold gap-2"
+            >
               <Search className="size-4" /> {loading ? "Checking…" : "Check Status"}
             </Button>
           </div>
@@ -133,11 +138,13 @@ function PnrStatusPage() {
                     <span>TRAIN DETAILS</span>
                   </div>
                   <h2 className="mt-1 text-2xl font-bold">
-                    <span className="text-muted-foreground">{result.trainNumber}</span> {result.trainName}
+                    <span className="text-muted-foreground">{result.trainNumber}</span>{" "}
+                    {result.trainName}
                   </h2>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Class: <span className="font-semibold text-foreground">{result.bookingClass}</span> · Quota:{" "}
-                    <span className="font-semibold text-foreground">{result.quota}</span>
+                    Class:{" "}
+                    <span className="font-semibold text-foreground">{result.bookingClass}</span> ·
+                    Quota: <span className="font-semibold text-foreground">{result.quota}</span>
                   </p>
                 </div>
                 <div className="text-right">
@@ -200,8 +207,9 @@ function PnrStatusPage() {
                             {p.currentStatus}
                           </span>
                           <p className="mt-1 text-xs text-muted-foreground">
-                            Coach <span className="font-semibold text-foreground">{p.coach}</span> · Berth{" "}
-                            <span className="font-semibold text-foreground">{p.berth}</span> ({p.berthType})
+                            Coach <span className="font-semibold text-foreground">{p.coach}</span> ·
+                            Berth <span className="font-semibold text-foreground">{p.berth}</span> (
+                            {p.berthType})
                           </p>
                         </div>
                       </div>
@@ -217,7 +225,8 @@ function PnrStatusPage() {
                     <Gauge className="size-3.5" /> Speed: {result.liveStatus.speed} km/h
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                    <Clock className="size-3.5" /> Next: {result.liveStatus.nextStation} (ETA {result.liveStatus.eta})
+                    <Clock className="size-3.5" /> Next: {result.liveStatus.nextStation} (ETA{" "}
+                    {result.liveStatus.eta})
                   </span>
                 </div>
                 <Link

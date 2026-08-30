@@ -37,7 +37,12 @@ function format12Hour(totalMinutes: number): string {
   return `${h12}:${mStr}${period}`;
 }
 
-function isMajorStation(halt: Halt, index: number, total: number, status: LiveStatus | null): boolean {
+function isMajorStation(
+  halt: Halt,
+  index: number,
+  total: number,
+  status: LiveStatus | null,
+): boolean {
   if (index === 0 || index === total - 1) return true; // Origin & Destination
   if (status?.lastHalt.code === halt.code || status?.nextHalt?.code === halt.code) return true; // Live train halts
 
@@ -260,7 +265,7 @@ export function TrainTrackTimeline({
     const schedArrTime = format12Hour(schedArrMin);
     const schedDepTime = format12Hour(schedDepMin);
 
-    const delayMin = row.forecast?.delayMin ?? (isRowPassed ? 0 : status?.delay ?? 0);
+    const delayMin = row.forecast?.delayMin ?? (isRowPassed ? 0 : (status?.delay ?? 0));
     const predArrTime = format12Hour(schedArrMin + delayMin);
     const predDepTime = format12Hour(schedDepMin + delayMin);
     const isDelayed = delayMin > 2;
@@ -294,9 +299,7 @@ export function TrainTrackTimeline({
             isIntermediate
               ? "min-h-[48px] bg-secondary/10 hover:bg-secondary/25"
               : "min-h-[58px] hover:bg-secondary/20"
-          } px-3 transition-colors ${
-            isTrainHaltedHere ? "bg-secondary/60" : ""
-          }`}
+          } px-3 transition-colors ${isTrainHaltedHere ? "bg-secondary/60" : ""}`}
         >
           {/* 1. LEFT COLUMN: ARRIVAL (Lighter for sub-stations) */}
           <div className="flex flex-col justify-center text-left pl-1 py-2">
@@ -310,7 +313,11 @@ export function TrainTrackTimeline({
                       ? "text-[10px] text-muted-foreground/80 font-medium"
                       : "text-[11px] font-semibold"
                   } ${
-                    isDelayed ? "text-muted-foreground line-through" : isIntermediate ? "text-muted-foreground" : "text-foreground"
+                    isDelayed
+                      ? "text-muted-foreground line-through"
+                      : isIntermediate
+                        ? "text-muted-foreground"
+                        : "text-foreground"
                   }`}
                 >
                   {schedArrTime}
@@ -378,9 +385,7 @@ export function TrainTrackTimeline({
                       key={sIdx}
                       className={`mx-auto ${
                         isIntermediate ? "h-[1.5px] w-[14px] opacity-40" : "h-[2px] w-[18px]"
-                      } rounded-xs ${
-                        isSleeperTraversed ? "bg-primary/50" : "bg-border"
-                      }`}
+                      } rounded-xs ${isSleeperTraversed ? "bg-primary/50" : "bg-border"}`}
                     />
                   );
                 })}
@@ -428,7 +433,9 @@ export function TrainTrackTimeline({
               </div>
 
               <div className="mt-0.5 flex flex-wrap items-center gap-1.5 text-[9.5px] text-muted-foreground/80">
-                <span className={`font-mono ${isIntermediate ? "text-muted-foreground/70" : "font-semibold text-foreground/80"}`}>
+                <span
+                  className={`font-mono ${isIntermediate ? "text-muted-foreground/70" : "font-semibold text-foreground/80"}`}
+                >
                   {row.halt.code}
                 </span>
                 <span>•</span>
@@ -465,7 +472,11 @@ export function TrainTrackTimeline({
                       ? "text-[10px] text-muted-foreground/80 font-medium"
                       : "text-[11px] font-semibold"
                   } ${
-                    isDelayed ? "text-muted-foreground line-through" : isIntermediate ? "text-muted-foreground" : "text-foreground"
+                    isDelayed
+                      ? "text-muted-foreground line-through"
+                      : isIntermediate
+                        ? "text-muted-foreground"
+                        : "text-foreground"
                   }`}
                 >
                   {schedDepTime}
@@ -551,7 +562,9 @@ export function TrainTrackTimeline({
   };
 
   return (
-    <div className={`relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-card ${className}`}>
+    <div
+      className={`relative flex flex-col overflow-hidden rounded-2xl border border-border bg-card text-card-foreground shadow-card ${className}`}
+    >
       {/* Top Header */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border bg-subtle-gradient px-4 py-3">
         <div className="flex items-center gap-2">
@@ -595,14 +608,18 @@ export function TrainTrackTimeline({
                 <span>Coach</span>
               </button>
             </SheetTrigger>
-            <SheetContent side="bottom" className="max-h-[85vh] rounded-t-3xl border-t border-border bg-card text-card-foreground p-6">
+            <SheetContent
+              side="bottom"
+              className="max-h-[85vh] rounded-t-3xl border-t border-border bg-card text-card-foreground p-6"
+            >
               <SheetHeader className="text-left">
                 <SheetTitle className="text-lg font-bold flex items-center gap-2">
                   <TrainFront className="size-5 text-primary" />
                   Coach Position & Rake Layout — {train.number} {train.name}
                 </SheetTitle>
                 <p className="text-xs text-muted-foreground">
-                  Typical rake composition from engine to rear brake van. Platform coach displays may vary by station.
+                  Typical rake composition from engine to rear brake van. Platform coach displays
+                  may vary by station.
                 </p>
               </SheetHeader>
               <div className="mt-6 overflow-x-auto pb-4">
@@ -629,12 +646,12 @@ export function TrainTrackTimeline({
           <div className="flex items-center gap-2">
             <span className="flex size-2 rounded-full bg-primary animate-rail-pulse" />
             <span className="font-semibold text-primary">
-              {isOnBoard ? "On-Board Live GPS Tracking Active" : "GPS Sensor Active (Proximity Synced)"}
+              {isOnBoard
+                ? "On-Board Live GPS Tracking Active"
+                : "GPS Sensor Active (Proximity Synced)"}
             </span>
           </div>
-          <span className="font-mono text-[11px] text-muted-foreground">
-            Live satellite sync
-          </span>
+          <span className="font-mono text-[11px] text-muted-foreground">Live satellite sync</span>
         </div>
       )}
 
@@ -777,14 +794,22 @@ export function TrainTrackTimeline({
             {status?.state === "halted" ? (
               <>At {status.lastHalt.name}</>
             ) : status?.nextHalt ? (
-              <>En Route: {status.lastHalt.name} → {status.nextHalt.name}</>
+              <>
+                En Route: {status.lastHalt.name} → {status.nextHalt.name}
+              </>
             ) : (
               <>At {train.halts[0]!.name}</>
             )}
           </p>
           <div className="mt-0.5 flex items-center gap-1.5">
             <span className="inline-flex items-center rounded-md bg-secondary border border-border px-1.5 py-0.2 text-[9px] font-bold text-primary uppercase tracking-wide">
-              {isGpsActive ? `GPS LIVE (${status ? status.speed : 0} KM/H)` : status ? (status.speed > 0 ? `RUNNING (${status.speed} KM/H)` : "HALTED") : "SCHEDULED"}
+              {isGpsActive
+                ? `GPS LIVE (${status ? status.speed : 0} KM/H)`
+                : status
+                  ? status.speed > 0
+                    ? `RUNNING (${status.speed} KM/H)`
+                    : "HALTED"
+                  : "SCHEDULED"}
             </span>
             <span className="text-[10px] text-muted-foreground">
               {isGpsActive ? "Live GPS sensor" : "Updated few seconds ago"}

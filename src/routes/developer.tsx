@@ -51,7 +51,8 @@ const ENDPOINTS: ApiEndpoint[] = [
     name: "Search Trains & Directory",
     method: "GET",
     path: "/api/v1/trains",
-    description: "Search and filter trains by name, number, class (Superfast, Express, Rajdhani), or running state.",
+    description:
+      "Search and filter trains by name, number, class (Superfast, Express, Rajdhani), or running state.",
     defaultParams: { q: "Rajdhani", type: "all", limit: "5" },
     category: "Tracking",
   },
@@ -60,7 +61,8 @@ const ENDPOINTS: ApiEndpoint[] = [
     name: "Live Train Running Status & ETA",
     method: "GET",
     path: "/api/v1/train/12951/live",
-    description: "Real-time GPS coordinates, speed, next scheduled halt, predicted ETA with confidence windows, and delay reason.",
+    description:
+      "Real-time GPS coordinates, speed, next scheduled halt, predicted ETA with confidence windows, and delay reason.",
     category: "Tracking",
   },
   {
@@ -68,7 +70,8 @@ const ENDPOINTS: ApiEndpoint[] = [
     name: "Train Timetable & Stops",
     method: "GET",
     path: "/api/v1/train/12951/timetable",
-    description: "Complete sequence of halts, arrival/departure schedules, day count, distance in km, and coordinates.",
+    description:
+      "Complete sequence of halts, arrival/departure schedules, day count, distance in km, and coordinates.",
     category: "Timetable",
   },
   {
@@ -76,7 +79,8 @@ const ENDPOINTS: ApiEndpoint[] = [
     name: "Live Station Arrivals/Departures Board",
     method: "GET",
     path: "/api/v1/station/NDLS/board",
-    description: "Live station board with incoming and departing services, platform assignments, and delay predictions.",
+    description:
+      "Live station board with incoming and departing services, platform assignments, and delay predictions.",
     defaultParams: { mode: "all" },
     category: "Stations",
   },
@@ -103,7 +107,8 @@ const ENDPOINTS: ApiEndpoint[] = [
     name: "Network Operations & Fleet KPIs",
     method: "GET",
     path: "/api/v1/control-room",
-    description: "Network-wide fleet health metrics, active delay alerts, and delay classification breakdown.",
+    description:
+      "Network-wide fleet health metrics, active delay alerts, and delay classification breakdown.",
     category: "Analytics",
   },
   {
@@ -111,7 +116,8 @@ const ENDPOINTS: ApiEndpoint[] = [
     name: "Connecting Train Transfer Feasibility",
     method: "GET",
     path: "/api/v1/connecting-impact",
-    description: "Calculate transfer feasibility at junction stations based on incoming train ETA confidence margins.",
+    description:
+      "Calculate transfer feasibility at junction stations based on incoming train ETA confidence margins.",
     defaultParams: { incoming: "12951", connecting: "12001", station: "NDLS" },
     category: "Analytics",
   },
@@ -120,7 +126,8 @@ const ENDPOINTS: ApiEndpoint[] = [
     name: "10-Digit PNR Status & Coach Booking",
     method: "GET",
     path: "/api/v1/pnr/8421950247",
-    description: "10-digit Indian Railways PNR validation with coach, berth assignment, and live train status.",
+    description:
+      "10-digit Indian Railways PNR validation with coach, berth assignment, and live train status.",
     category: "PNR & Booking",
   },
 ];
@@ -168,14 +175,23 @@ function DeveloperPortal() {
     } catch (err: unknown) {
       setResponseStatus(500);
       setResponseTime(Math.round(performance.now() - start));
-      setResponseBody(JSON.stringify({ error: true, message: err instanceof Error ? err.message : "Fetch error" }, null, 2));
+      setResponseBody(
+        JSON.stringify(
+          { error: true, message: err instanceof Error ? err.message : "Fetch error" },
+          null,
+          2,
+        ),
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const getCodeSnippet = () => {
-    const fullUrl = typeof window !== "undefined" ? `${window.location.origin}${constructUrl()}` : `http://localhost:3000${constructUrl()}`;
+    const fullUrl =
+      typeof window !== "undefined"
+        ? `${window.location.origin}${constructUrl()}`
+        : `http://localhost:3000${constructUrl()}`;
     if (activeCodeTab === "curl") {
       return `curl -X GET "${fullUrl}" \\
   -H "Accept: application/json"`;
@@ -217,7 +233,8 @@ print(data)`;
               Developer REST API & Live Sandbox
             </h1>
             <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-              Production-ready endpoints for live train tracking, ETA forecasts with uncertainty intervals, classified delay reasons, station timetable boards, and PNR verification.
+              Production-ready endpoints for live train tracking, ETA forecasts with uncertainty
+              intervals, classified delay reasons, station timetable boards, and PNR verification.
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -330,27 +347,28 @@ print(data)`;
               </div>
 
               {/* Parameters Editor */}
-              {selectedEndpoint.defaultParams && Object.keys(selectedEndpoint.defaultParams).length > 0 && (
-                <div className="mt-4">
-                  <label className="block text-xs font-semibold text-muted-foreground uppercase">
-                    Query Parameters
-                  </label>
-                  <div className="mt-2 grid gap-3 sm:grid-cols-2">
-                    {Object.entries(params).map(([k, v]) => (
-                      <div key={k} className="flex items-center gap-2">
-                        <span className="w-20 shrink-0 font-mono text-xs font-semibold text-muted-foreground">
-                          {k}
-                        </span>
-                        <Input
-                          value={v}
-                          onChange={(e) => setParams({ ...params, [k]: e.target.value })}
-                          className="h-9 font-mono text-xs"
-                        />
-                      </div>
-                    ))}
+              {selectedEndpoint.defaultParams &&
+                Object.keys(selectedEndpoint.defaultParams).length > 0 && (
+                  <div className="mt-4">
+                    <label className="block text-xs font-semibold text-muted-foreground uppercase">
+                      Query Parameters
+                    </label>
+                    <div className="mt-2 grid gap-3 sm:grid-cols-2">
+                      {Object.entries(params).map(([k, v]) => (
+                        <div key={k} className="flex items-center gap-2">
+                          <span className="w-20 shrink-0 font-mono text-xs font-semibold text-muted-foreground">
+                            {k}
+                          </span>
+                          <Input
+                            value={v}
+                            onChange={(e) => setParams({ ...params, [k]: e.target.value })}
+                            className="h-9 font-mono text-xs"
+                          />
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
             </div>
 
             {/* Code snippets */}
@@ -427,7 +445,8 @@ print(data)`;
               ) : (
                 <div className="p-10 text-center text-sm text-muted-foreground">
                   <Play className="mx-auto size-6 opacity-40 mb-2" />
-                  Click <strong>Run Test Request</strong> or <strong>Send</strong> above to execute a real live API call.
+                  Click <strong>Run Test Request</strong> or <strong>Send</strong> above to execute
+                  a real live API call.
                 </div>
               )}
             </div>
