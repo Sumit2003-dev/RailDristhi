@@ -16,8 +16,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { findTrains, trainRoutes } from "@/data/trains";
 import { stationMap } from "@/data/generated/stations";
+import { useTranslation } from "@/lib/i18n";
 
 export function SearchPanel() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -70,7 +72,7 @@ export function SearchPanel() {
   const track = () => {
     const match = findTrains(train)[0];
     if (!match) {
-      toast.error("No train matches that number or name");
+      toast.error(t("search.noTrainMatch"));
       return;
     }
     navigate({ to: "/train/$number", params: { number: match.number } });
@@ -88,14 +90,12 @@ export function SearchPanel() {
             <Radar className="size-5" />
           </span>
           <div>
-            <p className="text-sm font-semibold">Live network map</p>
-            <p className="text-xs text-muted-foreground">
-              Real-time GPS positions across Indian Railways
-            </p>
+            <p className="text-sm font-semibold">{t("search.liveNetworkMap")}</p>
+            <p className="text-xs text-muted-foreground">{t("search.liveNetworkMapSub")}</p>
           </div>
         </div>
         <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-          Open <ArrowRight className="size-4" />
+          {t("search.open")} <ArrowRight className="size-4" />
         </span>
       </Link>
 
@@ -106,7 +106,7 @@ export function SearchPanel() {
       >
         <div className="flex items-center gap-2 border-b border-border bg-subtle-gradient px-4 py-3">
           <ArrowRight className="size-4 text-accent" />
-          <p className="text-sm font-semibold">Trains between stations</p>
+          <p className="text-sm font-semibold">{t("search.trainsBetween")}</p>
         </div>
         <div className="relative space-y-2 p-4">
           <div className="absolute left-8 top-11 h-8 w-px bg-border" />
@@ -123,13 +123,13 @@ export function SearchPanel() {
                 }}
                 onFocus={() => setFocusedInput("from")}
                 onBlur={() => setTimeout(() => setFocusedInput(null), 200)}
-                placeholder="From station (e.g. NDLS)"
+                placeholder={t("search.fromStation")}
                 className="h-11 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0"
               />
               <Button
                 variant="outline"
                 size="icon"
-                aria-label="Swap stations"
+                aria-label={t("search.swapStations")}
                 className="rounded-full shrink-0"
                 onClick={swap}
               >
@@ -169,7 +169,7 @@ export function SearchPanel() {
                 }}
                 onFocus={() => setFocusedInput("to")}
                 onBlur={() => setTimeout(() => setFocusedInput(null), 200)}
-                placeholder="To station (e.g. KOTA)"
+                placeholder={t("search.toStation")}
                 className="h-11 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0"
               />
             </div>
@@ -198,20 +198,20 @@ export function SearchPanel() {
             className="mt-2 h-12 w-full rounded-xl text-base font-semibold"
             onClick={() => {
               if (!from.trim() || !to.trim()) {
-                toast.error("Enter both stations to search");
+                toast.error(t("search.enterBothStations"));
                 return;
               }
               setShowBetween(true);
             }}
           >
-            View trains <ArrowRight className="size-4" />
+            {t("search.viewTrains")} <ArrowRight className="size-4" />
           </Button>
 
           {showBetween && (
             <ul className="mt-2 space-y-1.5 border-t border-border pt-3">
               {between.length === 0 && (
                 <li className="px-2 py-3 text-center text-xs text-muted-foreground">
-                  No direct service found on this pair.
+                  {t("search.noDirectService")}
                 </li>
               )}
               {between.map((r) => (
@@ -238,7 +238,7 @@ export function SearchPanel() {
       <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
         <div className="flex items-center gap-2 border-b border-border bg-subtle-gradient px-4 py-3">
           <Radar className="size-4 text-primary" />
-          <p className="text-sm font-semibold">Live train status</p>
+          <p className="text-sm font-semibold">{t("search.liveTrainStatus")}</p>
         </div>
         <div className="p-4">
           <form
@@ -251,14 +251,14 @@ export function SearchPanel() {
             <Input
               value={train}
               onChange={(e) => setTrain(e.target.value)}
-              placeholder="Train number or name (e.g. 12951)"
+              placeholder={t("search.trainPlaceholder")}
               className="h-11"
             />
             <Button
               type="submit"
               size="icon"
               className="size-11 shrink-0 rounded-xl"
-              aria-label="Track train"
+              aria-label={t("search.trackTrain")}
             >
               <Search className="size-4" />
             </Button>
@@ -288,7 +288,7 @@ export function SearchPanel() {
       {/* Quick services */}
       <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
         <p className="border-b border-border bg-subtle-gradient px-4 py-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-          Quick services & tools
+          {t("search.quickServices")}
         </p>
         <ul className="divide-y divide-border">
           <li>
@@ -300,10 +300,8 @@ export function SearchPanel() {
                 <FileText className="size-4" />
               </span>
               <span className="flex-1">
-                <span className="block text-sm font-semibold">PNR Status Check</span>
-                <span className="block text-xs text-muted-foreground">
-                  Verify coach, berth, and charting status
-                </span>
+                <span className="block text-sm font-semibold">{t("search.pnrTitle")}</span>
+                <span className="block text-xs text-muted-foreground">{t("search.pnrSub")}</span>
               </span>
               <ChevronRight className="size-4 text-muted-foreground" />
             </Link>
@@ -317,9 +315,9 @@ export function SearchPanel() {
                 <Armchair className="size-4" />
               </span>
               <span className="flex-1">
-                <span className="block text-sm font-semibold">Connecting Impact</span>
+                <span className="block text-sm font-semibold">{t("search.connectingTitle")}</span>
                 <span className="block text-xs text-muted-foreground">
-                  Calculate transfer risk at junction stations
+                  {t("search.connectingSub")}
                 </span>
               </span>
               <ChevronRight className="size-4 text-muted-foreground" />
@@ -335,9 +333,9 @@ export function SearchPanel() {
                 <LayoutList className="size-4" />
               </span>
               <span className="flex-1">
-                <span className="block text-sm font-semibold">Live Station Board</span>
+                <span className="block text-sm font-semibold">{t("search.stationBoardTitle")}</span>
                 <span className="block text-xs text-muted-foreground">
-                  Arrivals, departures, and platform assignments
+                  {t("search.stationBoardSub")}
                 </span>
               </span>
               <ChevronRight className="size-4 text-muted-foreground" />
@@ -352,9 +350,9 @@ export function SearchPanel() {
                 <Code2 className="size-4" />
               </span>
               <span className="flex-1">
-                <span className="block text-sm font-semibold">Developer REST API</span>
+                <span className="block text-sm font-semibold">{t("search.developerApiTitle")}</span>
                 <span className="block text-xs text-muted-foreground">
-                  Live API sandbox, OpenAPI docs, and SDK snippets
+                  {t("search.developerApiSub")}
                 </span>
               </span>
               <ChevronRight className="size-4 text-muted-foreground" />

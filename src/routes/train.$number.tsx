@@ -19,6 +19,7 @@ import { useLiveClock } from "@/components/rail/useLiveClock";
 import { useOnBoardGps } from "@/hooks/useOnBoardGps";
 import { getTrain } from "@/data/trains";
 import { computeLiveStatus, delayLabel, delayTone, fmtMinutes } from "@/lib/liveStatus";
+import { useTranslation } from "@/lib/i18n";
 
 export const Route = createFileRoute("/train/$number")({
   loader: ({ params }) => {
@@ -51,16 +52,16 @@ export const Route = createFileRoute("/train/$number")({
 });
 
 function TrainNotFound() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
       <main className="mx-auto max-w-2xl px-4 py-24 text-center">
-        <h1 className="text-3xl font-bold">Train not found</h1>
-        <p className="mt-3 text-muted-foreground">
-          We could not find that train number in the network.
-        </p>
+        <h1 className="text-3xl font-bold">{t("train.notFoundTitle")}</h1>
+        <p className="mt-3 text-muted-foreground">{t("train.notFoundMsg")}</p>
         <Link to="/" className="mt-6 inline-block text-primary underline">
-          Back to live board
+          {t("station.backToBoard")}
         </Link>
       </main>
       <SiteFooter />
@@ -70,6 +71,7 @@ function TrainNotFound() {
 
 function TrainStatus() {
   const { train } = Route.useLoaderData();
+  const { t } = useTranslation();
   const now = useLiveClock(4000);
   const gps = useOnBoardGps(train);
 
@@ -87,14 +89,17 @@ function TrainStatus() {
           to="/"
           className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground"
         >
-          <ArrowLeft className="size-4" /> Live board
+          <ArrowLeft className="size-4" /> {t("train.liveBoard")}
         </Link>
 
         {/* Train Overview Banner */}
         <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-              {train.type} · runs {train.runsOn.length === 7 ? "daily" : train.runsOn.join(", ")}
+              {train.type} ·{" "}
+              {train.runsOn.length === 7
+                ? t("train.runsDaily")
+                : t("train.runsOn", { days: train.runsOn.join(", ") })}
             </p>
             <h1 className="mt-1 text-3xl font-bold">
               <span className="text-muted-foreground">{train.number}</span> {train.name}
@@ -131,7 +136,8 @@ function TrainStatus() {
             >
               {gps.isActive ? (
                 <>
-                  <Satellite className="size-4 animate-pulse text-primary" /> Live On-Board GPS
+                  <Satellite className="size-4 animate-pulse text-primary" />{" "}
+                  {t("train.onBoardGps")}
                 </>
               ) : status ? (
                 delayLabel(status)
@@ -157,22 +163,28 @@ function TrainStatus() {
               <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
                 <Stat
                   icon={<Gauge className="size-4 text-primary" />}
-                  label="Speed"
-                  value={status ? (status.speed === 0 ? "Halted" : `${status.speed} km/h`) : "—"}
+                  label={t("train.speed")}
+                  value={
+                    status
+                      ? status.speed === 0
+                        ? t("trainList.haltedState")
+                        : `${status.speed} km/h`
+                      : "—"
+                  }
                 />
                 <Stat
                   icon={<MapPin className="size-4 text-accent" />}
-                  label="Next halt"
+                  label={t("train.nextHalt")}
                   value={status?.nextHalt ? status.nextHalt.code : "—"}
                 />
                 <Stat
                   icon={<Clock className="size-4 text-primary" />}
-                  label="Predicted ETA"
+                  label={t("train.predictedEta")}
                   value={status ? status.etaNext : "—"}
                 />
                 <Stat
                   icon={<RouteIcon className="size-4 text-accent" />}
-                  label="Covered"
+                  label={t("train.covered")}
                   value={status ? `${status.km} km` : "—"}
                 />
               </div>
@@ -182,10 +194,13 @@ function TrainStatus() {
                   <EtaConfidenceBadge confidence={status.forecast.confidence} />
                   <span className="text-xs text-muted-foreground">
                     {gps.isActive
-                      ? "Real-time location synced directly with device GPS sensors."
-                      : `Forecast window ${status.forecast.lowerEta} – ${status.forecast.upperEta} for ${
-                          status.nextHalt?.name ?? "destination"
-                        } ${status.forecast.delayMin > 0 ? `(+${status.forecast.delayMin} min)` : "(on time)"}`}
+                      ? t("train.realTimeLocation")
+                      : t("train.forecastWindow", {
+                          lower: status.forecast.lowerEta,
+                          upper: status.forecast.upperEta,
+                          station: status.nextHalt?.name ?? "destination",
+                        }) +
+                        ` ${status.forecast.delayMin > 0 ? `(+${status.forecast.delayMin} min)` : "(on time)"}`}
                   </span>
                 </div>
               )}
@@ -204,7 +219,10 @@ function TrainStatus() {
                 {gps.isActive
                   ? `On-board GPS active · synced via passenger device`
                   : status
-                    ? `Last reported at ${status.lastHalt.name} · updated ${new Date(status.updatedAt).toLocaleTimeString()}`
+                    ? t("train.lastReported", {
+                        station: status.lastHalt.name,
+                        time: new Date(status.updatedAt).toLocaleTimeString(),
+                      })
                     : "Waiting for the first position report…"}
               </p>
             </div>
@@ -224,7 +242,7 @@ function TrainStatus() {
             <div className="sticky top-20 rounded-2xl border border-border bg-card p-4 shadow-card">
               <div className="mb-3 flex items-center justify-between border-b border-border pb-2">
                 <div>
-                  <h2 className="text-sm font-bold text-foreground">GPS Route Path</h2>
+                  <h2 className="text-sm font-bold text-foreground">{t("train.gpsRoutePath")}</h2>
                   <p className="text-xs text-muted-foreground">
                     {gps.isActive
                       ? "Live passenger GPS tracking"
@@ -232,7 +250,7 @@ function TrainStatus() {
                   </p>
                 </div>
                 <span className="rounded-md bg-secondary px-2 py-0.5 font-mono text-[11px] font-semibold text-primary">
-                  {train.halts.length} stations
+                  {t("train.stationsCount", { count: train.halts.length })}
                 </span>
               </div>
               <RouteMap

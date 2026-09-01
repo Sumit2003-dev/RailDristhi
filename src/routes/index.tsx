@@ -11,6 +11,7 @@ import {
   Faq,
   SiteFooter,
 } from "@/components/rail/Sections";
+import { useTranslation } from "@/lib/i18n";
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -38,6 +39,8 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const { t } = useTranslation();
+
   return (
     <div className="min-h-screen bg-background">
       <SiteHeader />
@@ -48,16 +51,12 @@ function Index() {
             <div className="order-2 lg:order-1">
               <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-muted-foreground shadow-card">
                 <span className="size-1.5 rounded-full bg-rail-live animate-rail-pulse" />
-                12,480 trains moving right now
+                {t("home.liveTrainsBadge", { count: "12,480" })}
               </span>
               <h1 className="mt-5 text-4xl font-bold leading-[1.05] sm:text-5xl">
-                Live train status, forecasted to arrival
+                {t("home.heroTitle")}
               </h1>
-              <p className="mt-4 max-w-xl text-muted-foreground">
-                Follow real-time GPS positions across the Indian Railways network, read
-                model-predicted arrival times with confidence, see the likely cause of every delay
-                and watch station boards update as trains arrive.
-              </p>
+              <p className="mt-4 max-w-xl text-muted-foreground">{t("home.heroDescription")}</p>
 
               <div className="mt-8">
                 <LiveTrainList />

@@ -4,11 +4,8 @@ import {
   Search,
   TrainFront,
   ArrowRight,
-  User,
   CheckCircle2,
   Calendar,
-  CreditCard,
-  MapPin,
   Clock,
   Gauge,
   Sparkles,
@@ -20,6 +17,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Toaster } from "@/components/ui/sonner";
 import type { PnrStatus } from "@/server/services/railBackend";
+import { useTranslation } from "@/lib/i18n";
 
 export const Route = createFileRoute("/pnr")({
   component: PnrStatusPage,
@@ -38,6 +36,7 @@ export const Route = createFileRoute("/pnr")({
 const SAMPLE_PNRS = ["8421950247", "4920194821", "6730192845", "9120485721"];
 
 function PnrStatusPage() {
+  const { t } = useTranslation();
   const [pnrInput, setPnrInput] = useState("8421950247");
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<PnrStatus | null>(null);
@@ -45,7 +44,7 @@ function PnrStatusPage() {
   const fetchPnr = async (pnrToFetch: string) => {
     const cleaned = pnrToFetch.replace(/\D/g, "");
     if (cleaned.length !== 10) {
-      toast.error("Please enter a valid 10-digit numeric PNR number");
+      toast.error(t("pnr.invalidPnr"));
       return;
     }
     setLoading(true);
@@ -53,14 +52,14 @@ function PnrStatusPage() {
       const res = await fetch(`/api/v1/pnr/${cleaned}`);
       const data = await res.json();
       if (data.error || !data.data) {
-        toast.error(data.message || "PNR record not found");
+        toast.error(data.message || t("pnr.pnrNotFound"));
         setResult(null);
       } else {
         setResult(data.data);
-        toast.success(`PNR ${cleaned} status fetched successfully`);
+        toast.success(t("pnr.pnrSuccess", { pnr: cleaned }));
       }
     } catch {
-      toast.error("Failed to query PNR service");
+      toast.error(t("pnr.pnrNotFound"));
     } finally {
       setLoading(false);
     }
@@ -78,15 +77,10 @@ function PnrStatusPage() {
       <main className="mx-auto max-w-4xl px-4 py-10">
         <div className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1 text-xs font-semibold text-primary">
-            <Sparkles className="size-3.5" /> Instant Confirmation & Coach Locator
+            <Sparkles className="size-3.5" /> {t("pnr.badge")}
           </span>
-          <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            Live PNR Status Check
-          </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Get instant verification for Indian Railways ticket status, confirmed coach and berth
-            assignments, and real-time train running updates.
-          </p>
+          <h1 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">{t("pnr.title")}</h1>
+          <p className="mt-2 text-sm text-muted-foreground">{t("pnr.subtitle")}</p>
         </div>
 
         {/* Search form */}
@@ -96,7 +90,7 @@ function PnrStatusPage() {
               value={pnrInput}
               onChange={(e) => setPnrInput(e.target.value)}
               maxLength={10}
-              placeholder="Enter 10-digit PNR Number (e.g. 8421950247)"
+              placeholder={t("pnr.placeholder")}
               className="h-12 border-0 bg-transparent px-4 font-mono text-base tracking-wider shadow-none focus-visible:ring-0"
             />
             <Button
@@ -104,11 +98,11 @@ function PnrStatusPage() {
               disabled={loading}
               className="h-12 rounded-xl px-6 font-semibold gap-2"
             >
-              <Search className="size-4" /> {loading ? "Checking…" : "Check Status"}
+              <Search className="size-4" /> {loading ? t("pnr.checking") : t("pnr.checkButton")}
             </Button>
           </div>
           <div className="mt-3 flex flex-wrap items-center justify-center gap-2 text-xs text-muted-foreground">
-            <span>Try sample PNRs:</span>
+            <span>{t("pnr.samplePnrs")}</span>
             {SAMPLE_PNRS.map((p) => (
               <button
                 key={p}
@@ -135,16 +129,17 @@ function PnrStatusPage() {
                 <div>
                   <div className="flex items-center gap-2 text-xs font-semibold text-muted-foreground">
                     <TrainFront className="size-4 text-primary" />
-                    <span>TRAIN DETAILS</span>
+                    <span>{t("pnr.trainDetails")}</span>
                   </div>
                   <h2 className="mt-1 text-2xl font-bold">
                     <span className="text-muted-foreground">{result.trainNumber}</span>{" "}
                     {result.trainName}
                   </h2>
                   <p className="text-xs text-muted-foreground mt-0.5">
-                    Class:{" "}
-                    <span className="font-semibold text-foreground">{result.bookingClass}</span> ·
-                    Quota: <span className="font-semibold text-foreground">{result.quota}</span>
+                    {t("pnr.class")}:{" "}
+                    <span className="font-semibold text-foreground">{result.bookingClass}</span> ·{" "}
+                    {t("pnr.quota")}:{" "}
+                    <span className="font-semibold text-foreground">{result.quota}</span>
                   </p>
                 </div>
                 <div className="text-right">
@@ -158,7 +153,7 @@ function PnrStatusPage() {
               {/* Journey Route Details */}
               <div className="grid gap-6 border-b border-border p-6 sm:grid-cols-3">
                 <div>
-                  <p className="text-xs font-semibold text-muted-foreground">FROM</p>
+                  <p className="text-xs font-semibold text-muted-foreground">{t("pnr.from")}</p>
                   <p className="mt-1 text-lg font-bold">
                     {result.fromStation.name} ({result.fromStation.code})
                   </p>
@@ -174,7 +169,9 @@ function PnrStatusPage() {
                   </div>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs font-semibold text-muted-foreground">DESTINATION</p>
+                  <p className="text-xs font-semibold text-muted-foreground">
+                    {t("pnr.destination")}
+                  </p>
                   <p className="mt-1 text-lg font-bold">
                     {result.toStation.name} ({result.toStation.code})
                   </p>
@@ -183,7 +180,7 @@ function PnrStatusPage() {
 
               {/* Passenger List */}
               <div className="p-6">
-                <h3 className="text-sm font-bold text-foreground">Passenger Details</h3>
+                <h3 className="text-sm font-bold text-foreground">{t("pnr.passengerDetails")}</h3>
                 <div className="mt-4 divide-y divide-border overflow-hidden rounded-2xl border border-border">
                   {result.passengers.map((p) => (
                     <div
@@ -195,9 +192,11 @@ function PnrStatusPage() {
                           #{p.number}
                         </span>
                         <div>
-                          <p className="text-sm font-semibold">Passenger {p.number}</p>
+                          <p className="text-sm font-semibold">
+                            {t("pnr.passengerNum", { num: p.number })}
+                          </p>
                           <p className="text-xs text-muted-foreground">
-                            Booking: <span className="font-mono">{p.bookingStatus}</span>
+                            {t("pnr.booking")}: <span className="font-mono">{p.bookingStatus}</span>
                           </p>
                         </div>
                       </div>
@@ -207,8 +206,10 @@ function PnrStatusPage() {
                             {p.currentStatus}
                           </span>
                           <p className="mt-1 text-xs text-muted-foreground">
-                            Coach <span className="font-semibold text-foreground">{p.coach}</span> ·
-                            Berth <span className="font-semibold text-foreground">{p.berth}</span> (
+                            {t("pnr.coach")}{" "}
+                            <span className="font-semibold text-foreground">{p.coach}</span> ·{" "}
+                            {t("pnr.berth")}{" "}
+                            <span className="font-semibold text-foreground">{p.berth}</span> (
                             {p.berthType})
                           </p>
                         </div>
@@ -222,11 +223,12 @@ function PnrStatusPage() {
               <div className="flex flex-wrap items-center justify-between gap-4 border-t border-border bg-secondary/40 px-6 py-4">
                 <div className="flex items-center gap-4 text-xs">
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                    <Gauge className="size-3.5" /> Speed: {result.liveStatus.speed} km/h
+                    <Gauge className="size-3.5" /> {t("train.speed")}: {result.liveStatus.speed}{" "}
+                    km/h
                   </span>
                   <span className="inline-flex items-center gap-1.5 text-muted-foreground">
-                    <Clock className="size-3.5" /> Next: {result.liveStatus.nextStation} (ETA{" "}
-                    {result.liveStatus.eta})
+                    <Clock className="size-3.5" /> {t("train.nextHalt")}:{" "}
+                    {result.liveStatus.nextStation} (ETA {result.liveStatus.eta})
                   </span>
                 </div>
                 <Link
@@ -234,7 +236,7 @@ function PnrStatusPage() {
                   params={{ number: result.trainNumber }}
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-primary hover:underline"
                 >
-                  Track live GPS on map <ArrowRight className="size-3.5" />
+                  {t("pnr.trackOnMap")} <ArrowRight className="size-3.5" />
                 </Link>
               </div>
             </div>
