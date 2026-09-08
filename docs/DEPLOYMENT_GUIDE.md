@@ -16,6 +16,7 @@ This guide covers building, testing, containerizing, and deploying **RailSaarthi
 ## 🛠️ Local Development Setup
 
 ### 1. Clone & Install Dependencies
+
 ```bash
 # Clone the repository
 git clone https://github.com/your-username/railsaarthi.git
@@ -26,16 +27,21 @@ npm install
 ```
 
 ### 2. (Optional) Run Data Ingestion Pipeline
+
 If you modify or update the raw CSV datasets in `public/`:
+
 ```bash
 npm run ingest
 ```
+
 This parses the CSVs and regenerates typed TypeScript modules in `src/data/generated/`.
 
 ### 3. Start Development Server
+
 ```bash
 npm run dev
 ```
+
 The application will launch with hot module replacement (HMR) at:
 👉 **`http://localhost:3000`** (or `http://localhost:5173` depending on port availability)
 
@@ -61,11 +67,13 @@ npm run build
 RailSaarthi includes a high-efficiency multi-stage `Dockerfile` creating a lightweight Alpine production image (~180MB).
 
 ### 1. Build the Docker Image
+
 ```bash
 docker build -t railsaarthi:latest .
 ```
 
 ### 2. Run the Container
+
 ```bash
 docker run -d \
   --name railsaarthi-app \
@@ -75,6 +83,7 @@ docker run -d \
 ```
 
 ### 3. Verify Container Status
+
 ```bash
 docker ps
 curl http://localhost:3000/api/v1/health
@@ -133,11 +142,11 @@ gcloud run deploy railsaarthi \
 
 ## ⚙️ Environment Configuration
 
-| Variable | Description | Default Value | Required |
-|:---|:---|:---|:---:|
-| `NODE_ENV` | Runtime environment mode | `production` | No |
-| `PORT` | HTTP Server port | `3000` | No |
-| `VITE_APP_TITLE` | Application branding title | `RailSaarthi` | No |
+| Variable         | Description                | Default Value | Required |
+| :--------------- | :------------------------- | :------------ | :------: |
+| `NODE_ENV`       | Runtime environment mode   | `production`  |    No    |
+| `PORT`           | HTTP Server port           | `3000`        |    No    |
+| `VITE_APP_TITLE` | Application branding title | `RailSaarthi` |    No    |
 
 ---
 

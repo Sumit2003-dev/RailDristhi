@@ -11,7 +11,7 @@ import { t as Toaster$1 } from "./sonner-DoFKumIW.mjs";
 import { d as findTrains, i as delayTone, p as trainRoutes, r as delayLabel, t as computeLiveStatus, u as stationMap } from "./ssr.mjs";
 import { t as useLiveClock } from "./useLiveClock-ZsXIJzCR.mjs";
 import { n as EtaConfidenceBadge, t as DelayReasonTag } from "./DelayReasonTag-BotOkrrT.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-DvakxzoK.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-E6CzGEP8.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function SearchPanel() {
@@ -532,7 +532,8 @@ function LiveTrainList() {
 									children: [
 										/* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { className: "size-3.5 text-accent" }),
 										t("trainList.next"),
-										": ",
+										":",
+										" ",
 										/* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", {
 											className: "text-foreground",
 											children: status?.nextHalt?.name ?? "—"

@@ -12,7 +12,7 @@ import { a as TabsTrigger, i as TabsList, n as Tabs, r as TabsContent, t as Labe
 import { t as useLiveClock } from "./useLiveClock-ZsXIJzCR.mjs";
 import { n as EtaConfidenceBadge, t as DelayReasonTag } from "./DelayReasonTag-BotOkrrT.mjs";
 import { a as Bar, c as Tooltip, i as CartesianGrid, n as YAxis, o as Cell, r as XAxis, s as ResponsiveContainer, t as BarChart } from "../_libs/recharts+[...].mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/control-room-y7RBsLJU.js
+//#region node_modules/.nitro/vite/services/ssr/assets/control-room-BRxyq8Sh.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var reasonColors = {
@@ -522,7 +522,8 @@ function ControlRoomDashboard() {
 								children: [
 									"Continuous rolling validation across ",
 									modelPerf.sampleSize.toLocaleString(),
-									" real-time station arrival observations"
+									" ",
+									"real-time station arrival observations"
 								]
 							})] })]
 						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -706,7 +707,11 @@ function ControlRoomDashboard() {
 											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "size-2 rounded-full bg-amber-500" }), "NTES Naive Linear Extrapolation (No Decay / No Weather Awareness)"]
 										}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 											className: "font-mono font-semibold text-muted-foreground",
-											children: [metricType === "mae" ? modelPerf.baselineMaeMinutes : modelPerf.baselineRmseMinutes, " min error"]
+											children: [
+												metricType === "mae" ? modelPerf.baselineMaeMinutes : modelPerf.baselineRmseMinutes,
+												" ",
+												"min error"
+											]
 										})]
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 										className: "h-2.5 w-full rounded-full bg-muted overflow-hidden",
@@ -725,7 +730,11 @@ function ControlRoomDashboard() {
 											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: "size-2 rounded-full bg-rose-500" }), "Static Timetable Schedule (0-Delay Buffer Assumption)"]
 										}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
 											className: "font-mono font-semibold text-muted-foreground",
-											children: [metricType === "mae" ? modelPerf.staticMaeMinutes : modelPerf.staticRmseMinutes, " min error"]
+											children: [
+												metricType === "mae" ? modelPerf.staticMaeMinutes : modelPerf.staticRmseMinutes,
+												" ",
+												"min error"
+											]
 										})]
 									}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 										className: "h-2.5 w-full rounded-full bg-muted overflow-hidden",
@@ -1593,10 +1602,14 @@ function ControlRoomAuthGuard({ children }) {
 														}),
 														/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 															className: "text-[11px] text-muted-foreground",
-															children: ["Example badge: ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
-																className: "bg-muted px-1 rounded text-primary font-semibold",
-																children: "IR-CTRL-782"
-															})]
+															children: [
+																"Example badge:",
+																" ",
+																/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
+																	className: "bg-muted px-1 rounded text-primary font-semibold",
+																	children: "IR-CTRL-782"
+																})
+															]
 														})
 													]
 												}),
@@ -1618,10 +1631,14 @@ function ControlRoomAuthGuard({ children }) {
 														}),
 														/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 															className: "text-[11px] text-muted-foreground",
-															children: ["Default PIN: ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
-																className: "bg-muted px-1 rounded text-primary font-semibold",
-																children: "rail2026"
-															})]
+															children: [
+																"Default PIN:",
+																" ",
+																/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
+																	className: "bg-muted px-1 rounded text-primary font-semibold",
+																	children: "rail2026"
+																})
+															]
 														})
 													]
 												}),

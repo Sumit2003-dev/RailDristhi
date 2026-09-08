@@ -60,21 +60,24 @@ export function AuthModal() {
         {/* Header with Railway Security Header */}
         <div className="bg-gradient-to-r from-slate-900 via-primary/90 to-slate-900 p-6 text-white text-center relative overflow-hidden">
           <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#fff_1px,transparent_1px)] [background-size:16px_16px]" />
-          
+
           <div className="mx-auto mb-3 flex size-12 items-center justify-center rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-inner">
             <ShieldAlert className="size-6 text-amber-400" />
           </div>
-          
+
           <DialogTitle className="text-xl font-bold tracking-tight text-white flex items-center justify-center gap-2">
             Indian Railways Authority Portal
           </DialogTitle>
-          
+
           <DialogDescription className="text-xs text-white/80 mt-1 max-w-sm mx-auto">
             Restricted Access Control — Ministry of Railways / Section Operations & Dispatch Console
           </DialogDescription>
 
           <div className="mt-3 flex items-center justify-center gap-2">
-            <Badge variant="outline" className="bg-white/10 text-white border-white/20 text-[10px] uppercase tracking-wider py-0.5 px-2">
+            <Badge
+              variant="outline"
+              className="bg-white/10 text-white border-white/20 text-[10px] uppercase tracking-wider py-0.5 px-2"
+            >
               SIH 2026 Authorized Access
             </Badge>
           </div>
@@ -96,7 +99,8 @@ export function AuthModal() {
               <div className="rounded-lg bg-secondary/50 p-2.5 text-xs text-muted-foreground flex items-start gap-2 border border-border/50">
                 <Info className="size-4 text-primary shrink-0 mt-0.5" />
                 <span>
-                  Select any pre-verified Indian Railways authority profile below to instantly authenticate into the Control Room.
+                  Select any pre-verified Indian Railways authority profile below to instantly
+                  authenticate into the Control Room.
                 </span>
               </div>
 
@@ -143,8 +147,12 @@ export function AuthModal() {
                 )}
 
                 <div className="space-y-1.5">
-                  <Label htmlFor="badgeId" className="text-xs font-medium flex items-center gap-1.5">
-                    <UserCheck className="size-3.5 text-muted-foreground" /> Official Railway Staff / Badge ID
+                  <Label
+                    htmlFor="badgeId"
+                    className="text-xs font-medium flex items-center gap-1.5"
+                  >
+                    <UserCheck className="size-3.5 text-muted-foreground" /> Official Railway Staff
+                    / Badge ID
                   </Label>
                   <Input
                     id="badgeId"
@@ -155,13 +163,21 @@ export function AuthModal() {
                     autoFocus
                   />
                   <p className="text-[11px] text-muted-foreground">
-                    Try <code className="bg-muted px-1 rounded text-primary font-semibold">IR-CTRL-782</code> or <code className="bg-muted px-1 rounded text-primary font-semibold">IR-DISP-409</code>
+                    Try{" "}
+                    <code className="bg-muted px-1 rounded text-primary font-semibold">
+                      IR-CTRL-782
+                    </code>{" "}
+                    or{" "}
+                    <code className="bg-muted px-1 rounded text-primary font-semibold">
+                      IR-DISP-409
+                    </code>
                   </p>
                 </div>
 
                 <div className="space-y-1.5">
                   <Label htmlFor="pin" className="text-xs font-medium flex items-center gap-1.5">
-                    <KeyRound className="size-3.5 text-muted-foreground" /> 4-Digit Security PIN / Password
+                    <KeyRound className="size-3.5 text-muted-foreground" /> 4-Digit Security PIN /
+                    Password
                   </Label>
                   <Input
                     id="pin"
@@ -172,12 +188,19 @@ export function AuthModal() {
                     className="text-sm"
                   />
                   <p className="text-[11px] text-muted-foreground">
-                    Demo PIN: <code className="bg-muted px-1 rounded text-primary font-semibold">rail2026</code>
+                    Demo PIN:{" "}
+                    <code className="bg-muted px-1 rounded text-primary font-semibold">
+                      rail2026
+                    </code>
                   </p>
                 </div>
 
                 <div className="pt-2">
-                  <Button type="submit" disabled={isSubmitting} className="w-full rounded-xl font-semibold gap-2">
+                  <Button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="w-full rounded-xl font-semibold gap-2"
+                  >
                     {isSubmitting ? (
                       "Verifying Security Clearance..."
                     ) : (

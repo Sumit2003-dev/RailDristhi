@@ -69,17 +69,18 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
 
               <div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="text-base font-bold text-foreground">
-                    {user.name}
-                  </span>
-                  <Badge variant="outline" className="font-mono bg-background text-[11px] border-primary/30 text-primary font-semibold">
+                  <span className="text-base font-bold text-foreground">{user.name}</span>
+                  <Badge
+                    variant="outline"
+                    className="font-mono bg-background text-[11px] border-primary/30 text-primary font-semibold"
+                  >
                     {user.badgeId}
                   </Badge>
                   <Badge className="bg-emerald-600/90 text-white text-[10px] uppercase font-semibold">
                     Authorized Clearance
                   </Badge>
                 </div>
-                
+
                 <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted-foreground mt-0.5">
                   <span className="font-medium text-foreground">{user.roleTitle}</span>
                   <span>•</span>
@@ -89,7 +90,9 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                   {user.stationCode && (
                     <>
                       <span>•</span>
-                      <span className="font-mono font-semibold text-primary">Station: {user.stationCode}</span>
+                      <span className="font-mono font-semibold text-primary">
+                        Station: {user.stationCode}
+                      </span>
                     </>
                   )}
                 </div>
@@ -138,7 +141,9 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
           </h2>
 
           <p className="mx-auto max-w-2xl text-sm text-muted-foreground">
-            The Central Control Room provides pan-India 16-zone telemetry, real-time fleet bottleneck alerts, and section precedence override dispatch controls. Access is restricted to authorized Indian Railways personnel.
+            The Central Control Room provides pan-India 16-zone telemetry, real-time fleet
+            bottleneck alerts, and section precedence override dispatch controls. Access is
+            restricted to authorized Indian Railways personnel.
           </p>
         </div>
 
@@ -160,9 +165,12 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                     <Radio className="size-3" />
                   </div>
                   <div>
-                    <span className="font-semibold text-foreground">16-Zone Congestion Telemetry</span>
+                    <span className="font-semibold text-foreground">
+                      16-Zone Congestion Telemetry
+                    </span>
                     <p className="text-muted-foreground text-[11px] mt-0.5">
-                      Live fleet On-Time Performance (OTP %) and zonal delay distributions across NR, WR, CR, SR, ER, etc.
+                      Live fleet On-Time Performance (OTP %) and zonal delay distributions across
+                      NR, WR, CR, SR, ER, etc.
                     </p>
                   </div>
                 </div>
@@ -172,9 +180,12 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                     <AlertTriangle className="size-3" />
                   </div>
                   <div>
-                    <span className="font-semibold text-foreground">Critical Bottleneck Interceptor</span>
+                    <span className="font-semibold text-foreground">
+                      Critical Bottleneck Interceptor
+                    </span>
                     <p className="text-muted-foreground text-[11px] mt-0.5">
-                      Identifies trains running &gt;60 mins late with active root-cause analysis and automated precedence advice.
+                      Identifies trains running &gt;60 mins late with active root-cause analysis and
+                      automated precedence advice.
                     </p>
                   </div>
                 </div>
@@ -186,7 +197,8 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                   <div>
                     <span className="font-semibold text-foreground">Dispatch Priority Engine</span>
                     <p className="text-muted-foreground text-[11px] mt-0.5">
-                      Section controller tools for automated platform allocation and loop-line bypass decisions.
+                      Section controller tools for automated platform allocation and loop-line
+                      bypass decisions.
                     </p>
                   </div>
                 </div>
@@ -199,7 +211,9 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                 <span>Smart India Hackathon 2026 Evaluation Note</span>
               </div>
               <p>
-                Judges and evaluators can use the <strong>Quick Demo Profiles</strong> tab to instantly log in as a Chief Section Controller, Chief Dispatch Officer, or Station Director.
+                Judges and evaluators can use the <strong>Quick Demo Profiles</strong> tab to
+                instantly log in as a Chief Section Controller, Chief Dispatch Officer, or Station
+                Director.
               </p>
             </div>
           </div>
@@ -213,9 +227,7 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                     <TrainFront className="size-5 text-amber-400" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-base text-white">
-                      Authority Access Gateway
-                    </h3>
+                    <h3 className="font-bold text-base text-white">Authority Access Gateway</h3>
                     <p className="text-xs text-white/80">
                       Ministry of Railways • Section Operations & Dispatch
                     </p>
@@ -256,7 +268,10 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                                 <span className="font-bold text-sm text-foreground group-hover:text-primary transition-colors">
                                   {auth.name}
                                 </span>
-                                <Badge variant="secondary" className="text-[10px] font-mono py-0 h-4">
+                                <Badge
+                                  variant="secondary"
+                                  className="text-[10px] font-mono py-0 h-4"
+                                >
                                   {auth.badgeId}
                                 </Badge>
                               </div>
@@ -286,8 +301,12 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                       )}
 
                       <div className="space-y-1.5">
-                        <Label htmlFor="guardBadgeId" className="text-xs font-semibold flex items-center gap-1.5">
-                          <UserCheck className="size-3.5 text-muted-foreground" /> Railway Staff Badge ID
+                        <Label
+                          htmlFor="guardBadgeId"
+                          className="text-xs font-semibold flex items-center gap-1.5"
+                        >
+                          <UserCheck className="size-3.5 text-muted-foreground" /> Railway Staff
+                          Badge ID
                         </Label>
                         <Input
                           id="guardBadgeId"
@@ -297,13 +316,20 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                           className="font-mono uppercase text-sm"
                         />
                         <p className="text-[11px] text-muted-foreground">
-                          Example badge: <code className="bg-muted px-1 rounded text-primary font-semibold">IR-CTRL-782</code>
+                          Example badge:{" "}
+                          <code className="bg-muted px-1 rounded text-primary font-semibold">
+                            IR-CTRL-782
+                          </code>
                         </p>
                       </div>
 
                       <div className="space-y-1.5">
-                        <Label htmlFor="guardPin" className="text-xs font-semibold flex items-center gap-1.5">
-                          <KeyRound className="size-3.5 text-muted-foreground" /> Security PIN / Password
+                        <Label
+                          htmlFor="guardPin"
+                          className="text-xs font-semibold flex items-center gap-1.5"
+                        >
+                          <KeyRound className="size-3.5 text-muted-foreground" /> Security PIN /
+                          Password
                         </Label>
                         <Input
                           id="guardPin"
@@ -314,7 +340,10 @@ export function ControlRoomAuthGuard({ children }: ControlRoomAuthGuardProps) {
                           className="text-sm"
                         />
                         <p className="text-[11px] text-muted-foreground">
-                          Default PIN: <code className="bg-muted px-1 rounded text-primary font-semibold">rail2026</code>
+                          Default PIN:{" "}
+                          <code className="bg-muted px-1 rounded text-primary font-semibold">
+                            rail2026
+                          </code>
                         </p>
                       </div>
 

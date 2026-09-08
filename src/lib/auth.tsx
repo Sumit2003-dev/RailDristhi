@@ -11,7 +11,8 @@ export type AuthorityUser = {
   zone: string;
   division: string;
   designation: string;
-  securityClearance: "LEVEL_4_CHIEF_CONTROLLER" | "LEVEL_3_SECTION_DISPATCH" | "LEVEL_2_STATION_OPS";
+  securityClearance:
+    "LEVEL_4_CHIEF_CONTROLLER" | "LEVEL_3_SECTION_DISPATCH" | "LEVEL_2_STATION_OPS";
   stationCode?: string;
   lastLogin: string;
 };
@@ -93,7 +94,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const login = async (badgeId: string, pin: string): Promise<{ success: boolean; error?: string }> => {
+  const login = async (
+    badgeId: string,
+    pin: string,
+  ): Promise<{ success: boolean; error?: string }> => {
     // Validate inputs
     const cleanBadge = badgeId.trim().toUpperCase();
     const cleanPin = pin.trim();
@@ -104,7 +108,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     // Match preset or permit standard demo passwords (rail2026, sih2026, 1234)
     const matchedPreset = PRESET_AUTHORITIES.find(
-      (p) => p.badgeId.toUpperCase() === cleanBadge || p.id === cleanBadge
+      (p) => p.badgeId.toUpperCase() === cleanBadge || p.id === cleanBadge,
     );
 
     const validPins = ["rail2026", "sih2026", "1234", "admin", "controller"];

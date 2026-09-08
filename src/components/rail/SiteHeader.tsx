@@ -1,4 +1,13 @@
-import { TrainFront, Menu, Lock, ShieldCheck, LogOut, UserCheck, ChevronDown, Radio } from "lucide-react";
+import {
+  TrainFront,
+  Menu,
+  Lock,
+  ShieldCheck,
+  LogOut,
+  UserCheck,
+  ChevronDown,
+  Radio,
+} from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -54,13 +63,15 @@ export function SiteHeader() {
               className="rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors inline-flex items-center gap-1.5"
             >
               <span>{item.label}</span>
-              {item.isProtected && (
-                isAuthenticated ? (
-                  <span className="flex size-2 rounded-full bg-emerald-500 animate-pulse" title="Authorized Section Access" />
+              {item.isProtected &&
+                (isAuthenticated ? (
+                  <span
+                    className="flex size-2 rounded-full bg-emerald-500 animate-pulse"
+                    title="Authorized Section Access"
+                  />
                 ) : (
                   <Lock className="size-3 text-muted-foreground/70" />
-                )
-              )}
+                ))}
             </Link>
           ))}
         </nav>
@@ -109,7 +120,10 @@ export function SiteHeader() {
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
-                  <Link to="/control-room" className="cursor-pointer text-xs font-medium flex items-center justify-between">
+                  <Link
+                    to="/control-room"
+                    className="cursor-pointer text-xs font-medium flex items-center justify-between"
+                  >
                     <span>Control Room Console</span>
                     <Radio className="size-3 text-emerald-500 animate-pulse" />
                   </Link>
@@ -152,15 +166,17 @@ export function SiteHeader() {
                       className="rounded-lg px-3 py-2 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground flex items-center justify-between"
                     >
                       <span>{item.label}</span>
-                      {item.isProtected && (
-                        isAuthenticated ? (
-                          <Badge variant="outline" className="text-[10px] bg-emerald-500/10 text-emerald-600 border-emerald-500/20">
+                      {item.isProtected &&
+                        (isAuthenticated ? (
+                          <Badge
+                            variant="outline"
+                            className="text-[10px] bg-emerald-500/10 text-emerald-600 border-emerald-500/20"
+                          >
                             Unlocked
                           </Badge>
                         ) : (
                           <Lock className="size-3.5 text-muted-foreground" />
-                        )
-                      )}
+                        ))}
                     </Link>
                   ))}
                 </nav>
@@ -175,7 +191,9 @@ export function SiteHeader() {
                       <div className="rounded-xl border border-primary/20 bg-primary/5 p-3">
                         <p className="text-xs font-bold text-foreground">{user.name}</p>
                         <p className="text-[11px] text-primary">{user.roleTitle}</p>
-                        <p className="text-[10px] text-muted-foreground font-mono mt-1">{user.badgeId} • {user.zone}</p>
+                        <p className="text-[10px] text-muted-foreground font-mono mt-1">
+                          {user.badgeId} • {user.zone}
+                        </p>
                       </div>
                       <Button
                         size="sm"
@@ -204,4 +222,3 @@ export function SiteHeader() {
     </header>
   );
 }
-

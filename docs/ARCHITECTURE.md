@@ -71,6 +71,7 @@ Standard railway apps rely on simplistic static time subtraction $(t_{scheduled}
 $$\Delta_{target} = \max\left(0, \delta_{observed} \cdot (1 - \lambda \Delta h) + \bar{\delta}_{prior} \cdot \alpha \Delta h + \text{Med}(\mathbf{D}_{runs}) \cdot \beta (1 - \lambda \Delta h) + \omega_{weather} + \gamma_{congestion} + \tau_{peak}\right)$$
 
 Where:
+
 - $\delta_{observed}$: Observed real-time delay in minutes at the last recorded halt.
 - $\lambda$: Delay decay and recovery rate constant ($\lambda = 0.045 / \text{halt}$).
 - $\Delta h = \max(0, h_{target} - h_{last})$: Halt horizon distance.
@@ -86,6 +87,7 @@ Where:
 - $\tau_{peak}$: Time-of-day peak congestion penalty ($+5\text{ min}$ for 08:00–11:00 & 17:00–20:00).
 
 #### Confidence Interval Window Formulation
+
 The dynamic $80\%$ uncertainty interval is calculated as:
 
 $$I_{interval} = \pm \left(6 + 0.2 \cdot \Delta_{target} + 2 \cdot \Delta h\right)\text{ minutes}$$
@@ -121,7 +123,7 @@ Passenger missed connections cause severe distress and station overcrowding. The
 
 $$\text{Effective Buffer} = (\text{Departure}_{\text{connecting}} - \text{Predicted Arrival}_{\text{incoming}}) - \text{PlatformTransferTime}_{\text{nominal}}$$
 
-$$\text{Miss Probability (\%)} = \begin{cases} 
+$$ \text{Miss Probability (%)} = \begin{cases}
 0\% & \text{if Effective Buffer} \ge 30\text{ min} \\
 \frac{30 - \text{Effective Buffer}}{30} \times 100\% & \text{if } 0 < \text{Effective Buffer} < 30\text{ min} \\
 100\% & \text{if Effective Buffer} \le 0\text{ min (MISSED)}
@@ -260,3 +262,4 @@ railsaarthi-main/
 - **Client-Side Sub-10ms Forecasting**: The ETA engine executes in under $5\text{ms}$ in pure client JavaScript, enabling offline calculations inside running train coaches.
 - **Type-Safe Full-Stack**: 100% strict TypeScript typing across routing, data schemas, API contracts, and UI components.
 - **Lighthouse Performance Score**: Optimized for $95+$ Performance, $100$ Accessibility, $100$ Best Practices, and $100$ SEO.
+$$

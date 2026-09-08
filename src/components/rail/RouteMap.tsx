@@ -8,12 +8,7 @@ import {
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
-import {
-  TrainFront,
-  Navigation,
-  Layers,
-  Compass,
-} from "lucide-react";
+import { TrainFront, Navigation, Layers, Compass } from "lucide-react";
 import type { Halt } from "@/data/trains";
 
 // Default demo fallback key for prototyping / zero-configuration startup

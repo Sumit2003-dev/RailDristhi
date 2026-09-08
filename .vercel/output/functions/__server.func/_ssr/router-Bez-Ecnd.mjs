@@ -11,7 +11,7 @@ import { t as Route } from "./station._code-CiRFTHo4.mjs";
 import { t as Route$8 } from "./train._number-DVdfJT-Z.mjs";
 import { t as QueryClientProvider } from "../_libs/tanstack__react-query.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-D_9u5imp.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-Bez-Ecnd.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var Dialog = Dialog$1;
@@ -208,12 +208,15 @@ function AuthModal() {
 											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 												className: "text-[11px] text-muted-foreground",
 												children: [
-													"Try ",
+													"Try",
+													" ",
 													/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
 														className: "bg-muted px-1 rounded text-primary font-semibold",
 														children: "IR-CTRL-782"
 													}),
-													" or ",
+													" ",
+													"or",
+													" ",
 													/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
 														className: "bg-muted px-1 rounded text-primary font-semibold",
 														children: "IR-DISP-409"
@@ -240,10 +243,14 @@ function AuthModal() {
 											}),
 											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
 												className: "text-[11px] text-muted-foreground",
-												children: ["Demo PIN: ", /* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
-													className: "bg-muted px-1 rounded text-primary font-semibold",
-													children: "rail2026"
-												})]
+												children: [
+													"Demo PIN:",
+													" ",
+													/* @__PURE__ */ (0, import_jsx_runtime.jsx)("code", {
+														className: "bg-muted px-1 rounded text-primary font-semibold",
+														children: "rail2026"
+													})
+												]
 											})
 										]
 									}),
@@ -414,7 +421,7 @@ function RootComponent() {
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})
 	});
 }
-var $$splitComponentImporter$5 = () => import("./routes-DvakxzoK.mjs");
+var $$splitComponentImporter$5 = () => import("./routes-E6CzGEP8.mjs");
 var Route$6 = createFileRoute("/")({
 	component: lazyRouteComponent($$splitComponentImporter$5, "component"),
 	head: () => ({ meta: [
@@ -449,7 +456,7 @@ var Route$5 = createFileRoute("/connecting-impact")({
 		content: "Calculate connection feasibility and platform transfer margins when switching trains at Indian Railways junction stations based on live ETA delay forecasts."
 	}] })
 });
-var $$splitComponentImporter$3 = () => import("./control-room-y7RBsLJU.mjs");
+var $$splitComponentImporter$3 = () => import("./control-room-BRxyq8Sh.mjs");
 var Route$4 = createFileRoute("/control-room")({
 	component: lazyRouteComponent($$splitComponentImporter$3, "component"),
 	head: () => ({ meta: [

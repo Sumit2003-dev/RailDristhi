@@ -9,14 +9,7 @@ import {
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
-import {
-  TrainFront,
-  Layers,
-  AlertTriangle,
-  Clock,
-  Compass,
-  ArrowRight,
-} from "lucide-react";
+import { TrainFront, Layers, AlertTriangle, Clock, Compass, ArrowRight } from "lucide-react";
 import { trainRoutes } from "@/data/trains";
 import type { TrainRoute } from "@/data/trains";
 import { computeLiveStatus } from "@/lib/liveStatus";

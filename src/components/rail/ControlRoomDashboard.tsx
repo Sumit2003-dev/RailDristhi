@@ -239,7 +239,8 @@ function computeModelEvaluation(trains: TrainRoute[], now: Date) {
 
   trains.forEach((t) => {
     const live = computeLiveStatus(t, safeNow);
-    const currDelay = typeof live.delay === "number" && Number.isFinite(live.delay) ? live.delay : 0;
+    const currDelay =
+      typeof live.delay === "number" && Number.isFinite(live.delay) ? live.delay : 0;
 
     live.haltStatus.forEach((hs, idx) => {
       const hist = historicalDelayAt(t, idx) || 0;
@@ -615,7 +616,8 @@ export function ControlRoomDashboard() {
                 Model Forecasting Performance & ML Benchmark
               </h3>
               <p className="text-[11px] text-muted-foreground">
-                Continuous rolling validation across {modelPerf.sampleSize.toLocaleString()} real-time station arrival observations
+                Continuous rolling validation across {modelPerf.sampleSize.toLocaleString()}{" "}
+                real-time station arrival observations
               </p>
             </div>
           </div>
@@ -650,7 +652,11 @@ export function ControlRoomDashboard() {
             >
               <Calculator className="size-3.5" />
               <span>{showFormulaDrawer ? "Hide Math Formulation" : "Inspect ML Formula"}</span>
-              {showFormulaDrawer ? <ChevronUp className="size-3" /> : <ChevronDown className="size-3" />}
+              {showFormulaDrawer ? (
+                <ChevronUp className="size-3" />
+              ) : (
+                <ChevronDown className="size-3" />
+              )}
             </button>
           </div>
         </div>
@@ -701,7 +707,9 @@ export function ControlRoomDashboard() {
           </div>
 
           <div className="rounded-xl border border-border/60 bg-secondary/20 p-3.5">
-            <p className="text-[11px] font-medium text-muted-foreground">80% Confidence Band Coverage</p>
+            <p className="text-[11px] font-medium text-muted-foreground">
+              80% Confidence Band Coverage
+            </p>
             <p className="mt-1 font-mono text-2xl font-extrabold text-foreground">
               {modelPerf.intervalCoveragePercent}%
             </p>
@@ -715,9 +723,12 @@ export function ControlRoomDashboard() {
         <div className="rounded-xl border border-border/70 bg-secondary/15 p-4 space-y-3">
           <div className="flex items-center justify-between text-xs">
             <span className="font-semibold text-foreground flex items-center gap-1.5">
-              <Cpu className="size-3.5 text-primary" /> Multi-Method Accuracy Benchmark ({metricType.toUpperCase()})
+              <Cpu className="size-3.5 text-primary" /> Multi-Method Accuracy Benchmark (
+              {metricType.toUpperCase()})
             </span>
-            <span className="text-[11px] text-muted-foreground">Lower error indicates higher precision</span>
+            <span className="text-[11px] text-muted-foreground">
+              Lower error indicates higher precision
+            </span>
           </div>
 
           <div className="space-y-3 text-xs">
@@ -729,7 +740,8 @@ export function ControlRoomDashboard() {
                   RailSaarthi Multi-Factor ML Model
                 </span>
                 <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
-                  {metricType === "mae" ? modelPerf.maeMinutes : modelPerf.rmseMinutes} min error ({modelPerf.errorReductionPercent}% lower error)
+                  {metricType === "mae" ? modelPerf.maeMinutes : modelPerf.rmseMinutes} min error (
+                  {modelPerf.errorReductionPercent}% lower error)
                 </span>
               </div>
               <div className="h-2.5 w-full rounded-full bg-muted overflow-hidden">
@@ -748,7 +760,10 @@ export function ControlRoomDashboard() {
                   NTES Naive Linear Extrapolation (No Decay / No Weather Awareness)
                 </span>
                 <span className="font-mono font-semibold text-muted-foreground">
-                  {metricType === "mae" ? modelPerf.baselineMaeMinutes : modelPerf.baselineRmseMinutes} min error
+                  {metricType === "mae"
+                    ? modelPerf.baselineMaeMinutes
+                    : modelPerf.baselineRmseMinutes}{" "}
+                  min error
                 </span>
               </div>
               <div className="h-2.5 w-full rounded-full bg-muted overflow-hidden">
@@ -767,7 +782,8 @@ export function ControlRoomDashboard() {
                   Static Timetable Schedule (0-Delay Buffer Assumption)
                 </span>
                 <span className="font-mono font-semibold text-muted-foreground">
-                  {metricType === "mae" ? modelPerf.staticMaeMinutes : modelPerf.staticRmseMinutes} min error
+                  {metricType === "mae" ? modelPerf.staticMaeMinutes : modelPerf.staticRmseMinutes}{" "}
+                  min error
                 </span>
               </div>
               <div className="h-2.5 w-full rounded-full bg-muted overflow-hidden">
@@ -786,7 +802,9 @@ export function ControlRoomDashboard() {
             <div className="flex items-center justify-between border-b border-primary/20 pb-2.5">
               <div className="flex items-center gap-2 font-bold text-primary text-sm">
                 <Sliders className="size-4" />
-                <span>Mathematical Formulation & Parameter Attribution (SIH 2026 Evaluation Standard)</span>
+                <span>
+                  Mathematical Formulation & Parameter Attribution (SIH 2026 Evaluation Standard)
+                </span>
               </div>
               <span className="font-mono text-[10px] text-muted-foreground bg-secondary px-2 py-0.5 rounded">
                 Model: RailDrishti Heuristic-ML v1.0
@@ -796,30 +814,53 @@ export function ControlRoomDashboard() {
             <div className="grid gap-4 md:grid-cols-2">
               <div className="space-y-2 rounded-lg border border-border/80 bg-card p-3.5">
                 <p className="font-semibold text-foreground flex items-center gap-1.5">
-                  <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary">1</span>
+                  <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary">
+                    1
+                  </span>
                   Delay Progression Equation
                 </p>
                 <div className="rounded bg-secondary/50 p-2.5 font-mono text-[11px] text-foreground leading-relaxed overflow-x-auto border border-border/40">
-                  {"Δ_pred = Δ_curr · (1 - λ · Δh) + α · Δ_prior · Δh + β · Med(Runs) + ω_weather + γ_corridor"}
+                  {
+                    "Δ_pred = Δ_curr · (1 - λ · Δh) + α · Δ_prior · Δh + β · Med(Runs) + ω_weather + γ_corridor"
+                  }
                 </div>
                 <ul className="space-y-1 text-[11px] text-muted-foreground list-disc list-inside">
-                  <li><strong>λ (0.045/halt)</strong>: Exponential physical drift decay modeling run recovery buffers on open track sections.</li>
-                  <li><strong>α (0.40)</strong>: Empirical weighting of cumulative prior halt drift pattern.</li>
-                  <li><strong>β (0.35)</strong>: Ground truth convergence weight towards historical run distribution median.</li>
+                  <li>
+                    <strong>λ (0.045/halt)</strong>: Exponential physical drift decay modeling run
+                    recovery buffers on open track sections.
+                  </li>
+                  <li>
+                    <strong>α (0.40)</strong>: Empirical weighting of cumulative prior halt drift
+                    pattern.
+                  </li>
+                  <li>
+                    <strong>β (0.35)</strong>: Ground truth convergence weight towards historical
+                    run distribution median.
+                  </li>
                 </ul>
               </div>
 
               <div className="space-y-2 rounded-lg border border-border/80 bg-card p-3.5">
                 <p className="font-semibold text-foreground flex items-center gap-1.5">
-                  <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary">2</span>
+                  <span className="rounded bg-primary/10 px-1.5 py-0.5 font-mono text-[10px] text-primary">
+                    2
+                  </span>
                   Contextual Penalty & Uncertainty Envelope
                 </p>
                 <div className="rounded bg-secondary/50 p-2.5 font-mono text-[11px] text-foreground leading-relaxed overflow-x-auto border border-border/40">
-                  {"CI_80 = ±(6 + 0.2 · Δ_pred + 2 · Δh) min | ω_weather ∈ {Fog: +14m, Rain: +6m, Wind: +8m}"}
+                  {
+                    "CI_80 = ±(6 + 0.2 · Δ_pred + 2 · Δh) min | ω_weather ∈ {Fog: +14m, Rain: +6m, Wind: +8m}"
+                  }
                 </div>
                 <ul className="space-y-1 text-[11px] text-muted-foreground list-disc list-inside">
-                  <li><strong>Weather Modifier (ω)</strong>: Dynamic penalty based on live meteorological feeds (dense fog speed restrictions, monsoon track speed limits).</li>
-                  <li><strong>Corridor Congestion (γ)</strong>: Density factor (0..1) scaled up to +18 min during peak traffic windows (08:00–11:00 & 17:00–20:00).</li>
+                  <li>
+                    <strong>Weather Modifier (ω)</strong>: Dynamic penalty based on live
+                    meteorological feeds (dense fog speed restrictions, monsoon track speed limits).
+                  </li>
+                  <li>
+                    <strong>Corridor Congestion (γ)</strong>: Density factor (0..1) scaled up to +18
+                    min during peak traffic windows (08:00–11:00 & 17:00–20:00).
+                  </li>
                 </ul>
               </div>
             </div>
@@ -827,7 +868,10 @@ export function ControlRoomDashboard() {
             <div className="rounded-lg border border-emerald-500/20 bg-emerald-500/5 p-3 text-[11px] text-emerald-700 dark:text-emerald-300 flex items-start gap-2">
               <CheckCircle2 className="size-4 shrink-0 text-emerald-600 dark:text-emerald-400 mt-0.5" />
               <div>
-                <strong>Why NTES & Third-Party Apps Fail:</strong> Legacy apps perform naive point extrapolation (Δ_target = Δ_current), assuming zero speed-up recovery and ignoring weather/signal conditions. This leads to compounding +10.4 min average errors, whereas RailSaarthi achieves <strong>3.2 min</strong> MAE (+69% improvement).
+                <strong>Why NTES & Third-Party Apps Fail:</strong> Legacy apps perform naive point
+                extrapolation (Δ_target = Δ_current), assuming zero speed-up recovery and ignoring
+                weather/signal conditions. This leads to compounding +10.4 min average errors,
+                whereas RailSaarthi achieves <strong>3.2 min</strong> MAE (+69% improvement).
               </div>
             </div>
           </div>

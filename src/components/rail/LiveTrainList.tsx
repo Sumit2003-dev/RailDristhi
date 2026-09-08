@@ -160,7 +160,8 @@ export function LiveTrainList() {
                   </span>
                   <span className="inline-flex items-center gap-1.5">
                     <MapPin className="size-3.5 text-accent" />
-                    {t("trainList.next")}: <strong className="text-foreground">{status?.nextHalt?.name ?? "—"}</strong>
+                    {t("trainList.next")}:{" "}
+                    <strong className="text-foreground">{status?.nextHalt?.name ?? "—"}</strong>
                     {status?.expectedPlatform && (
                       <span className="rounded bg-primary/10 border border-primary/20 px-1.5 py-0.2 font-mono text-[10px] font-bold text-primary">
                         PF {status.expectedPlatform}

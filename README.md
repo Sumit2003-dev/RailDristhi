@@ -29,6 +29,7 @@
 ## 📌 Executive Summary & Problem Context
 
 Indian Railways operates over **13,000 passenger trains** carrying **24+ Million passengers daily**. However, existing passenger applications (NTES, IRCTC, Where Is My Train) suffer from fundamental technical limitations:
+
 1. **Static Time Estimates**: When a train is delayed by 20 minutes at Station A, existing apps naively add 20 minutes to all future stations, ignoring historical recovery zones, corridor congestion, and weather penalties.
 2. **Transfer Blindspot**: Over 1.2M passengers miss connecting trains at junctions each year due to lack of real-time transfer feasibility warnings.
 3. **Black-Box Delays**: Passengers and controllers are given vague "Delayed" notices without diagnosing whether the cause is signal failure, weather, or maintenance.
@@ -41,12 +42,15 @@ Indian Railways operates over **13,000 passenger trains** carrying **24+ Million
 ## ✨ Key Innovations & Features
 
 ### 🧠 1. Multi-Variable ETA Forecasting Model
+
 - **Physics + Empirical Drift Engine**: Combines real station-level scrape baselines, empirical multi-run delay distributions, and halt-by-halt drift decay.
 - **Dynamic Uncertainty Windows**: Replaces misleading single-timestamp estimates with an **$80\%$ confidence arrival window** (e.g. `08:32 - 08:52` with confidence rating).
 - **Environmental Context**: Automatically factors in adverse weather penalties (fog, heavy rain) and peak-hour suburban junction crowding.
 
 ### 🏷️ 2. Root-Cause Delay Decomposition
+
 Categorizes delays into 6 actionable operational classifications:
+
 - 🌧️ **Adverse Weather**: Northern fog, torrential monsoon rain, or storm caution.
 - 🚦 **Corridor Congestion**: Peak suburban junction blockages and loop line waiting.
 - 🚧 **Track Maintenance**: Civil engineering works and caution order speed caps.
@@ -55,23 +59,28 @@ Categorizes delays into 6 actionable operational classifications:
 - ⏱️ **Operational Variance**: Normal schedule variance.
 
 ### 🔄 3. Connecting Train Miss Risk Analyzer
+
 - Calculates real-time **Effective Transfer Buffer** at junction stations.
 - Classifies transfers into **SAFE ($<30\%$ risk)**, **RISKY ($30\% - 85\%$ risk)**, or **MISSED ($>85\%$ risk)**.
 - For missed connections, the engine **automatically searches the railway graph** and suggests immediate alternative connecting trains with estimated seat availability.
 
 ### 🎛️ 4. Central Control Room & Dispatch Console
+
 - Pan-India operational overview across all **16 Indian Railway Zones** (NR, WR, CR, ER, SR, NCR, ECR, WCR, SCR, SWR, SER, etc.).
 - Real-time fleet health, On-Time Performance (OTP %), average delay telemetry, and critical train alerts.
 - Section controller decision tools with automated precedence advice.
 
 ### 🛰️ 5. On-Board GPS & Peer Sensor Dead-Reckoning
+
 - Zero-app-install HTML5 geolocation engine (`useOnBoardGps`).
 - Continues real-time tracking in tunnels and rural zero-network zones using **kinematic dead-reckoning** snapped to verified railway track polyline geometry.
 
 ### 🎫 6. Smart PNR Intelligence
+
 - Real-time 10-digit PNR lookup with passenger booking vs current status (`CNF`/`RAC`/`WL`), coach allocation, berth position, chart status, and live train progress synchronization.
 
 ### 🌐 7. Indic Multilingual Localization (8 Languages)
+
 - Native localization across: **English, हिंदी (Hindi), বাংলা (Bengali), తెలుగు (Telugu), मराठी (Marathi), தமிழ் (Tamil), ગુજરાતી (Gujarati), and ಕನ್ನಡ (Kannada)**.
 
 ---
@@ -125,21 +134,21 @@ flowchart TB
 
 RailSaarthi includes a high-speed, CORS-enabled REST API gateway. Visit `/developer` in the browser for an interactive sandbox.
 
-| Method | Endpoint | Description |
-|:---|:---|:---|
-| `GET` | `/api/v1/docs` | Full OpenAPI 3.0 Schema |
-| `GET` | `/api/v1/trains` | Search trains by name, number, class, state, origin/destination |
-| `GET` | `/api/v1/train/:number/live` | Real-time GPS coords, speed, ETA predictions, uncertainty window |
-| `GET` | `/api/v1/train/:number/timetable` | Complete scheduled halt sequence, day count, km, coordinates |
-| `GET` | `/api/v1/station/:code/board` | Live electronic station board for arrivals & departures |
-| `GET` | `/api/v1/stations` | Query station names, IR codes, and coordinates |
-| `GET` | `/api/v1/between` | Find direct trains connecting two station codes |
-| `GET` | `/api/v1/pnr/:pnr` | Passenger booking status, coach layout, and live journey sync |
-| `GET` | `/api/v1/connecting-impact` | Connecting train transfer feasibility and miss probability |
-| `GET` | `/api/v1/control-room` | Fleet-wide telemetry, 16-zone status, and bottleneck alerts |
-| `GET` | `/api/v1/health` | Service uptime and system health metrics |
+| Method | Endpoint                          | Description                                                      |
+| :----- | :-------------------------------- | :--------------------------------------------------------------- |
+| `GET`  | `/api/v1/docs`                    | Full OpenAPI 3.0 Schema                                          |
+| `GET`  | `/api/v1/trains`                  | Search trains by name, number, class, state, origin/destination  |
+| `GET`  | `/api/v1/train/:number/live`      | Real-time GPS coords, speed, ETA predictions, uncertainty window |
+| `GET`  | `/api/v1/train/:number/timetable` | Complete scheduled halt sequence, day count, km, coordinates     |
+| `GET`  | `/api/v1/station/:code/board`     | Live electronic station board for arrivals & departures          |
+| `GET`  | `/api/v1/stations`                | Query station names, IR codes, and coordinates                   |
+| `GET`  | `/api/v1/between`                 | Find direct trains connecting two station codes                  |
+| `GET`  | `/api/v1/pnr/:pnr`                | Passenger booking status, coach layout, and live journey sync    |
+| `GET`  | `/api/v1/connecting-impact`       | Connecting train transfer feasibility and miss probability       |
+| `GET`  | `/api/v1/control-room`            | Fleet-wide telemetry, 16-zone status, and bottleneck alerts      |
+| `GET`  | `/api/v1/health`                  | Service uptime and system health metrics                         |
 
-*For complete API parameters, schemas, and curl examples, see [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md).*
+_For complete API parameters, schemas, and curl examples, see [docs/API_DOCUMENTATION.md](docs/API_DOCUMENTATION.md)._
 
 ---
 
@@ -219,10 +228,12 @@ railsaarthi-main/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js `v20.x` or `v22.x` (LTS)
 - npm `v10+` or Bun `v1.1+`
 
 ### Installation & Development
+
 ```bash
 # 1. Navigate to the project directory
 cd railsaarthi-main
@@ -236,6 +247,7 @@ npm run ingest
 # 4. Start local development server
 npm run dev
 ```
+
 Open **`http://localhost:3000`** in your browser.
 
 ---
@@ -255,6 +267,7 @@ docker run -d -p 3000:3000 --name railsaarthi railsaarthi:latest
 ## 📚 Documentation Suite
 
 For comprehensive technical and presentation resources, explore the `docs/` folder:
+
 - 🏗️ **[System Architecture & Mathematical Formulations](docs/ARCHITECTURE.md)**
 - 📡 **[OpenAPI 3.0 REST API Reference](docs/API_DOCUMENTATION.md)**
 - 🎯 **[SIH 2026 6-Slide Idea Presentation & Judge Defense](docs/SIH_2026_PITCH_DECK.md)**

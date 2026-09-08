@@ -47,7 +47,11 @@ export type LiveStatus = {
  * Otherwise, deterministically computes an authentic platform number (1..5)
  * based on the station code and train number.
  */
-export function getHaltPlatform(trainNumber: string, haltCode: string, rawPlatform?: string): string {
+export function getHaltPlatform(
+  trainNumber: string,
+  haltCode: string,
+  rawPlatform?: string,
+): string {
   if (rawPlatform && rawPlatform !== "-" && rawPlatform.trim() !== "") {
     return rawPlatform.trim();
   }

@@ -57,6 +57,7 @@ mindmap
 ## 🏷️ 3. Semantic Delay Cause Classifier
 
 Decomposes abstract train delays into actionable root-cause diagnoses:
+
 1. 🌧️ **Adverse Weather**: Heavy rainfall, dense northern winter fog, or cyclonic track restrictions.
 2. 🚦 **Corridor Congestion**: Peak hour section traffic and suburban local train precedence bottlenecks.
 3. 🚧 **Track Maintenance / Caution Orders**: Speed restrictions due to ballast packing or rail renewal.
@@ -106,6 +107,7 @@ Decomposes abstract train delays into actionable root-cause diagnoses:
 ## 🌐 7. Indic Multilingual Localization (8 Languages)
 
 Native UI translation support covering India's major linguistic demographics:
+
 - 🇮🇳 **English**
 - 🇮🇳 **हिंदी (Hindi)**
 - 🇮🇳 **বাংলা (Bengali)**
