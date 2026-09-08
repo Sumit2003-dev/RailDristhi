@@ -9,7 +9,6 @@ import {
   MapPin,
   Sparkles,
   TrainFront,
-  CheckCircle2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { SiteHeader } from "@/components/rail/SiteHeader";

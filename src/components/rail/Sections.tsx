@@ -159,10 +159,53 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-border bg-card">
-      <div className="mx-auto max-w-6xl px-4 py-10 text-sm text-muted-foreground">
-        <p className="font-display font-bold text-foreground">RailDristhi</p>
-        <p className="mt-2 max-w-2xl">{t("home.footerDisclaimer")}</p>
-        <p className="mt-6 text-xs">© {new Date().getFullYear()} RailDristhi</p>
+      <div className="mx-auto max-w-6xl px-4 py-12 text-sm text-muted-foreground">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-border/60">
+          <div className="md:col-span-2 space-y-3">
+            <p className="font-display font-bold text-foreground text-lg">RailDristhi</p>
+            <p className="max-w-md text-xs leading-relaxed">{t("home.footerDisclaimer")}</p>
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-foreground">Quick Services</p>
+            <ul className="space-y-1.5 text-xs">
+              <li>
+                <Link to="/" className="hover:text-primary transition-colors">Live Train Tracking</Link>
+              </li>
+              <li>
+                <Link to="/network" className="hover:text-primary transition-colors">Pan-India Rail Map</Link>
+              </li>
+              <li>
+                <Link to="/pnr" className="hover:text-primary transition-colors">PNR Status & Berths</Link>
+              </li>
+              <li>
+                <Link to="/connecting-impact" className="hover:text-primary transition-colors">Connecting Train Risk</Link>
+              </li>
+            </ul>
+          </div>
+
+          <div className="space-y-2">
+            <p className="text-xs font-semibold uppercase tracking-wider text-foreground">Operations & Dev</p>
+            <ul className="space-y-1.5 text-xs">
+              <li>
+                <Link to="/control-room" className="hover:text-primary transition-colors font-medium">
+                  Section Control Room 🔒
+                </Link>
+              </li>
+              <li>
+                <Link to="/developer" className="hover:text-primary transition-colors text-primary font-medium flex items-center gap-1">
+                  <span>REST API & OpenAPI</span>
+                  <ArrowUpRight className="size-3" />
+                </Link>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs">
+          <p>© {new Date().getFullYear()} RailDristhi • Smart India Hackathon (SIH 2026)</p>
+          <p className="text-muted-foreground/80">Independent AI & Transit Telemetry System</p>
+        </div>
       </div>
     </footer>
   );

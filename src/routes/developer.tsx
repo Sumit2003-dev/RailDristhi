@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import {
   Code,
   Terminal,
@@ -12,7 +12,6 @@ import {
   Zap,
   ArrowRight,
   Clock,
-  CheckCircle2,
 } from "lucide-react";
 import { toast } from "sonner";
 import { SiteHeader } from "@/components/rail/SiteHeader";

@@ -41,7 +41,7 @@ Indian Railways operates over **13,000 passenger trains** carrying **24+ Million
 ## ✨ Key Innovations & Features
 
 ### 🧠 1. Multi-Variable ETA Forecasting Model
-- **Physics + Empirical Drift Engine**: Combines real station-level scrape baselines, recent 2025 past-run empirical distributions, and halt-by-halt drift decay.
+- **Physics + Empirical Drift Engine**: Combines real station-level scrape baselines, empirical multi-run delay distributions, and halt-by-halt drift decay.
 - **Dynamic Uncertainty Windows**: Replaces misleading single-timestamp estimates with an **$80\%$ confidence arrival window** (e.g. `08:32 - 08:52` with confidence rating).
 - **Environmental Context**: Automatically factors in adverse weather penalties (fog, heavy rain) and peak-hour suburban junction crowding.
 
@@ -83,7 +83,7 @@ flowchart TB
     subgraph DataPipeline ["Data & Ingestion Pipeline (scripts/ingest.mjs)"]
         CSV1["Station Delay Scrapes"]
         CSV2["100+ Train Timetables"]
-        CSV3["2025 Multi-Run Delays"]
+        CSV3["Multi-Run Historical Delays"]
         JSON1["Station Geo-Coordinates"]
         GEN["Compiled Typed TS Modules in src/data/generated/"]
         CSV1 & CSV2 & CSV3 & JSON1 --> GEN

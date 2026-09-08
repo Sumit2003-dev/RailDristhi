@@ -3,7 +3,7 @@ import { toast } from "sonner";
 import type { TrainRoute, Halt } from "@/data/trains";
 import type { LiveStatus } from "@/lib/liveStatus";
 import type { DelayForecast } from "@/lib/etaModel";
-import { fmtMinutes } from "@/lib/liveStatus";
+import { fmtMinutes, getHaltPlatform } from "@/lib/liveStatus";
 
 export type GpsLocation = {
   lat: number;
@@ -81,10 +81,13 @@ function computeGpsStatus(train: TrainRoute, gps: GpsLocation): LiveStatus {
       scheduled: fmtMinutes(haltArrMin),
       expected: fmtMinutes(haltArrMin),
       forecast: createForecast(haltArrMin),
+      platform: getHaltPlatform(train.number, h.code, h.platform),
       done: isDone,
       isNext,
     };
   });
+
+  const targetHalt = nextHalt ?? closestHalt;
 
   return {
     state,
@@ -99,6 +102,7 @@ function computeGpsStatus(train: TrainRoute, gps: GpsLocation): LiveStatus {
     lastHalt: closestHalt,
     nextHalt,
     etaNext: nextHalt ? fmtMinutes(train.startsAt + nextHalt.arr) : "Arrived",
+    expectedPlatform: getHaltPlatform(train.number, targetHalt.code, targetHalt.platform),
     haltStatus,
     updatedAt: gps.timestamp,
     forecast: createForecast(nextArrMin),

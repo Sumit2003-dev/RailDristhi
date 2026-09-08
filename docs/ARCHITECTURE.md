@@ -34,7 +34,7 @@ flowchart TB
     subgraph DataIngestion ["Data Pipeline & Scrape Ingestion Engine (scripts/ingest.mjs)"]
         CSV_Delay["Historical Delay Dataset (Station-Level)"]
         CSV_Routes["Train Timetables & Route Network Dataset"]
-        CSV_History["Recent Past Run Delays Dataset (2025)"]
+        CSV_History["Recent Past Run Delays Dataset (Empirical Multi-Run)"]
         JSON_Stations["Geo-Coordinates Dictionary (stations.json)"]
     end
 
@@ -211,7 +211,7 @@ railsaarthi-main/
 │   │   ├── generated/                   # Ingested datasets compiled into typed modules
 │   │   │   ├── delayStats.ts            # Station-level historical delay benchmarks
 │   │   │   ├── routes.ts                # Real timetables for 100+ major routes
-│   │   │   ├── runHistory.ts            # Recent 2025 multi-run empirical delays
+│   │   │   ├── runHistory.ts            # Recent multi-run empirical delay distributions
 │   │   │   └── stations.ts              # Station geo-coordinates and names
 │   │   ├── rail.ts                      # Common types and domain helpers
 │   │   ├── trainTypes.ts                # Rajdhani, Shatabdi, Vande Bharat, etc.

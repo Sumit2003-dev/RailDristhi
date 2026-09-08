@@ -80,24 +80,56 @@ export function SearchPanel() {
 
   return (
     <div className="space-y-4">
-      {/* Live map link banner */}
-      <Link
-        to="/network"
-        className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 shadow-card transition-colors hover:bg-secondary/40"
-      >
-        <div className="flex items-center gap-3">
-          <span className="flex size-10 items-center justify-center rounded-xl bg-hero-gradient text-primary-foreground">
-            <Radar className="size-5" />
-          </span>
-          <div>
-            <p className="text-sm font-semibold">{t("search.liveNetworkMap")}</p>
-            <p className="text-xs text-muted-foreground">{t("search.liveNetworkMapSub")}</p>
-          </div>
+      {/* Live train status search */}
+      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
+        <div className="flex items-center gap-2 border-b border-border bg-subtle-gradient px-4 py-3">
+          <Radar className="size-4 text-primary" />
+          <p className="text-sm font-semibold">{t("search.liveTrainStatus")}</p>
         </div>
-        <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
-          {t("search.open")} <ArrowRight className="size-4" />
-        </span>
-      </Link>
+        <div className="p-4">
+          <form
+            className="flex items-center gap-2"
+            onSubmit={(e) => {
+              e.preventDefault();
+              track();
+            }}
+          >
+            <Input
+              value={train}
+              onChange={(e) => setTrain(e.target.value)}
+              placeholder={t("search.trainPlaceholder")}
+              className="h-11"
+            />
+            <Button
+              type="submit"
+              size="icon"
+              className="size-11 shrink-0 rounded-xl"
+              aria-label={t("search.trackTrain")}
+            >
+              <Search className="size-4" />
+            </Button>
+          </form>
+
+          {trainSuggestions.length > 0 && (
+            <ul className="mt-2 space-y-1">
+              {trainSuggestions.map((s) => (
+                <li key={s.number}>
+                  <Link
+                    to="/train/$number"
+                    params={{ number: s.number }}
+                    className="flex items-center justify-between rounded-lg px-2 py-2 text-sm transition-colors hover:bg-secondary/60"
+                  >
+                    <span>
+                      <span className="text-muted-foreground font-mono">{s.number}</span> {s.name}
+                    </span>
+                    <ChevronRight className="size-4 text-muted-foreground" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
 
       {/* Trains between stations */}
       <div
@@ -234,56 +266,24 @@ export function SearchPanel() {
         </div>
       </div>
 
-      {/* Live train status search */}
-      <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">
-        <div className="flex items-center gap-2 border-b border-border bg-subtle-gradient px-4 py-3">
-          <Radar className="size-4 text-primary" />
-          <p className="text-sm font-semibold">{t("search.liveTrainStatus")}</p>
+      {/* Live map link banner */}
+      <Link
+        to="/network"
+        className="flex items-center justify-between gap-4 rounded-2xl border border-border bg-card p-4 shadow-card transition-colors hover:bg-secondary/40"
+      >
+        <div className="flex items-center gap-3">
+          <span className="flex size-10 items-center justify-center rounded-xl bg-hero-gradient text-primary-foreground">
+            <Radar className="size-5" />
+          </span>
+          <div>
+            <p className="text-sm font-semibold">{t("search.liveNetworkMap")}</p>
+            <p className="text-xs text-muted-foreground">{t("search.liveNetworkMapSub")}</p>
+          </div>
         </div>
-        <div className="p-4">
-          <form
-            className="flex items-center gap-2"
-            onSubmit={(e) => {
-              e.preventDefault();
-              track();
-            }}
-          >
-            <Input
-              value={train}
-              onChange={(e) => setTrain(e.target.value)}
-              placeholder={t("search.trainPlaceholder")}
-              className="h-11"
-            />
-            <Button
-              type="submit"
-              size="icon"
-              className="size-11 shrink-0 rounded-xl"
-              aria-label={t("search.trackTrain")}
-            >
-              <Search className="size-4" />
-            </Button>
-          </form>
-
-          {trainSuggestions.length > 0 && (
-            <ul className="mt-2 space-y-1">
-              {trainSuggestions.map((s) => (
-                <li key={s.number}>
-                  <Link
-                    to="/train/$number"
-                    params={{ number: s.number }}
-                    className="flex items-center justify-between rounded-lg px-2 py-2 text-sm transition-colors hover:bg-secondary/60"
-                  >
-                    <span>
-                      <span className="text-muted-foreground font-mono">{s.number}</span> {s.name}
-                    </span>
-                    <ChevronRight className="size-4 text-muted-foreground" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </div>
+        <span className="inline-flex items-center gap-1 text-sm font-medium text-primary">
+          {t("search.open")} <ArrowRight className="size-4" />
+        </span>
+      </Link>
 
       {/* Quick services */}
       <div className="overflow-hidden rounded-2xl border border-border bg-card shadow-card">

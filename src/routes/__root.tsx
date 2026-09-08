@@ -9,6 +9,8 @@ import {
 } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { LanguageProvider, useTranslation } from "@/lib/i18n";
+import { AuthProvider } from "@/lib/auth";
+import { AuthModal } from "@/components/rail/AuthModal";
 
 import appCss from "../styles.css?url";
 
@@ -108,7 +110,12 @@ function RootShell({ children }: { children: ReactNode }) {
         <HeadContent />
       </head>
       <body>
-        <LanguageProvider>{children}</LanguageProvider>
+        <LanguageProvider>
+          <AuthProvider>
+            {children}
+            <AuthModal />
+          </AuthProvider>
+        </LanguageProvider>
         <Scripts />
       </body>
     </html>

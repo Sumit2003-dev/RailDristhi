@@ -16,7 +16,7 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/co
 import { DelayReasonTag } from "./DelayReasonTag";
 import type { TrainRoute, Halt } from "@/data/trains";
 import type { LiveStatus } from "@/lib/liveStatus";
-import { fmtMinutes } from "@/lib/liveStatus";
+import { fmtMinutes, getHaltPlatform } from "@/lib/liveStatus";
 
 interface TrainTrackTimelineProps {
   train: TrainRoute;
@@ -140,6 +140,7 @@ function getHaltRows(train: TrainRoute, status: LiveStatus | null) {
       scheduled: fmtMinutes(train.startsAt + halt.arr),
       expected: "—",
       forecast: null,
+      platform: getHaltPlatform(train.number, halt.code, halt.platform),
       done: false,
       isNext: false,
     }))
@@ -440,14 +441,19 @@ export function TrainTrackTimeline({
                 </span>
                 <span>•</span>
                 <span>{row.halt.km} km</span>
-                {row.halt.platform && row.halt.platform !== "-" && (
-                  <>
-                    <span>•</span>
-                    <span className="inline-flex items-center gap-0.5 rounded-md border border-border bg-secondary px-1 py-0.2 text-[8.5px] font-semibold text-secondary-foreground">
-                      PF {row.halt.platform} <Edit2 className="size-2 opacity-50" />
-                    </span>
-                  </>
-                )}
+                <span>•</span>
+                <span
+                  className={`inline-flex items-center gap-1 rounded-md px-1.5 py-0.2 text-[8.5px] ${
+                    isNextHalt
+                      ? "bg-primary text-primary-foreground font-bold shadow-xs"
+                      : isTrainHaltedHere
+                        ? "bg-amber-500 text-white font-bold shadow-xs"
+                        : "border border-border bg-secondary text-secondary-foreground font-semibold"
+                  }`}
+                  title={`Arrival Platform ${row.platform || (row.halt.platform !== "-" ? row.halt.platform : "1")}`}
+                >
+                  PF {row.platform || (row.halt.platform !== "-" ? row.halt.platform : "1")}
+                </span>
                 {isTrainHaltedHere && (
                   <span className="inline-flex items-center gap-1 rounded-md bg-amber-500/15 border border-amber-500/30 px-1.5 py-0.2 text-[9px] font-bold text-amber-600 dark:text-amber-400">
                     Halted at Platform

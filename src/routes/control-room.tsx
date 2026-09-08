@@ -3,6 +3,7 @@ import { Toaster } from "@/components/ui/sonner";
 import { SiteHeader } from "@/components/rail/SiteHeader";
 import { SiteFooter } from "@/components/rail/Sections";
 import { ControlRoomDashboard } from "@/components/rail/ControlRoomDashboard";
+import { ControlRoomAuthGuard } from "@/components/rail/ControlRoomAuthGuard";
 import { useTranslation } from "@/lib/i18n";
 
 export const Route = createFileRoute("/control-room")({
@@ -37,7 +38,9 @@ function ControlRoomPage() {
         </div>
 
         <div className="mt-6">
-          <ControlRoomDashboard />
+          <ControlRoomAuthGuard>
+            <ControlRoomDashboard />
+          </ControlRoomAuthGuard>
         </div>
       </main>
 

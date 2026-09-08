@@ -77,9 +77,10 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     };
 
     // Try target language, fallback to English
-    const dicts = translations as Record<string, Record<string, unknown>>;
-    const currentDict = dicts[language] || dicts.en;
-    let str = getVal(currentDict) ?? getVal(dicts.en) ?? path;
+    const dicts = translations as Record<string, Record<string, unknown> | undefined>;
+    const enDict = dicts["en"] ?? {};
+    const currentDict = dicts[language] ?? enDict;
+    let str = (currentDict ? getVal(currentDict) : undefined) ?? getVal(enDict) ?? path;
 
     if (params) {
       Object.entries(params).forEach(([k, v]) => {

@@ -227,6 +227,110 @@ function TrainStatus() {
               </p>
             </div>
 
+            {/* Live Arrival Platform & Stoppage Intelligence Section */}
+            {status && (
+              <div className="rounded-2xl border border-primary/25 bg-primary/5 p-5 shadow-card space-y-4">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-primary/20 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-xs shadow-xs">
+                      PF
+                    </span>
+                    <div>
+                      <h2 className="text-sm font-bold text-foreground">
+                        Live Arrival Platform & Stoppage Guide
+                      </h2>
+                      <p className="text-[11px] text-muted-foreground">
+                        Expected platform allocation for approaching station & upcoming halts
+                      </p>
+                    </div>
+                  </div>
+                  <span className="rounded-md bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30 px-2 py-0.5 font-mono text-[11px] font-bold">
+                    Active Berth & Platform Sync
+                  </span>
+                </div>
+
+                {/* Primary Approaching Station Platform Feature Box */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-xl border border-border bg-card p-4">
+                  <div className="space-y-1">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-muted-foreground">
+                      <MapPin className="size-3.5 text-primary" />
+                      Approaching Station
+                    </span>
+                    <p className="text-lg font-extrabold text-foreground">
+                      {status.nextHalt ? status.nextHalt.name : status.lastHalt.name}{" "}
+                      <span className="font-mono text-sm font-normal text-muted-foreground">
+                        ({status.nextHalt ? status.nextHalt.code : status.lastHalt.code})
+                      </span>
+                    </p>
+                    <div className="flex flex-wrap items-center gap-2 pt-0.5 text-xs text-muted-foreground">
+                      <span>
+                        Expected Arrival:{" "}
+                        <strong className="text-foreground font-mono">{status.etaNext}</strong>
+                      </span>
+                      <span>•</span>
+                      <span>
+                        Halt:{" "}
+                        <strong className="text-foreground">
+                          {status.nextHalt
+                            ? `${Math.max(1, status.nextHalt.dep - status.nextHalt.arr)} min`
+                            : "Terminus"}
+                        </strong>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3 self-start sm:self-center">
+                    <div className="text-right">
+                      <span className="block text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
+                        Assigned Arrival
+                      </span>
+                      <span className="block font-mono text-xs text-emerald-600 dark:text-emerald-400 font-semibold">
+                        Confirmed Entry
+                      </span>
+                    </div>
+                    <div className="flex flex-col items-center justify-center rounded-xl border-2 border-primary bg-primary/10 px-4 py-2 text-center shadow-xs">
+                      <span className="text-[10px] font-extrabold uppercase text-primary tracking-widest">
+                        PLATFORM
+                      </span>
+                      <span className="font-mono text-3xl font-black text-primary leading-none mt-0.5">
+                        {status.expectedPlatform}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Upcoming 3 Halts Platform Quick Strip */}
+                {status.haltStatus.filter((h) => !h.done).length > 1 && (
+                  <div className="space-y-2 pt-1">
+                    <p className="text-[11px] font-semibold text-muted-foreground">
+                      Upcoming En-Route Stations & Platforms:
+                    </p>
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                      {status.haltStatus
+                        .filter((h) => !h.done)
+                        .slice(0, 3)
+                        .map((h) => (
+                          <div
+                            key={h.halt.code}
+                            className="flex items-center justify-between rounded-lg border border-border/70 bg-card/60 p-2.5 text-xs"
+                          >
+                            <div className="min-w-0 flex-1 pr-2">
+                              <p className="font-bold text-foreground truncate">{h.halt.name}</p>
+                              <p className="text-[10px] font-mono text-muted-foreground">
+                                ETA: {h.forecast ? h.forecast.eta : h.scheduled}
+                              </p>
+                            </div>
+                            <span className="shrink-0 rounded-md bg-secondary border border-border px-2 py-1 font-mono text-xs font-bold text-primary">
+                              PF {h.platform}
+                            </span>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
             {/* Single Source of Truth Station Schedule: Realistic Track-Ladder Panel */}
             <TrainTrackTimeline
               train={train}
