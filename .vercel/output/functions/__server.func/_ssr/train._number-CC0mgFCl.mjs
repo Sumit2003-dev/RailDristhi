@@ -3,7 +3,7 @@ import { u as require_react } from "../_libs/@floating-ui/react-dom+[...].mjs";
 import { v as require_jsx_runtime } from "../_libs/@radix-ui/react-accordion+[...].mjs";
 import { h as useTranslation } from "./rail-BA0H0A_E.mjs";
 import { h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
-import { $ as ChevronDown, A as Layers, E as MapPin, H as Compass, I as Gauge, K as Clock, M as Key, Z as ChevronUp, _ as Satellite, ct as ArrowLeft, et as Check, f as SlidersHorizontal, h as ShieldAlert, s as TrainFront, tt as Calendar, v as Route, w as Navigation, x as Radio, y as RotateCw } from "../_libs/lucide-react.mjs";
+import { A as Layers, E as MapPin, F as Gauge, G as Clock, Q as ChevronDown, V as Compass, X as ChevronUp, _ as Satellite, et as Calendar, f as SlidersHorizontal, h as ShieldAlert, s as TrainFront, st as ArrowLeft, v as Route, w as Navigation, x as Radio, y as RotateCw } from "../_libs/lucide-react.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { a as Sheet, c as SheetTitle, d as SiteHeader, l as SheetTrigger, o as SheetContent, s as SheetHeader, u as SiteFooter } from "./Sections-DOjZPygy.mjs";
 import { t as Toaster$1 } from "./sonner-DoFKumIW.mjs";
@@ -11,8 +11,8 @@ import { a as fmtMinutes, i as delayTone, o as getHaltPlatform, r as delayLabel,
 import { t as useLiveClock } from "./useLiveClock-ZsXIJzCR.mjs";
 import { n as EtaConfidenceBadge, t as DelayReasonTag } from "./DelayReasonTag-BotOkrrT.mjs";
 import { a as useMap, i as Map$1, n as AdvancedMarker, o as useMapsLibrary, r as InfoWindow, t as APIProvider } from "../_libs/vis.gl__react-google-maps.mjs";
-import { t as Route$1 } from "./train._number-CVuNERRO.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/train._number-BTX5iAn6.js
+import { t as Route$1 } from "./train._number-DVdfJT-Z.mjs";
+//#region node_modules/.nitro/vite/services/ssr/assets/train._number-CC0mgFCl.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var DEFAULT_MAPS_KEY = typeof import.meta !== "undefined" && {
@@ -198,8 +198,6 @@ function GoogleMapsCameraHandler({ halts, position, focusTrain, onResetFocus }) 
 }
 function RouteMap({ halts, position, className = "", isMoving = false }) {
 	const [apiKey, setApiKey] = (0, import_react.useState)(DEFAULT_MAPS_KEY);
-	const [showKeyDialog, setShowKeyDialog] = (0, import_react.useState)(false);
-	const [inputKey, setInputKey] = (0, import_react.useState)("");
 	const [mapType, setMapType] = (0, import_react.useState)("roadmap");
 	const [focusTrainTrigger, setFocusTrainTrigger] = (0, import_react.useState)(false);
 	const [selectedHalt, setSelectedHalt] = (0, import_react.useState)(null);
@@ -208,12 +206,6 @@ function RouteMap({ halts, position, className = "", isMoving = false }) {
 		const saved = localStorage.getItem("GMP_API_KEY");
 		if (saved && !apiKey) setApiKey(saved);
 	}, [apiKey]);
-	const handleSaveKey = (keyToSave) => {
-		const trimmed = keyToSave.trim();
-		setApiKey(trimmed);
-		localStorage.setItem("GMP_API_KEY", trimmed);
-		setShowKeyDialog(false);
-	};
 	const defaultCenter = (0, import_react.useMemo)(() => {
 		if (position) return position;
 		if (halts.length > 0) {
@@ -287,64 +279,14 @@ function RouteMap({ halts, position, className = "", isMoving = false }) {
 							})
 						]
 					})]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
 					className: "flex items-center gap-1.5",
-					children: [position && viewMode === "google" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
+					children: position && viewMode === "google" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
 						onClick: () => setFocusTrainTrigger(true),
 						className: "inline-flex items-center gap-1 rounded-lg border border-primary/30 bg-primary/10 px-2 py-1 text-[11px] font-bold text-primary hover:bg-primary/20 transition-colors cursor-pointer",
 						title: "Recenter Camera on Live Train Engine",
 						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Navigation, { className: "size-3" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "Track Train" })]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-						onClick: () => setShowKeyDialog(!showKeyDialog),
-						className: `flex size-7 items-center justify-center rounded-lg border transition-colors cursor-pointer ${apiKey ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400" : "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400 animate-pulse"}`,
-						title: "Configure Google Maps API Key",
-						children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Key, { className: "size-3.5" })
-					})]
-				})]
-			}),
-			showKeyDialog && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-				className: "border-b border-primary/20 bg-primary/5 p-3 text-xs",
-				children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "flex items-start justify-between gap-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-						className: "space-y-1",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-							className: "font-bold text-foreground flex items-center gap-1.5",
-							children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Key, { className: "size-3.5 text-primary" }), "Google Maps API Configuration"]
-						}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", {
-							className: "text-[11px] text-muted-foreground",
-							children: [
-								"Enter your Google Cloud Maps JavaScript API key, or generate a free",
-								" ",
-								/* @__PURE__ */ (0, import_jsx_runtime.jsx)("a", {
-									href: "https://mapsplatform.google.com/maps-demo-key?utm_campaign=gmp_git_agentskills_v1",
-									target: "_blank",
-									rel: "noopener noreferrer",
-									className: "text-primary underline font-medium",
-									children: "Maps Demo Key"
-								}),
-								" ",
-								"(no billing required)."
-							]
-						})]
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", {
-						onClick: () => setShowKeyDialog(false),
-						className: "text-muted-foreground hover:text-foreground text-sm font-bold",
-						children: "✕"
-					})]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
-					className: "mt-2.5 flex items-center gap-2",
-					children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", {
-						type: "text",
-						placeholder: "AIzaSy... (Paste API Key)",
-						value: inputKey,
-						onChange: (e) => setInputKey(e.target.value),
-						className: "flex-1 rounded-lg border border-border bg-card px-2.5 py-1.5 font-mono text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-hidden"
-					}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", {
-						onClick: () => handleSaveKey(inputKey),
-						className: "inline-flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 font-bold text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer",
-						children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { className: "size-3.5" }), "Save"]
-					})]
+					})
 				})]
 			}),
 			/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {

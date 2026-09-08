@@ -1,7 +1,7 @@
 import { f as lazyRouteComponent, j as notFound, p as createFileRoute } from "../_libs/@tanstack/react-router+[...].mjs";
 import { f as getTrain } from "./ssr.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/train._number-CVuNERRO.js
-var $$splitComponentImporter = () => import("./train._number-BTX5iAn6.mjs");
+//#region node_modules/.nitro/vite/services/ssr/assets/train._number-DVdfJT-Z.js
+var $$splitComponentImporter = () => import("./train._number-CC0mgFCl.mjs");
 var $$splitNotFoundComponentImporter = () => import("./train._number-DEqquNgX.mjs");
 var Route = createFileRoute("/train/$number")({
 	loader: ({ params }) => {

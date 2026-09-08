@@ -12,13 +12,10 @@ import {
 import {
   TrainFront,
   Layers,
-  Key,
-  Check,
   AlertTriangle,
   Clock,
   Compass,
   ArrowRight,
-  SlidersHorizontal,
 } from "lucide-react";
 import { trainRoutes } from "@/data/trains";
 import type { TrainRoute } from "@/data/trains";
@@ -122,8 +119,6 @@ type Props = {
 
 export function NetworkMap({ className = "" }: Props) {
   const [apiKey, setApiKey] = useState<string>(DEFAULT_MAPS_KEY);
-  const [showKeyDialog, setShowKeyDialog] = useState(false);
-  const [inputKey, setInputKey] = useState("");
   const [mapType, setMapType] = useState<"roadmap" | "satellite" | "hybrid" | "terrain">("roadmap");
   const [viewMode, setViewMode] = useState<"google" | "schematic">("google");
   const [filterMode, setFilterMode] = useState<"all" | "delayed" | "on-time">("all");
@@ -141,13 +136,6 @@ export function NetworkMap({ className = "" }: Props) {
       setApiKey(saved);
     }
   }, [apiKey]);
-
-  const handleSaveKey = (keyToSave: string) => {
-    const trimmed = keyToSave.trim();
-    setApiKey(trimmed);
-    localStorage.setItem("GMP_API_KEY", trimmed);
-    setShowKeyDialog(false);
-  };
 
   // Live Train Status Calculations
   const liveTrains = useMemo(() => {
@@ -275,71 +263,7 @@ export function NetworkMap({ className = "" }: Props) {
             </button>
           </div>
         </div>
-
-        <div className="flex items-center gap-2">
-          {/* API Key Modal Button */}
-          <button
-            onClick={() => setShowKeyDialog(!showKeyDialog)}
-            className={`flex size-7 items-center justify-center rounded-lg border transition-colors cursor-pointer ${
-              apiKey
-                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400"
-                : "border-amber-500/40 bg-amber-500/10 text-amber-600 dark:text-amber-400 animate-pulse"
-            }`}
-            title="Configure Google Maps API Key"
-          >
-            <Key className="size-3.5" />
-          </button>
-        </div>
       </div>
-
-      {/* API Key Setup Banner */}
-      {showKeyDialog && (
-        <div className="border-b border-primary/20 bg-primary/5 p-3 text-xs">
-          <div className="flex items-start justify-between gap-2">
-            <div className="space-y-1">
-              <p className="font-bold text-foreground flex items-center gap-1.5">
-                <Key className="size-3.5 text-primary" />
-                Google Maps API Configuration
-              </p>
-              <p className="text-[11px] text-muted-foreground">
-                Enter your Google Maps JavaScript API key, or use a free{" "}
-                <a
-                  href="https://mapsplatform.google.com/maps-demo-key?utm_campaign=gmp_git_agentskills_v1"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-primary underline font-medium"
-                >
-                  Maps Demo Key
-                </a>{" "}
-                (no credit card required).
-              </p>
-            </div>
-            <button
-              onClick={() => setShowKeyDialog(false)}
-              className="text-muted-foreground hover:text-foreground text-sm font-bold"
-            >
-              ✕
-            </button>
-          </div>
-
-          <div className="mt-2.5 flex items-center gap-2">
-            <input
-              type="text"
-              placeholder="AIzaSy... (Paste API Key)"
-              value={inputKey}
-              onChange={(e) => setInputKey(e.target.value)}
-              className="flex-1 rounded-lg border border-border bg-card px-2.5 py-1.5 font-mono text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-hidden"
-            />
-            <button
-              onClick={() => handleSaveKey(inputKey)}
-              className="inline-flex items-center gap-1 rounded-lg bg-primary px-3 py-1.5 font-bold text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
-            >
-              <Check className="size-3.5" />
-              Save
-            </button>
-          </div>
-        </div>
-      )}
 
       {/* Main Map Canvas */}
       <div className="relative flex-1 min-h-[500px] w-full bg-slate-900/10">
