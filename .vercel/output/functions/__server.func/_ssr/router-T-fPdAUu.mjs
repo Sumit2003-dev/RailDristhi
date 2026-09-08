@@ -11,7 +11,7 @@ import { t as Route } from "./station._code-CiRFTHo4.mjs";
 import { t as Route$8 } from "./train._number-DVdfJT-Z.mjs";
 import { t as QueryClientProvider } from "../_libs/tanstack__react-query.mjs";
 import { t as QueryClient } from "../_libs/tanstack__query-core.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/router-Bez-Ecnd.js
+//#region node_modules/.nitro/vite/services/ssr/assets/router-T-fPdAUu.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 var Dialog = Dialog$1;
@@ -275,7 +275,7 @@ function AuthModal() {
 		})
 	});
 }
-var styles_default = "/assets/styles-DHHEHSxq.css";
+var styles_default = "/assets/styles-C3f7b-CS.css";
 function NotFoundComponent() {
 	const { t } = useTranslation();
 	return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", {
@@ -421,7 +421,7 @@ function RootComponent() {
 		children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Outlet, {})
 	});
 }
-var $$splitComponentImporter$5 = () => import("./routes-E6CzGEP8.mjs");
+var $$splitComponentImporter$5 = () => import("./routes-Drx1lhoB.mjs");
 var Route$6 = createFileRoute("/")({
 	component: lazyRouteComponent($$splitComponentImporter$5, "component"),
 	head: () => ({ meta: [

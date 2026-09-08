@@ -1,4 +1,4 @@
-//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-D-hJlJtK.js
+//#region node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DBzMhTdP.js
 var tsrStartManifest = () => ({ routes: {
 	__root__: {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/__root.tsx",
@@ -12,18 +12,18 @@ var tsrStartManifest = () => ({ routes: {
 			"/station/$code",
 			"/train/$number"
 		],
-		preloads: ["/assets/index-CzvxaijY.js", "/assets/rail-5wsIBkrG.js"],
+		preloads: ["/assets/index-C_o4gUG1.js", "/assets/rail-5wsIBkrG.js"],
 		scripts: [{ attrs: {
 			type: "module",
 			async: !0,
-			src: "/assets/index-CzvxaijY.js"
+			src: "/assets/index-C_o4gUG1.js"
 		} }]
 	},
 	"/": {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/index.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/routes-BZG8AUB0.js",
+			"/assets/routes-C_cdG9ON.js",
 			"/assets/arrow-up-down-CTf58xCW.js",
 			"/assets/Sections-oMQ_y7TG.js",
 			"/assets/DelayReasonTag-DTrcIFHP.js",
@@ -39,7 +39,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/connecting-impact.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/connecting-impact-DDgO56Yg.js",
+			"/assets/connecting-impact-BOdrNJJm.js",
 			"/assets/Sections-oMQ_y7TG.js",
 			"/assets/clock-Dw4WcwGE.js",
 			"/assets/triangle-alert-B4ZkRRWN.js",
@@ -50,7 +50,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/control-room.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/control-room-g2n8hFEA.js",
+			"/assets/control-room-Bq0Jj_at.js",
 			"/assets/arrow-up-down-CTf58xCW.js",
 			"/assets/Sections-oMQ_y7TG.js",
 			"/assets/sliders-horizontal-CJevvHa1.js",
@@ -65,7 +65,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/developer.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/developer-CILY1VBx.js",
+			"/assets/developer-1xN6jlLx.js",
 			"/assets/Sections-oMQ_y7TG.js",
 			"/assets/clock-Dw4WcwGE.js",
 			"/assets/sonner-DmSS6PVK.js"
@@ -75,7 +75,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/network.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/network-C3kawtEY.js",
+			"/assets/network-DJGrfOcc.js",
 			"/assets/Sections-oMQ_y7TG.js",
 			"/assets/index.modern-ByfxIExt.js",
 			"/assets/sonner-DmSS6PVK.js",
@@ -86,7 +86,7 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/pnr.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/pnr-m_F-LKjc.js",
+			"/assets/pnr-DwnkR2pO.js",
 			"/assets/Sections-oMQ_y7TG.js",
 			"/assets/calendar-Drnx0-rq.js",
 			"/assets/clock-Dw4WcwGE.js",
@@ -99,21 +99,21 @@ var tsrStartManifest = () => ({ routes: {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/station.$code.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/station._code-0QmMtx23.js",
-			"/assets/arrow-left-CBKUCOHo.js",
+			"/assets/station._code-DB4LxnEw.js",
 			"/assets/Sections-oMQ_y7TG.js",
+			"/assets/station._code-vyiU0EJD.js",
+			"/assets/arrow-left-CBKUCOHo.js",
 			"/assets/DelayReasonTag-DTrcIFHP.js",
 			"/assets/clock-Dw4WcwGE.js",
 			"/assets/sonner-DmSS6PVK.js",
-			"/assets/useLiveClock-Bn9j34OL.js",
-			"/assets/station._code-DB4LxnEw.js"
+			"/assets/useLiveClock-Bn9j34OL.js"
 		]
 	},
 	"/train/$number": {
 		filePath: "C:/Users/SUMIT KUMAR/OneDrive/Desktop/railsaarthi-main/railsaarthi-main/src/routes/train.$number.tsx",
 		children: void 0,
 		preloads: [
-			"/assets/train._number-C3R82EI-.js",
+			"/assets/train._number-0qt4abNd.js",
 			"/assets/arrow-left-CBKUCOHo.js",
 			"/assets/Sections-oMQ_y7TG.js",
 			"/assets/calendar-Drnx0-rq.js",

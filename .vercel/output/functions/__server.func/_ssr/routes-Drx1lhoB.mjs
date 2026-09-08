@@ -4,19 +4,20 @@ import { v as require_jsx_runtime } from "../_libs/@radix-ui/react-accordion+[..
 import { h as useTranslation, r as Button } from "./rail-BA0H0A_E.mjs";
 import { t as Input } from "./input-_99zOX8c.mjs";
 import { g as useNavigate, h as Link } from "../_libs/@tanstack/react-router+[...].mjs";
-import { E as MapPin, F as Gauge, G as Clock, I as Funnel, L as FileText, S as Radar, U as CodeXml, Z as ChevronRight, at as ArrowUpDown, g as Search, k as LayoutList, lt as Armchair, ot as ArrowRight } from "../_libs/lucide-react.mjs";
+import { E as MapPin, F as Gauge, G as Clock, I as Funnel, L as FileText, S as Radar, U as CodeXml, Z as ChevronRight, at as ArrowUpDown, g as Search, k as LayoutList, lt as Armchair, ot as ArrowRight, s as TrainFront } from "../_libs/lucide-react.mjs";
 import { n as toast } from "../_libs/sonner.mjs";
 import { d as SiteHeader, f as Stations, i as Networks, n as Faq, r as Features, t as ApiBanner, u as SiteFooter } from "./Sections-DOjZPygy.mjs";
 import { t as Toaster$1 } from "./sonner-DoFKumIW.mjs";
-import { d as findTrains, i as delayTone, p as trainRoutes, r as delayLabel, t as computeLiveStatus, u as stationMap } from "./ssr.mjs";
+import { a as fmtMinutes, d as findTrains, i as delayTone, o as getHaltPlatform, p as trainRoutes, r as delayLabel, t as computeLiveStatus, u as stationMap } from "./ssr.mjs";
 import { t as useLiveClock } from "./useLiveClock-ZsXIJzCR.mjs";
 import { n as EtaConfidenceBadge, t as DelayReasonTag } from "./DelayReasonTag-BotOkrrT.mjs";
-//#region node_modules/.nitro/vite/services/ssr/assets/routes-E6CzGEP8.js
+//#region node_modules/.nitro/vite/services/ssr/assets/routes-Drx1lhoB.js
 var import_react = /* @__PURE__ */ __toESM(require_react());
 var import_jsx_runtime = require_jsx_runtime();
 function SearchPanel() {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
+	const now = useLiveClock(5e3);
 	const [from, setFrom] = (0, import_react.useState)("");
 	const [to, setTo] = (0, import_react.useState)("");
 	const [train, setTrain] = (0, import_react.useState)("");
@@ -36,16 +37,51 @@ function SearchPanel() {
 		const f = from.trim().toLowerCase();
 		const t = to.trim().toLowerCase();
 		if (!f || !t) return [];
-		return trainRoutes.filter((r) => {
+		return trainRoutes.map((r) => {
 			const fi = r.halts.findIndex((s) => s.code.toLowerCase() === f || s.name.toLowerCase().includes(f));
 			const ti = r.halts.findIndex((s) => s.code.toLowerCase() === t || s.name.toLowerCase().includes(t));
-			return fi !== -1 && ti !== -1 && fi < ti;
-		});
-	}, [from, to]);
+			if (fi === -1 || ti === -1 || fi >= ti) return null;
+			const fromHalt = r.halts[fi];
+			const toHalt = r.halts[ti];
+			const depMinutes = r.startsAt + fromHalt.dep;
+			const arrMinutes = r.startsAt + toHalt.arr;
+			const durationMin = Math.max(1, toHalt.arr - fromHalt.dep);
+			const hours = Math.floor(durationMin / 60);
+			const mins = durationMin % 60;
+			const durationStr = `${hours}h ${mins > 0 ? `${mins}m` : ""}`.trim();
+			const distanceKm = Math.max(0, toHalt.km - fromHalt.km);
+			const platform = getHaltPlatform(r.number, fromHalt.code, fromHalt.platform);
+			const live = now ? computeLiveStatus(r, now) : null;
+			const delay = live?.forecast?.delayMin ?? live?.delay ?? 0;
+			return {
+				route: r,
+				fromHalt,
+				toHalt,
+				depTime: fmtMinutes(depMinutes),
+				arrTime: fmtMinutes(arrMinutes),
+				durationStr,
+				distanceKm,
+				platform,
+				live,
+				delay
+			};
+		}).filter((item) => item !== null);
+	}, [
+		from,
+		to,
+		now
+	]);
 	const [showBetween, setShowBetween] = (0, import_react.useState)(false);
 	const swap = () => {
 		setFrom(to);
 		setTo(from);
+	};
+	const handleSearchBetween = () => {
+		if (!from.trim() || !to.trim()) {
+			toast.error(t("search.enterBothStations"));
+			return;
+		}
+		setShowBetween(true);
 	};
 	const track = () => {
 		const match = findTrains(train)[0];
@@ -116,8 +152,12 @@ function SearchPanel() {
 						className: "text-sm font-semibold",
 						children: t("search.trainsBetween")
 					})]
-				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+				}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("form", {
 					className: "relative space-y-2 p-4",
+					onSubmit: (e) => {
+						e.preventDefault();
+						handleSearchBetween();
+					},
 					children: [
 						/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "absolute left-8 top-11 h-8 w-px bg-border" }),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
@@ -138,6 +178,7 @@ function SearchPanel() {
 										className: "h-11 border-0 bg-transparent px-1 shadow-none focus-visible:ring-0"
 									}),
 									/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Button, {
+										type: "button",
 										variant: "outline",
 										size: "icon",
 										"aria-label": t("search.swapStations"),
@@ -154,7 +195,7 @@ function SearchPanel() {
 										setFrom(code);
 										setFocusedInput(null);
 									},
-									className: "flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-left text-xs hover:bg-secondary",
+									className: "flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-left text-xs hover:bg-secondary cursor-pointer",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 										className: "font-semibold text-foreground",
 										children: info.name
@@ -192,7 +233,7 @@ function SearchPanel() {
 										setTo(code);
 										setFocusedInput(null);
 									},
-									className: "flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-left text-xs hover:bg-secondary",
+									className: "flex w-full items-center justify-between rounded-lg px-3 py-1.5 text-left text-xs hover:bg-secondary cursor-pointer",
 									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
 										className: "font-semibold text-foreground",
 										children: info.name
@@ -208,14 +249,8 @@ function SearchPanel() {
 							})]
 						}),
 						/* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Button, {
-							className: "mt-2 h-12 w-full rounded-xl text-base font-semibold",
-							onClick: () => {
-								if (!from.trim() || !to.trim()) {
-									toast.error(t("search.enterBothStations"));
-									return;
-								}
-								setShowBetween(true);
-							},
+							type: "submit",
+							className: "mt-2 h-12 w-full rounded-xl text-base font-semibold cursor-pointer",
 							children: [
 								t("search.viewTrains"),
 								" ",
@@ -223,30 +258,102 @@ function SearchPanel() {
 							]
 						}),
 						showBetween && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("ul", {
-							className: "mt-2 space-y-1.5 border-t border-border pt-3",
+							className: "mt-3 space-y-2 border-t border-border pt-3",
 							children: [between.length === 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", {
 								className: "px-2 py-3 text-center text-xs text-muted-foreground",
 								children: t("search.noDirectService")
-							}), between.map((r) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
-								to: "/train/$number",
-								params: { number: r.number },
-								className: "flex items-center justify-between rounded-xl border border-border bg-secondary/30 px-3 py-2.5 text-sm transition-colors hover:bg-secondary",
-								children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
-									/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
-										className: "font-semibold text-foreground",
-										children: r.name
-									}),
-									" ",
-									/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
-										className: "font-mono text-xs text-muted-foreground",
+							}), between.map(({ route: r, fromHalt, toHalt, depTime, arrTime, durationStr, distanceKm, platform, live, delay }) => {
+								const isRunning = live?.state === "running" || live?.state === "halted";
+								const isDelayed = delay > 5;
+								return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(Link, {
+									to: "/train/$number",
+									params: { number: r.number },
+									className: "group flex flex-col gap-2 rounded-xl border border-border bg-card p-3 text-sm shadow-xs transition-all hover:border-primary/50 hover:bg-secondary/40 hover:shadow-card cursor-pointer",
+									children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "flex items-center justify-between gap-2 border-b border-border/60 pb-2",
+										children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "flex items-center gap-2 min-w-0",
+											children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "flex size-6 shrink-0 items-center justify-center rounded-md bg-primary/10 text-primary",
+												children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TrainFront, { className: "size-3.5" })
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "truncate",
+												children: [
+													/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+														className: "font-bold text-foreground group-hover:text-primary transition-colors",
+														children: r.name
+													}),
+													" ",
+													/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+														className: "font-mono text-xs text-muted-foreground",
+														children: [
+															"(",
+															r.number,
+															")"
+														]
+													})
+												]
+											})]
+										}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+											className: "flex items-center gap-1.5 shrink-0",
+											children: [isRunning ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+												className: `inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[10px] font-bold ${isDelayed ? "bg-amber-500/15 text-amber-600 dark:text-amber-400" : "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400"}`,
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `size-1.5 rounded-full ${isDelayed ? "bg-amber-500" : "bg-emerald-500"} animate-pulse` }), isDelayed ? `+${Math.round(delay)}m` : "On Time"]
+											}) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+												className: "rounded-md bg-secondary px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground",
+												children: r.type.toUpperCase()
+											}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronRight, { className: "size-4 text-muted-foreground group-hover:translate-x-0.5 transition-transform" })]
+										})]
+									}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+										className: "flex items-center justify-between text-xs pt-0.5",
 										children: [
-											"(",
-											r.number,
-											")"
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "space-y-0.5",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+													className: "flex items-center gap-1",
+													children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+														className: "font-bold font-mono text-foreground text-sm",
+														children: depTime
+													}), /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+														className: "rounded-sm bg-primary/10 px-1 py-0.2 text-[9px] font-bold text-primary font-mono",
+														children: ["PF ", platform]
+													})]
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+													className: "font-semibold text-[11px] text-muted-foreground",
+													children: fromHalt.code
+												})]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "flex flex-col items-center px-2",
+												children: [
+													/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+														className: "text-[10px] font-semibold text-muted-foreground flex items-center gap-1",
+														children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { className: "size-2.5" }), durationStr]
+													}),
+													/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+														className: "relative flex items-center justify-center w-20 sm:w-28 my-0.5",
+														children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "h-px w-full bg-border" }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { className: "absolute right-0 size-3 text-muted-foreground" })]
+													}),
+													distanceKm > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", {
+														className: "text-[9px] text-muted-foreground font-mono",
+														children: [distanceKm, " km"]
+													})
+												]
+											}),
+											/* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", {
+												className: "space-y-0.5 text-right",
+												children: [/* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", {
+													className: "font-bold font-mono text-foreground text-sm",
+													children: arrTime
+												}), /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", {
+													className: "font-semibold text-[11px] text-muted-foreground",
+													children: toHalt.code
+												})]
+											})
 										]
-									})
-								] }), /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronRight, { className: "size-4 text-muted-foreground" })]
-							}) }, r.number))]
+									})]
+								}) }, r.number);
+							})]
 						})
 					]
 				})]
