@@ -1,6 +1,6 @@
-# ✨ RailSaarthi (RailDristhi) — Features & Capabilities Catalog
+# ✨ RailDristhi — Features & Capabilities Catalog
 
-A deep-dive technical overview of all end-user and operational features implemented in **RailSaarthi**.
+A deep-dive technical overview of all end-user and operational features implemented in **RailDristhi**.
 
 ---
 
@@ -8,7 +8,7 @@ A deep-dive technical overview of all end-user and operational features implemen
 
 ```mermaid
 mindmap
-  root((RailSaarthi))
+  root((RailDristhi))
     Passenger Experience
       Live GPS Tracking
       Uncertainty-Aware ETA
@@ -46,7 +46,7 @@ mindmap
 
 - **Point-Estimates vs Confidence Intervals**:
   - Standard apps display rigid, misleading single timestamps (e.g. `14:30`) that are almost always wrong during delays.
-  - RailSaarthi computes an **$80\%$ Confidence Interval Window** (e.g., `Expected between 14:24 and 14:42`), giving passengers realistic planning horizons.
+  - RailDristhi computes an **$80\%$ Confidence Interval Window** (e.g., `Expected between 14:24 and 14:42`), giving passengers realistic planning horizons.
 - **Multi-Factor Convergence Algorithm**:
   - Incorporates station historical delay scrape baselines.
   - Weights prior halts on the current run to detect whether delays are accumulating or recovering.

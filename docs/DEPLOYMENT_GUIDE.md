@@ -1,6 +1,6 @@
-# 🚀 RailSaarthi (RailDristhi) — Deployment & DevOps Guide
+# 🚀 RailDristhi — Deployment & DevOps Guide
 
-This guide covers building, testing, containerizing, and deploying **RailSaarthi** across modern cloud platforms including Docker, Vercel, Render, AWS, and Google Cloud Run.
+This guide covers building, testing, containerizing, and deploying **RailDristhi** across modern cloud platforms including Docker, Vercel, Render, AWS, and Google Cloud Run.
 
 ---
 
@@ -19,8 +19,8 @@ This guide covers building, testing, containerizing, and deploying **RailSaarthi
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/railsaarthi.git
-cd railsaarthi
+git clone https://github.com/your-username/raildristhi.git
+cd raildristhi
 
 # Install project dependencies
 npm install
@@ -64,22 +64,22 @@ npm run build
 
 ## 🐳 Docker Container Deployment
 
-RailSaarthi includes a high-efficiency multi-stage `Dockerfile` creating a lightweight Alpine production image (~180MB).
+RailDristhi includes a high-efficiency multi-stage `Dockerfile` creating a lightweight Alpine production image (~180MB).
 
 ### 1. Build the Docker Image
 
 ```bash
-docker build -t railsaarthi:latest .
+docker build -t raildristhi:latest .
 ```
 
 ### 2. Run the Container
 
 ```bash
 docker run -d \
-  --name railsaarthi-app \
+  --name raildristhi-app \
   -p 3000:3000 \
   --restart unless-stopped \
-  railsaarthi:latest
+  raildristhi:latest
 ```
 
 ### 3. Verify Container Status
@@ -95,11 +95,11 @@ curl http://localhost:3000/api/v1/health
 
 ### Option A: Vercel Deployment (Recommended for Serverless)
 
-RailSaarthi comes pre-configured with `vercel.json` for zero-configuration Vercel deployment:
+RailDristhi comes pre-configured with `vercel.json` for zero-configuration Vercel deployment:
 
 1. Push your code to GitHub.
 2. Go to [Vercel Dashboard](https://vercel.com/new).
-3. Import the repository `railsaarthi`.
+3. Import the repository `raildristhi`.
 4. Framework Preset: **Other** / **Vite**.
 5. Build Command: `npm run build`
 6. Output Directory: `dist`
@@ -127,11 +127,11 @@ RailSaarthi comes pre-configured with `vercel.json` for zero-configuration Verce
 
 ```bash
 # Build & tag image for Google Container Registry (GCR)
-gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/railsaarthi:latest
+gcloud builds submit --tag gcr.io/YOUR_PROJECT_ID/raildristhi:latest
 
 # Deploy to Cloud Run with automatic SSL and autoscaling
-gcloud run deploy railsaarthi \
-  --image gcr.io/YOUR_PROJECT_ID/railsaarthi:latest \
+gcloud run deploy raildristhi \
+  --image gcr.io/YOUR_PROJECT_ID/raildristhi:latest \
   --platform managed \
   --region asia-south1 \
   --allow-unauthenticated \
@@ -146,7 +146,7 @@ gcloud run deploy railsaarthi \
 | :--------------- | :------------------------- | :------------ | :------: |
 | `NODE_ENV`       | Runtime environment mode   | `production`  |    No    |
 | `PORT`           | HTTP Server port           | `3000`        |    No    |
-| `VITE_APP_TITLE` | Application branding title | `RailSaarthi` |    No    |
+| `VITE_APP_TITLE` | Application branding title | `RailDristhi` |    No    |
 
 ---
 

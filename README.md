@@ -1,4 +1,4 @@
-# 🚆 RailSaarthi (RailDristhi) — Indian Railways AI Operations & Passenger Intelligence
+# 🚆 RailDristhi — Indian Railways AI Operations & Passenger Intelligence
 
 <div align="center">
 
@@ -35,7 +35,7 @@ Indian Railways operates over **13,000 passenger trains** carrying **24+ Million
 3. **Black-Box Delays**: Passengers and controllers are given vague "Delayed" notices without diagnosing whether the cause is signal failure, weather, or maintenance.
 4. **Offline Deadzones**: Standard GPS tracking fails completely in rural corridors and tunnels with zero cellular reception.
 
-**RailSaarthi solves all four bottlenecks** with a high-performance, client-first, data-backed intelligence ecosystem.
+**RailDristhi solves all four bottlenecks** with a high-performance, client-first, data-backed intelligence ecosystem.
 
 ---
 
@@ -132,7 +132,7 @@ flowchart TB
 
 ## 📡 OpenAPI 3.0 REST API
 
-RailSaarthi includes a high-speed, CORS-enabled REST API gateway. Visit `/developer` in the browser for an interactive sandbox.
+RailDristhi includes a high-speed, CORS-enabled REST API gateway. Visit `/developer` in the browser for an interactive sandbox.
 
 | Method | Endpoint                          | Description                                                      |
 | :----- | :-------------------------------- | :--------------------------------------------------------------- |
@@ -154,7 +154,7 @@ _For complete API parameters, schemas, and curl examples, see [docs/API_DOCUMENT
 
 ## 🎯 Smart India Hackathon (SIH 2026) Alignment
 
-RailSaarthi is structured following official SIH idea presentation & software submission guidelines:
+RailDristhi is structured following official SIH idea presentation & software submission guidelines:
 
 - ✅ **Strict 6-Slide Submission Format**: Complete slide-by-slide presentation structure documented in [docs/SIH_2026_PITCH_DECK.md](docs/SIH_2026_PITCH_DECK.md).
 - ✅ **Novelty & Differentiation**: First platform combining uncertainty confidence intervals with transfer miss risk failover and root-cause diagnostics.
@@ -167,7 +167,7 @@ RailSaarthi is structured following official SIH idea presentation & software su
 ## 📁 Repository Structure
 
 ```
-railsaarthi-main/
+raildristhi/
 ├── .github/workflows/ci.yml       # Automated CI build, lint & format workflow
 ├── docs/                          # Comprehensive SIH 2026 Documentation Suite
 │   ├── ARCHITECTURE.md            # System Architecture & Mathematical Models
@@ -256,10 +256,10 @@ Open **`http://localhost:3000`** in your browser.
 
 ```bash
 # Build production Docker image
-docker build -t railsaarthi:latest .
+docker build -t raildristhi:latest .
 
 # Run containerized application
-docker run -d -p 3000:3000 --name railsaarthi railsaarthi:latest
+docker run -d -p 3000:3000 --name raildristhi raildristhi:latest
 ```
 
 ---

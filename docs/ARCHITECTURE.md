@@ -1,6 +1,6 @@
-# 🏗️ RailSaarthi (RailDristhi) — System Architecture
+# 🏗️ RailDristhi — System Architecture
 
-This document provides a comprehensive technical breakdown of **RailSaarthi (RailDristhi)**, an enterprise-grade Indian Railways Passenger Experience & Control Room Operations Intelligence Platform engineered for **Smart India Hackathon (SIH) 2026**.
+This document provides a comprehensive technical breakdown of **RailDristhi**, an enterprise-grade Indian Railways Passenger Experience & Control Room Operations Intelligence Platform engineered for **Smart India Hackathon (SIH) 2026**.
 
 ---
 
@@ -66,7 +66,7 @@ flowchart TB
 
 ### 1. Multi-Variable ETA Forecasting Model (`src/lib/etaModel.ts`)
 
-Standard railway apps rely on simplistic static time subtraction $(t_{scheduled} + delay_{last\_station})$, which fails miserably during cascades, peak hours, or weather disruptions. RailSaarthi implements a multi-variable convergence model:
+Standard railway apps rely on simplistic static time subtraction $(t_{scheduled} + delay_{last\_station})$, which fails miserably during cascades, peak hours, or weather disruptions. RailDristhi implements a multi-variable convergence model:
 
 $$\Delta_{target} = \max\left(0, \delta_{observed} \cdot (1 - \lambda \Delta h) + \bar{\delta}_{prior} \cdot \alpha \Delta h + \text{Med}(\mathbf{D}_{runs}) \cdot \beta (1 - \lambda \Delta h) + \omega_{weather} + \gamma_{congestion} + \tau_{peak}\right)$$
 
@@ -98,7 +98,7 @@ $$\text{Confidence Score} = \text{clamp}\left(0.35, 0.95, 0.62 + 0.20 \cdot \min
 
 ### 2. Root-Cause Delay Classifier (`src/lib/delayReasons.ts`)
 
-Instead of generic "Train Delayed" messages, RailSaarthi decomposes delays into 6 actionable operational categories:
+Instead of generic "Train Delayed" messages, RailDristhi decomposes delays into 6 actionable operational categories:
 
 ```mermaid
 flowchart TD
@@ -174,7 +174,7 @@ To provide uninterrupted tracking even in remote rural tracks with zero mobile d
 ## 📂 Source Code Architecture & Directory Mapping
 
 ```
-railsaarthi-main/
+raildristhi/
 ├── .github/
 │   └── workflows/
 │       └── ci.yml                 # Automated CI build, lint, and formatting pipeline

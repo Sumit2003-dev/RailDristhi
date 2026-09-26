@@ -108,7 +108,23 @@ export async function handleApiRequest(request: Request): Promise<Response | nul
             method: "GET",
             description: "10-digit Indian Railways PNR validation and booking status",
           },
+          {
+            path: "/api/v1/health",
+            method: "GET",
+            description: "System and gateway health check liveness probe",
+          },
         ],
+      });
+    }
+
+    // Health check endpoint for container probes and load balancers
+    if (pathname === "/api/v1/health" || pathname === "/api/health") {
+      return jsonResponse({
+        status: "ok",
+        service: "RailDristhi Backend API",
+        version: "1.0.0",
+        uptime: typeof process !== "undefined" ? Math.floor(process.uptime()) : 0,
+        timestamp: new Date().toISOString(),
       });
     }
 

@@ -11,10 +11,14 @@ node_modules
 dist
 dist-ssr
 .output
+.vercel
 .vinxi
-.tanstack/**
+.tanstack/
 .nitro
 *.local
+.env
+.env.*
+!.env.example
 
 # Wrangler / Cloudflare
 .wrangler/

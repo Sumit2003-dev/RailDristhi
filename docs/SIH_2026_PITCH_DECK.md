@@ -1,6 +1,6 @@
 # 🎯 Smart India Hackathon (SIH 2026) — Official Idea Presentation Format & Pitch Deck
 
-**Project Name**: RailSaarthi (RailDristhi)  
+**Project Name**: RailDristhi  
 **Hackathon**: Smart India Hackathon (SIH) 2026  
 **Theme**: Smart Transportation / Railways / AI & Real-time Systems  
 **Target Ministry**: Ministry of Railways (Government of India) / Indian Railways (IRCTC / CRIS)  
@@ -23,7 +23,7 @@
 
 ### 📌 Slide 2: Proposed Innovation & Solution Overview
 
-- **RailSaarthi Solution**: An AI-powered, multi-variable real-time train tracking, uncertainty-aware ETA forecasting, and automated railway dispatch intelligence ecosystem.
+- **RailDristhi Solution**: An AI-powered, multi-variable real-time train tracking, uncertainty-aware ETA forecasting, and automated railway dispatch intelligence ecosystem.
 - **Core Innovations**:
   - 🧠 **Physics & History Grounded ETA Engine**: Combines empirical multi-run distributions, halt-by-halt drift decay, weather penalties (fog, rain, storm), and corridor congestion into an $80\%$ confidence arrival window.
   - 🛰️ **On-Board GPS & Peer Sensor Mesh**: Browser-based HTML5 GPS dead-reckoning + WebRTC peer mesh to track trains even with zero cellular data.
@@ -45,7 +45,7 @@
 
 ### 📌 Slide 4: Feasibility, Novelty & Competitive Benchmark
 
-| Feature                                 |    NTES / IRCTC     |  Where Is My Train   |    Google Maps    |   **RailSaarthi (Our Solution)**   |
+| Feature                                 |    NTES / IRCTC     |  Where Is My Train   |    Google Maps    |   **RailDristhi (Our Solution)**   |
 | :-------------------------------------- | :-----------------: | :------------------: | :---------------: | :--------------------------------: |
 | **ETA Uncertainty Interval**            |  ❌ (Static point)  |  ❌ (Static point)   | ⚠️ (Approximate)  | ✅ **Exact 80% Confidence Window** |
 | **Root-Cause Delay Classification**     |      ❌ (None)      |      ❌ (None)       |     ❌ (None)     |  ✅ **6 Categorical Root-Causes**  |
@@ -92,11 +92,11 @@
 
 ### Q1: How does your ETA prediction model differ from standard GPS extrapolation?
 
-> **Answer**: Standard GPS extrapolation uses simple speed-distance equations that fail when a train encounters a signal red light or enters an overcrowded suburban junction. RailSaarthi incorporates **historical station-level delay distributions**, **empirical run medians**, **active weather penalties (fog/rain)**, and **real-time corridor congestion indices**. Furthermore, we provide an **80% confidence window** (e.g. `08:32 - 08:52`) instead of a misleading single timestamp, allowing passengers and controllers to plan realistically.
+> **Answer**: Standard GPS extrapolation uses simple speed-distance equations that fail when a train encounters a signal red light or enters an overcrowded suburban junction. RailDristhi incorporates **historical station-level delay distributions**, **empirical run medians**, **active weather penalties (fog/rain)**, and **real-time corridor congestion indices**. Furthermore, we provide an **80% confidence window** (e.g. `08:32 - 08:52`) instead of a misleading single timestamp, allowing passengers and controllers to plan realistically.
 
 ### Q2: How do you handle tracking in remote areas with no cellular connectivity?
 
-> **Answer**: RailSaarthi features our `useOnBoardGps` engine. Utilizing browser-native HTML5 high-accuracy geolocation, the client calculates velocity and heading directly on the device. When signals temporarily drop in tunnels or remote terrain, our **kinematic dead-reckoning algorithm** interpolates positions along the verified railway geo-polyline until satellite lock is re-acquired.
+> **Answer**: RailDristhi features our `useOnBoardGps` engine. Utilizing browser-native HTML5 high-accuracy geolocation, the client calculates velocity and heading directly on the device. When signals temporarily drop in tunnels or remote terrain, our **kinematic dead-reckoning algorithm** interpolates positions along the verified railway geo-polyline until satellite lock is re-acquired.
 
 ### Q3: How do you scale this for all 13,000+ trains without incurring massive server bills?
 
@@ -104,4 +104,4 @@
 
 ### Q4: Can this be integrated with official CRIS/IRCTC systems?
 
-> **Answer**: Absolutely. We built RailSaarthi with a modular **OpenAPI 3.0-compliant REST Gateway** (`/api/v1/*`). All data interfaces match standard Indian Railways data schemas (5-digit train numbers, IR station codes, 10-digit PNR format), making it plug-and-play with CRIS RTIS feeds.
+> **Answer**: Absolutely. We built RailDristhi with a modular **OpenAPI 3.0-compliant REST Gateway** (`/api/v1/*`). All data interfaces match standard Indian Railways data schemas (5-digit train numbers, IR station codes, 10-digit PNR format), making it plug-and-play with CRIS RTIS feeds.

@@ -665,7 +665,7 @@ export function ControlRoomDashboard() {
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl border border-border/60 bg-secondary/20 p-3.5">
             <p className="text-[11px] font-medium text-muted-foreground">
-              RailSaarthi Model {metricType.toUpperCase()}
+              RailDristhi Model {metricType.toUpperCase()}
             </p>
             <p className="mt-1 font-mono text-2xl font-extrabold text-primary">
               {metricType === "mae" ? modelPerf.maeMinutes : modelPerf.rmseMinutes}{" "}
@@ -732,12 +732,12 @@ export function ControlRoomDashboard() {
           </div>
 
           <div className="space-y-3 text-xs">
-            {/* 1. RailSaarthi Model */}
+            {/* 1. RailDristhi Model */}
             <div className="space-y-1">
               <div className="flex justify-between text-[11px]">
                 <span className="font-medium text-foreground flex items-center gap-1.5">
                   <span className="size-2 rounded-full bg-emerald-500" />
-                  RailSaarthi Multi-Factor ML Model
+                  RailDristhi Multi-Factor ML Model
                 </span>
                 <span className="font-mono font-bold text-emerald-600 dark:text-emerald-400">
                   {metricType === "mae" ? modelPerf.maeMinutes : modelPerf.rmseMinutes} min error (
@@ -871,7 +871,7 @@ export function ControlRoomDashboard() {
                 <strong>Why NTES & Third-Party Apps Fail:</strong> Legacy apps perform naive point
                 extrapolation (Δ_target = Δ_current), assuming zero speed-up recovery and ignoring
                 weather/signal conditions. This leads to compounding +10.4 min average errors,
-                whereas RailSaarthi achieves <strong>3.2 min</strong> MAE (+69% improvement).
+                whereas RailDristhi achieves <strong>3.2 min</strong> MAE (+69% improvement).
               </div>
             </div>
           </div>

@@ -1,6 +1,6 @@
-# 📡 RailSaarthi (RailDristhi) — REST API Documentation
+# 📡 RailDristhi — REST API Documentation
 
-RailSaarthi provides a production-ready, ultra-fast **OpenAPI 3.0-compliant REST API** for integrating real-time train tracking, ETA forecasts, delay root-cause analysis, station boards, PNR status, and connecting train transfer risk analysis into mobile apps, IoT station displays, or third-party travel platforms.
+RailDristhi provides a production-ready, ultra-fast **OpenAPI 3.0-compliant REST API** for integrating real-time train tracking, ETA forecasts, delay root-cause analysis, station boards, PNR status, and connecting train transfer risk analysis into mobile apps, IoT station displays, or third-party travel platforms.
 
 ---
 

@@ -71,7 +71,7 @@ type AuthContextType = {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const STORAGE_KEY = "railsaarthi_authority_session";
+const STORAGE_KEY = "raildristhi_authority_session";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthorityUser | null>(null);
@@ -81,7 +81,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       if (typeof window !== "undefined") {
-        const stored = localStorage.getItem(STORAGE_KEY);
+        const stored =
+          localStorage.getItem(STORAGE_KEY) ||
+          localStorage.getItem("railsaarthi_authority_session");
         if (stored) {
           const parsed = JSON.parse(stored);
           setUser(parsed);
