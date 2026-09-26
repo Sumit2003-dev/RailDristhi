@@ -1,6 +1,8 @@
 # 🎯 Smart India Hackathon (SIH 2026) — Official Idea Presentation Format & Pitch Deck
 
 **Project Name**: RailDristhi  
+**Live Production URL**: [https://raildristhigov.vercel.app](https://raildristhigov.vercel.app)  
+**GitHub Repository**: [https://github.com/Sumit2003-dev/RailDristhi](https://github.com/Sumit2003-dev/RailDristhi)  
 **Hackathon**: Smart India Hackathon (SIH) 2026  
 **Theme**: Smart Transportation / Railways / AI & Real-time Systems  
 **Target Ministry**: Ministry of Railways (Government of India) / Indian Railways (IRCTC / CRIS)  

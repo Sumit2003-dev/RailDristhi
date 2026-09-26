@@ -6,8 +6,9 @@ RailDristhi provides a production-ready, ultra-fast **OpenAPI 3.0-compliant REST
 
 ## 🚀 Base URL & Endpoints Overview
 
-- **Base URL**: `http://localhost:3000/api/v1` (or your production deployment domain `/api/v1`)
-- **Interactive Sandbox**: Visit `/developer` in the web application for an interactive live playground.
+- **Production Base URL**: `https://raildristhigov.vercel.app/api/v1`
+- **Local Dev Base URL**: `http://localhost:3000/api/v1`
+- **Interactive Sandbox**: [https://raildristhigov.vercel.app/developer](https://raildristhigov.vercel.app/developer)
 - **CORS**: Fully enabled (`Access-Control-Allow-Origin: *`)
 - **Format**: `application/json; charset=utf-8`
 

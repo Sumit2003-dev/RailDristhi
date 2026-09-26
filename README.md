@@ -2,19 +2,20 @@
 
 <div align="center">
 
+[![Live Website](https://img.shields.io/badge/Live%20Demo-raildristhigov.vercel.app-0070F3?style=for-the-badge&logo=vercel&logoColor=white)](https://raildristhigov.vercel.app)
 [![SIH 2026](https://img.shields.io/badge/Smart%20India%20Hackathon-2026%20Edition-FF9933?style=for-the-badge&logo=target&logoColor=white)](https://sih.gov.in/)
 [![React 19](https://img.shields.io/badge/React-19.2-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.8-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![TanStack Start](https://img.shields.io/badge/TanStack-Start%20SSR-FF4154?style=for-the-badge&logo=react-query&logoColor=white)](https://tanstack.com/start)
 [![TailwindCSS v4](https://img.shields.io/badge/Tailwind_CSS-v4.2-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker&logoColor=white)](https://www.docker.com/)
-[![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 
 <p align="center">
   <b>A next-generation passenger experience and section-controller dispatch intelligence platform for Indian Railways.</b><br/>
   Featuring physics & history-grounded ETA forecasting with 80% confidence intervals, root-cause delay decomposition, connecting train miss risk analysis, central control room dispatch consoles, on-board GPS dead-reckoning, and OpenAPI 3.0 developer REST endpoints.
 </p>
 
+[🌐 Live App](https://raildristhigov.vercel.app) •
 [✨ Live Features](#-key-features) •
 [🏗️ Architecture](#-system-architecture) •
 [📡 REST API](#-openapi-30-rest-api) •

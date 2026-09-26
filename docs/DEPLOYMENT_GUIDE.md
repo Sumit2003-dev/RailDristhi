@@ -19,8 +19,8 @@ This guide covers building, testing, containerizing, and deploying **RailDristhi
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/raildristhi.git
-cd raildristhi
+git clone https://github.com/Sumit2003-dev/RailDristhi.git
+cd RailDristhi
 
 # Install project dependencies
 npm install
@@ -97,13 +97,14 @@ curl http://localhost:3000/api/v1/health
 
 RailDristhi comes pre-configured with `vercel.json` for zero-configuration Vercel deployment:
 
-1. Push your code to GitHub.
+1. Push your code to GitHub (`https://github.com/Sumit2003-dev/RailDristhi`).
 2. Go to [Vercel Dashboard](https://vercel.com/new).
-3. Import the repository `raildristhi`.
-4. Framework Preset: **Other** / **Vite**.
-5. Build Command: `npm run build`
-6. Output Directory: `dist`
-7. Click **Deploy**.
+3. Import the repository `RailDristhi`.
+4. Framework Preset: **TanStack Start** (auto-detected).
+5. Leave all build and output settings as default (`npm run build`).
+6. Click **Deploy**.
+
+> **Live Production Deployment**: [https://raildristhigov.vercel.app](https://raildristhigov.vercel.app)
 
 ---
 
